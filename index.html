@@ -2,21 +2,95 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Agnese Pozzobon | In arrivo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agnese Pozzobon | Creative Strategist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <style>
-        body { 
-            font-family: sans-serif; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            margin: 0; 
-            background-color: #f4f4f4;
+        /* Qui mettiamo lo stile (CSS) */
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #000;
+            -webkit-font-smoothing: antialiased;
         }
-        h1 { color: #333; }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 6%; /* Spazio ai lati come nel tuo sito */
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: black;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #666; /* Colore grigio tipico dei menu minimal */
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #000;
+        }
+
+        .hero {
+            padding: 100px 6%;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
-    <h1>Sito di Agnese in costruzione su GitHub! 🚀</h1>
+
+    <header>
+        <a href="#" class="logo">Agnese Pozzobon</a>
+        <nav>
+            <ul>
+                <li><a href="#work">Work</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Creative Strategist & Content Creator</h1>
+            <p>I help brands tell stories that resonate through strategy, visual identity, and social media content.</p>
+        </section>
+    </main>
+
 </body>
 </html>
