@@ -3,169 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agnese Pozzobon | Creative Strategist</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
-
+    <title>Agnese Pozzobon</title>
     <style>
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #000000;
-            --secondary-text: #666666;
-            --margin-x: 5vw;
+        /* Reset base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
+        body, html {
+            height: 100%;
+            background-color: #ffffff;
+            /* Font Times New Roman come richiesto */
+            font-family: "Times New Roman", Times, serif;
+            color: #000000;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Navigazione Identica */
-        header {
+        /* Contenitore principale che occupa tutta la vista */
+        .container {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px var(--margin-x);
-            position: fixed;
-            width: 100%;
+            flex-direction: column;
+            justify-content: flex-end; /* Spinge tutto il contenuto in basso */
+            height: 100vh;
+            padding: 40px; /* Margine dai bordi dello schermo */
+        }
+
+        /* Area delle immagini (in alto a destra come nello screenshot) */
+        .image-gallery {
+            position: absolute;
             top: 0;
-            background: rgba(255,255,255,0.8);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
+            right: 0;
+            display: flex;
+            gap: 10px;
+            padding: 20px;
         }
 
-        .logo {
-            font-size: 18px;
-            font-weight: 500;
-            text-decoration: none;
-            color: var(--text-color);
-            letter-spacing: -0.5px;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--text-color);
-            margin-left: 30px;
-            font-size: 14px;
-            font-weight: 400;
-            transition: opacity 0.3s;
-        }
-
-        nav a:hover { opacity: 0.5; }
-
-        /* Hero Section */
-        .hero {
-            padding: 200px var(--margin-x) 100px var(--margin-x);
-            max-width: 1200px;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 400;
-            line-height: 1.1;
-            letter-spacing: -2px;
-            margin-bottom: 40px;
-        }
-
-        .hero h1 em {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-        }
-
-        /* Griglia Progetti Moderna */
-        .work-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            padding: 0 var(--margin-x) 100px var(--margin-x);
-        }
-
-        .project {
-            text-decoration: none;
-            color: inherit;
+        .image-gallery img {
+            height: 450px; /* Regola l'altezza delle immagini */
+            width: auto;
             display: block;
         }
 
-        .img-container {
-            width: 100%;
-            aspect-ratio: 4/5;
-            overflow: hidden;
-            background: #f0f0f0;
-            border-radius: 4px;
+        /* Griglia dei testi in basso */
+        .footer-grid {
+            display: grid;
+            /* Dividiamo lo spazio in 3 colonne uguali */
+            grid-template-columns: 1fr 1fr 1fr;
+            align-items: end;
+            font-size: 14px; /* Dimensione del font piccola ed elegante */
+            letter-spacing: 0.2px;
         }
 
-        .img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+        /* Allineamenti specifici */
+        .text-left { text-align: left; }
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
 
-        .project:hover img {
-            transform: scale(1.05);
-        }
-
-        .project-info {
-            margin-top: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-        }
-
-        .project-title { font-size: 16px; font-weight: 500; }
-        .project-category { font-size: 14px; color: var(--secondary-text); }
-
-        /* Responsive */
+        /* Mobile responsive: su telefoni i testi si mettono uno sotto l'altro */
         @media (max-width: 768px) {
-            .work-grid { grid-template-columns: 1fr; }
-            header { padding: 20px 5%; }
-            .hero { padding-top: 150px; }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                text-align: left;
+            }
+            .text-center, .text-right { text-align: left; }
+            .image-gallery img { height: 300px; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <a href="/" class="logo">Agnese Pozzobon</a>
-        <nav>
-            <a href="#work">Work</a>
-            <a href="#about">About</a>
-            <a href="mailto:ciao@agnesepozzobon.com">Contact</a>
-        </nav>
-    </header>
+    <div class="image-gallery">
+        <img src="images/foto1.jpg" alt="Work 1">
+        <img src="images/foto2.jpg" alt="Work 2">
+    </div>
 
-    <main>
-        <section class="hero">
-            <h1>Creative Strategist & <em>Content Creator</em> building digital narratives.</h1>
-        </section>
-
-        <section id="work" class="work-grid">
-            <a href="#" class="project">
-                <div class="img-container">
-                    <img src="images/progetto1.jpg" alt="Titolo">
-                </div>
-                <div class="project-info">
-                    <span class="project-title">Nome Progetto</span>
-                    <span class="project-category">Branding / Social</span>
-                </div>
-            </a>
-
-            <a href="#" class="project">
-                <div class="img-container">
-                    <img src="images/progetto2.jpg" alt="Titolo">
-                </div>
-                <div class="project-info">
-                    <span class="project-title">Secondo Progetto</span>
-                    <span class="project-category">Strategy</span>
-                </div>
-            </a>
-        </section>
-    </main>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="text-left">
+                Agnese Pozzobon
+            </div>
+            <div class="text-center">
+                Recently Collected
+            </div>
+            <div class="text-right">
+                Editorial Design, Identities, Visual Design, Publishing
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
