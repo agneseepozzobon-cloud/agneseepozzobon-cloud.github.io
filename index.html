@@ -4,91 +4,166 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agnese Pozzobon | Creative Strategist</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+
     <style>
-        /* Qui mettiamo lo stile (CSS) */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --secondary-text: #666666;
+            --margin-x: 5vw;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            margin: 0;
             font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
-            color: #000;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
 
+        /* Navigazione Identica */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 40px 6%; /* Spazio ai lati come nel tuo sito */
-            position: sticky;
+            padding: 30px var(--margin-x);
+            position: fixed;
+            width: 100%;
             top: 0;
-            background: white;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
             z-index: 1000;
         }
 
         .logo {
-            font-weight: 600;
-            font-size: 1.2rem;
+            font-size: 18px;
+            font-weight: 500;
             text-decoration: none;
-            color: black;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 30px;
-            margin: 0;
-            padding: 0;
+            color: var(--text-color);
+            letter-spacing: -0.5px;
         }
 
         nav a {
             text-decoration: none;
-            color: #666; /* Colore grigio tipico dei menu minimal */
-            font-size: 0.9rem;
-            transition: color 0.3s;
+            color: var(--text-color);
+            margin-left: 30px;
+            font-size: 14px;
+            font-weight: 400;
+            transition: opacity 0.3s;
         }
 
-        nav a:hover {
-            color: #000;
-        }
+        nav a:hover { opacity: 0.5; }
 
+        /* Hero Section */
         .hero {
-            padding: 100px 6%;
-            max-width: 800px;
+            padding: 200px var(--margin-x) 100px var(--margin-x);
+            max-width: 1200px;
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
             font-weight: 400;
             line-height: 1.1;
-            margin-bottom: 20px;
+            letter-spacing: -2px;
+            margin-bottom: 40px;
         }
 
-        .hero p {
-            font-size: 1.2rem;
-            color: #666;
-            line-height: 1.5;
+        .hero h1 em {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+        }
+
+        /* Griglia Progetti Moderna */
+        .work-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 0 var(--margin-x) 100px var(--margin-x);
+        }
+
+        .project {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .img-container {
+            width: 100%;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .project:hover img {
+            transform: scale(1.05);
+        }
+
+        .project-info {
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .project-title { font-size: 16px; font-weight: 500; }
+        .project-category { font-size: 14px; color: var(--secondary-text); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .work-grid { grid-template-columns: 1fr; }
+            header { padding: 20px 5%; }
+            .hero { padding-top: 150px; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="#" class="logo">Agnese Pozzobon</a>
+        <a href="/" class="logo">Agnese Pozzobon</a>
         <nav>
-            <ul>
-                <li><a href="#work">Work</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
+            <a href="mailto:ciao@agnesepozzobon.com">Contact</a>
         </nav>
     </header>
 
     <main>
         <section class="hero">
-            <h1>Creative Strategist & Content Creator</h1>
-            <p>I help brands tell stories that resonate through strategy, visual identity, and social media content.</p>
+            <h1>Creative Strategist & <em>Content Creator</em> building digital narratives.</h1>
+        </section>
+
+        <section id="work" class="work-grid">
+            <a href="#" class="project">
+                <div class="img-container">
+                    <img src="images/progetto1.jpg" alt="Titolo">
+                </div>
+                <div class="project-info">
+                    <span class="project-title">Nome Progetto</span>
+                    <span class="project-category">Branding / Social</span>
+                </div>
+            </a>
+
+            <a href="#" class="project">
+                <div class="img-container">
+                    <img src="images/progetto2.jpg" alt="Titolo">
+                </div>
+                <div class="project-info">
+                    <span class="project-title">Secondo Progetto</span>
+                    <span class="project-category">Strategy</span>
+                </div>
+            </a>
         </section>
     </main>
 
