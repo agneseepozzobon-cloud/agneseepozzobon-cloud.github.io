@@ -1,9 +1,3 @@
-:root {
-    --bg-color: #ffffff;
-    --text-color: #000000;
-    --nav-height: 60px;
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -13,9 +7,10 @@
 body, html {
     width: 100%;
     height: 100%;
-    font-family: 'Inter', sans-serif;
-    background-color: var(--bg-color);
-    overflow: hidden; /* Evita lo scroll verticale */
+    background-color: #ffffff;
+    font-family: "Times New Roman", Times, serif;
+    overflow: hidden;
+    color: #000;
 }
 
 /* Contenitore orizzontale */
@@ -23,24 +18,20 @@ body, html {
     display: flex;
     overflow-x: auto;
     overflow-y: hidden;
-    height: calc(100vh - var(--nav-height));
+    height: 100vh;
     width: 100vw;
-    scroll-behavior: smooth;
-    padding: 50px;
-    align-items: center;
+    padding-bottom: 80px; /* Spazio per la nav */
 }
 
-/* Nasconde la scrollbar */
 .horizontal-scroll::-webkit-scrollbar {
-    display: none;
+    display: none; /* Nasconde barra scroll */
 }
 
-/* Galleria immagini sparse */
 .gallery {
     display: flex;
-    gap: 80px; /* Spazio tra le immagini */
-    align-items: center;
-    padding-right: 200px;
+    padding: 0 50px;
+    align-items: center; /* Allineamento base */
+    gap: 100px; /* Spazio tra i blocchi */
 }
 
 .item {
@@ -50,55 +41,60 @@ body, html {
 }
 
 .item img {
-    max-height: 60vh; /* Altezza massima per mantenere tutto in linea */
-    width: auto;
-    object-fit: contain;
+    height: auto;
+    max-height: 65vh; /* Dimensione base */
+    display: block;
 }
 
-/* Classi per variare le dimensioni come su Framer */
-.item.wide img { max-height: 50vh; }
-.item.tall img { max-height: 80vh; }
-.item.small img { max-height: 30vh; }
+/* Classi per posizionare le immagini come su Framer */
+.pos-top { align-self: flex-start; margin-top: 50px; }
+.pos-bottom { align-self: flex-end; margin-bottom: 50px; }
+.pos-center { align-self: center; }
 
-/* Barra di navigazione in basso */
+/* Classi per dimensioni variabili */
+.wide img { width: 600px; max-height: none; }
+.tall img { max-height: 85vh; }
+
+/* Navigazione fissa in basso */
 .bottom-nav {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: var(--nav-height);
-    background: var(--bg-color);
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    height: 70px;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    padding: 0 40px;
-    border-top: 0.5px solid #eee;
-    font-size: 13px;
-    letter-spacing: -0.2px;
+    padding: 0 30px;
+    font-size: 14px;
+    z-index: 100;
 }
 
-.nav-section.center {
+.nav-left, .nav-center, .nav-right {
+    flex: 1;
+}
+
+.nav-center {
     text-align: center;
-    color: #888;
+    color: #666;
 }
 
-.nav-section.right {
+.nav-right {
     text-align: right;
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     gap: 20px;
 }
 
-.tags {
-    color: #888;
-}
+.nav-right span { color: #666; }
 
 a {
     text-decoration: none;
-    color: var(--text-color);
+    color: #000;
 }
 
-.about-link {
-    font-size: 18px;
-    font-weight: bold;
+.arrow {
+    font-size: 20px;
 }
