@@ -1,0 +1,104 @@
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --nav-height: 60px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    overflow: hidden; /* Evita lo scroll verticale */
+}
+
+/* Contenitore orizzontale */
+.horizontal-scroll {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: calc(100vh - var(--nav-height));
+    width: 100vw;
+    scroll-behavior: smooth;
+    padding: 50px;
+    align-items: center;
+}
+
+/* Nasconde la scrollbar */
+.horizontal-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* Galleria immagini sparse */
+.gallery {
+    display: flex;
+    gap: 80px; /* Spazio tra le immagini */
+    align-items: center;
+    padding-right: 200px;
+}
+
+.item {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.item img {
+    max-height: 60vh; /* Altezza massima per mantenere tutto in linea */
+    width: auto;
+    object-fit: contain;
+}
+
+/* Classi per variare le dimensioni come su Framer */
+.item.wide img { max-height: 50vh; }
+.item.tall img { max-height: 80vh; }
+.item.small img { max-height: 30vh; }
+
+/* Barra di navigazione in basso */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--nav-height);
+    background: var(--bg-color);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    padding: 0 40px;
+    border-top: 0.5px solid #eee;
+    font-size: 13px;
+    letter-spacing: -0.2px;
+}
+
+.nav-section.center {
+    text-align: center;
+    color: #888;
+}
+
+.nav-section.right {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.tags {
+    color: #888;
+}
+
+a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.about-link {
+    font-size: 18px;
+    font-weight: bold;
+}
