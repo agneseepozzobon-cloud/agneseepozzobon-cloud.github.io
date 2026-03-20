@@ -8,38 +8,19 @@
 </head>
 <body>
 
-    <main class="horizontal-scroll">
-        <div class="gallery">
-            <div class="item pos-top"><img src="img/01.jpg" alt=""></div>
-            <div class="item pos-bottom"><img src="img/02.jpg" alt=""></div>
-            <div class="item pos-center wide"><img src="img/03.jpg" alt=""></div>
-            <div class="item pos-top"><img src="img/04.jpg" alt=""></div>
-            <div class="item pos-bottom tall"><img src="img/05.jpg" alt=""></div>
-            <div class="item pos-center"><img src="img/06.jpg" alt=""></div>
-            <div class="item pos-top"><img src="img/07.jpg" alt=""></div>
-            <div class="item pos-bottom"><img src="img/08.jpg" alt=""></div>
+    <main class="fixed-ui">
+        <div class="nav-item left">
+            <a href="work.html">Agnese Pozzobon</a>
+        </div>
+        
+        <div class="nav-item center">
+            <span>Recently Collected</span>
+        </div>
+        
+        <div class="nav-item right">
+            <span>Editorial Design, Identities, Visual Design, Publishing</span>
         </div>
     </main>
 
-    <nav class="bottom-nav">
-        <div class="nav-left">
-            <a href="index.html">Agnese Pozzobon</a>
-        </div>
-        <div class="nav-center">
-            Recently Collected
-        </div>
-        <div class="nav-right">
-            <span>Editorial Design, Identities, Visual Design, Publishing</span>
-            <a href="about.html" class="arrow">→</a>
-        </div>
-    </nav>
-
-    <script>
-        const scrollContainer = document.querySelector(".horizontal-scroll");
-        scrollContainer.addEventListener("wheel", (evt) => {
-            evt.preventDefault();
-            scrollContainer.scrollLeft += evt.deltaY;
-        });
-    </script>
 </body>
 </html>
