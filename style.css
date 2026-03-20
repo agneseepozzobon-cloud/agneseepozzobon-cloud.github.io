@@ -1,3 +1,4 @@
+/* Reset basico */
 * {
     margin: 0;
     padding: 0;
@@ -8,93 +9,50 @@ body, html {
     width: 100%;
     height: 100%;
     background-color: #ffffff;
+    /* Forza il font Times New Roman */
     font-family: "Times New Roman", Times, serif;
-    overflow: hidden;
-    color: #000;
+    overflow: hidden; /* Impedisce lo scroll se vuoi solo questa schermata */
 }
 
-/* Contenitore orizzontale */
-.horizontal-scroll {
-    display: flex;
-    overflow-x: auto;
-    overflow-y: hidden;
-    height: 100vh;
-    width: 100vw;
-    padding-bottom: 80px; /* Spazio per la nav */
-}
-
-.horizontal-scroll::-webkit-scrollbar {
-    display: none; /* Nasconde barra scroll */
-}
-
-.gallery {
-    display: flex;
-    padding: 0 50px;
-    align-items: center; /* Allineamento base */
-    gap: 100px; /* Spazio tra i blocchi */
-}
-
-.item {
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.item img {
-    height: auto;
-    max-height: 65vh; /* Dimensione base */
-    display: block;
-}
-
-/* Classi per posizionare le immagini come su Framer */
-.pos-top { align-self: flex-start; margin-top: 50px; }
-.pos-bottom { align-self: flex-end; margin-bottom: 50px; }
-.pos-center { align-self: center; }
-
-/* Classi per dimensioni variabili */
-.wide img { width: 600px; max-height: none; }
-.tall img { max-height: 85vh; }
-
-/* Navigazione fissa in basso */
-.bottom-nav {
+.fixed-ui {
     position: fixed;
-    bottom: 0;
+    top: 50%; /* Centra verticalmente */
     left: 0;
     width: 100%;
-    height: 70px;
-    background: #fff;
+    transform: translateY(-50%); /* Correzione per centratura perfetta */
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 30px;
-    font-size: 14px;
-    z-index: 100;
+    justify-content: space-between; /* Distribuisce sinistra, centro, destra */
+    padding: 0 40px; /* Margine dai bordi laterali */
+    pointer-events: none; /* Permette di cliccare ciò che sta sotto se aggiungerai altro */
 }
 
-.nav-left, .nav-center, .nav-right {
-    flex: 1;
+.nav-item {
+    font-size: 14px; /* Dimensione pulita e piccola come da screen */
+    color: #000000;
+    pointer-events: auto; /* Riattiva i click sulle scritte */
+    flex: 1; /* Divide lo spazio in 3 parti uguali */
 }
 
-.nav-center {
+/* Allineamenti specifici */
+.left {
+    text-align: left;
+}
+
+.center {
     text-align: center;
-    color: #666;
 }
 
-.nav-right {
+.right {
     text-align: right;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 20px;
 }
 
-.nav-right span { color: #666; }
-
+/* Stile del link cliccabile */
 a {
     text-decoration: none;
-    color: #000;
+    color: inherit;
+    transition: opacity 0.3s ease;
 }
 
-.arrow {
-    font-size: 20px;
+a:hover {
+    opacity: 0.5; /* Effetto al passaggio del mouse */
 }
