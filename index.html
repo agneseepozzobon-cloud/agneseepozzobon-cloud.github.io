@@ -17,7 +17,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* LIVELLO TESTI FISSI */
+        /* TESTI FISSI */
         .fixed-ui {
             position: fixed;
             top: 50%; left: 0; width: 100%;
@@ -51,12 +51,12 @@
             align-items: flex-start;
         }
 
-        /* WRAPPER PROGETTO */
+        /* PROGETTO */
         .item-wrapper {
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
-            gap: 10px; 
+            gap: 10px; /* Gap tra blocchi stacked, ma gestito via JS per la caption */
             pointer-events: auto;
             position: relative;
         }
@@ -65,23 +65,32 @@
             width: auto;
             display: block;
             object-fit: contain;
-            cursor: s-resize; /* Indica che è cliccabile per espandere */
+            cursor: pointer;
         }
 
-        /* DIDASCALIA */
+        /* DIDASCALIA ATTACCATA */
         .caption {
-            display: none; /* Nascosta di default */
+            display: none; 
             font-size: 12px;
             line-height: 1.2;
             background-color: #ffffff;
-            padding: 2px 0;
-            max-width: 250px;
+            padding: 4px 0; /* Un minimo di respiro interno, ma 0 margine esterno */
+            width: 100%; /* Si adatta alla larghezza dell'immagine */
+            margin-top: 0px; 
             z-index: 10;
         }
 
-        /* Classe aggiunta via JS per mostrare la didascalia */
         .item-wrapper.active .caption {
             display: block;
+        }
+
+        /* Rimuoviamo il gap standard solo quando la didascalia è attiva tra due immagini stacked */
+        .item-wrapper.active {
+            gap: 0px; 
+        }
+        /* Ma manteniamo un gap se ci sono immagini DOPO la didascalia nello stesso stack */
+        .item-wrapper.active .caption + img {
+            margin-top: 10px;
         }
 
     </style>
@@ -101,48 +110,37 @@
     <script>
         const gallery = document.getElementById('gallery');
 
-        /* CONFIGURAZIONE FACILE:
-           - h: altezza immagine/i in vh
-           - ids: array ID (se più di uno, sono stacked)
-           - text: il testo della didascalia
-        */
         const config = [
             { h: 55, ids: [1], text: "Didascalia del primo progetto. Qui puoi scrivere i dettagli." },
-            { h: 30, ids: [2, 3, 4], text: "Secondo progetto, immagine singola." },
-            { h: 45, ids: [5], text: "Queste immagini sono stacked. La didascalia appare sotto la prima." },
-            { h: 50, ids: [6], text: "Progetto numero 5." }
-            // Aggiungi qui gli altri...
+            { h: 30, ids: [2], text: "Secondo progetto, immagine singola." },
+            { h: 45, ids: [3, 4], text: "Queste immagini sono stacked. La didascalia appare sotto la prima." }
         ];
 
-        // Riempimento automatico per test se mancano ID fino a 127
         const totalImages = 127;
         let usedIds = new Set();
         config.forEach(c => c.ids.forEach(id => usedIds.add(id)));
         for (let i = 1; i <= totalImages; i++) {
             if (usedIds.has(i)) continue;
-            config.push({ h: 40, ids: [i], text: "Progetto " + i });
+            config.push({ h: 45, ids: [i], text: "Progetto " + i + ". Descrizione di prova." });
         }
 
-        // Renderizzazione
         config.sort((a, b) => a.ids[0] - b.ids[0]).forEach(item => {
             const wrapper = document.createElement('div');
             wrapper.className = 'item-wrapper';
 
-            // Gestione Immagini
             item.ids.forEach((id, index) => {
                 const img = document.createElement('img');
                 img.src = `img/AgnesePozzobon_${id}.webp`;
                 img.style.height = item.h + 'vh';
                 img.loading = "lazy";
                 
-                // Click sull'immagine per attivare/disattivare didascalia
                 img.addEventListener('click', () => {
                     wrapper.classList.toggle('active');
                 });
 
                 wrapper.appendChild(img);
 
-                // Se l'immagine è la prima dello stack, inseriamo la didascalia subito dopo
+                // Inserisce la didascalia esattamente dopo la prima immagine
                 if (index === 0) {
                     const cap = document.createElement('div');
                     cap.className = 'caption';
@@ -154,7 +152,6 @@
             gallery.appendChild(wrapper);
         });
 
-        // Scroll
         const container = document.getElementById('gallery-container');
         window.addEventListener("wheel", (evt) => {
             container.scrollLeft += evt.deltaY;
