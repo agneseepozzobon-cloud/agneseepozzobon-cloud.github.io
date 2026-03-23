@@ -6,73 +6,87 @@
     <title>About | Agnese Pozzobon</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* CSS specifico per la pagina About */
         body, html {
-            overflow-y: auto; /* Qui permettiamo lo scroll verticale se il testo è lungo */
+            height: 100%;
+            background-color: #ffffff;
+            font-family: "Times New Roman", Times, serif;
+            color: #000;
+            overflow-y: auto; /* Permette lo scroll se i testi "Extra" vanno oltre */
         }
 
         .about-container {
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
-            padding: 40px;
-            justify-content: space-between;
+            padding: 0 40px;
         }
 
-        /* Parte superiore con link di ritorno */
+        /* Ritorno alla Home - Centrato verticalmente come nella home */
         .header-about {
+            position: fixed;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            transform: translateY(-50%);
             display: flex;
             justify-content: center;
-            padding-top: 10vh;
+            z-index: 10;
+            pointer-events: none;
         }
 
         .back-link {
             font-size: 14px;
-            color: #888;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .back-link:hover {
             color: #000;
+            text-decoration: none;
+            pointer-events: auto;
         }
 
-        /* Griglia dei contenuti in basso */
+        /* Griglia dei contenuti - Allineata alla riga centrale della home */
         .about-grid {
             display: grid;
-            grid-template-columns: 1fr 1.5fr 1fr 0.5fr; /* 4 colonne come nello screen */
+            grid-template-columns: 1fr 1.5fr 1fr 0.5fr;
             gap: 40px;
-            align-items: end;
-            padding-bottom: 60px;
+            margin-top: 50vh; /* Inizia esattamente a metà pagina */
+            padding-bottom: 100px;
         }
 
         .column {
-            font-size: 13px;
-            line-height: 1.4;
+            font-size: 14px;
+            line-height: 1.2; /* Interlinea stretta e costante */
         }
 
-        .column h4 {
-            font-weight: normal;
-            margin-bottom: 10px;
-            color: #888;
+        /* Rientro Bio: calcolato sulla lunghezza approssimativa di "Agnese Pozzobon" */
+        .bio-text {
+            text-indent: 95px; 
+            margin: 0;
         }
 
-        .column p, .column ul {
-            margin-bottom: 15px;
+        .section-title {
+            display: block;
+            margin: 0; /* Togliamo spazio dopo i titoli */
         }
 
-        ul {
-            list-style: none;
+        .content-block {
+            margin-bottom: 20px; /* Spazio tra i blocchi, ma non tra titolo e testo */
         }
 
-        /* Logo/Simbolo a destra */
+        .logo-symbol {
+            text-align: right;
+        }
+
         .logo-symbol img {
-            width: 60px;
+            width: 50px;
             height: auto;
         }
 
+        /* Reset link e testi */
+        a, p, span {
+            font-weight: normal !important;
+            color: #000 !important;
+        }
+
         @media (max-width: 900px) {
-            .about-grid { grid-template-columns: 1fr 1fr; }
+            .about-grid { grid-template-columns: 1fr; margin-top: 55vh; }
+            .logo-symbol { text-align: left; }
         }
     </style>
 </head>
@@ -80,45 +94,55 @@
 
     <div class="about-container">
         <header class="header-about">
-            <a href="index.html" class="back-link">Recently Collected →</a>
+            <a href="index.html" class="back-link">Recently Collected</a>
         </header>
 
         <main class="about-grid">
+            
             <div class="column">
-                <p><strong>Agnese Pozzobon</strong></p>
-                <p>(1999) is a visual and graphic designer currently based in Milan. Her work focuses on printed matter, data design and the construction of identities. She is interested in how design can shape information – and how information, in turn, can shape design.</p>
+                <p>Agnese Pozzobon</p>
+                <p class="bio-text">(1999) is a visual and graphic designer currently based in Milan. Her work focuses on printed matter, data design and the construction of identities. She is interested in how design can shape information – and how information, in turn, can shape design.</p>
             </div>
 
             <div class="column">
-                <h4>Education</h4>
-                <p>MA, Communication and Design for Publishing, ISIA Urbino, 2022/2025<br>
-                After Effects course, CFP Bauer Milan, 2022<br>
-                BA, Graphic and Multimedia Communication, IUSVE Venice, 2018/2021</p>
+                <div class="content-block">
+                    <span class="section-title">Education</span>
+                    MA, Communication and Design for Publishing, ISIA Urbino, 2022/2025<br>
+                    After Effects course, CFP Bauer Milan, 2022<br>
+                    BA, Graphic and Multimedia Communication, IUSVE Venice, 2018/2021
+                </div>
 
-                <h4>Work</h4>
-                <p>radio spugna B2B workshop, ISIA Urbino, 2025<br>
-                Graphic Designer Internship at Matter Of Studio, Stuttgart, 2024/2025<br>
-                Graphic Design and Research for TIPS, University of Padova, from 2024<br>
-                Editorial Design for Pratiche di Posizionamento, Corraini Edizioni, 2024<br>
-                Assistant curator, Museum of Contemporary Art M9, Venice, 2021<br>
-                Graphic Designer Internship at Twin Studio, Milan, 2021</p>
+                <div class="content-block">
+                    <span class="section-title">Work</span>
+                    radio spugna B2B workshop, ISIA Urbino, 2025<br>
+                    Graphic Designer Internship at Matter Of Studio, Stuttgart, 2024/2025<br>
+                    Graphic Design and Research for TIPS, University of Padova, from 2024<br>
+                    Editorial Design for Pratiche di Posizionamento, Corraini Edizioni, 2024<br>
+                    Assistant curator, Museum of Contemporary Art M9, Venice, 2021<br>
+                    Graphic Designer Internship at Twin Studio, Milan, 2021
+                </div>
+
+                <div class="content-block">
+                    <span class="section-title">Extra</span>
+                    Summer After School, residency, Jim Fontana Studio<br>
+                    Music to My Eyes, workshop, April Greiman<br>
+                    Bottomless Pit, workshop, Noemi Vola + Omar Cheikh<br>
+                    A.I. – blessing or curse for Graphic Design?, workshop, Laurenz Brunner<br>
+                    image / icon / symbol / script, workshop, Paul McNeil<br>
+                    Valtellina terre alte, workshop, Beniamino Pisati<br>
+                    Storie e immaginari, workshop, Lorenzo Cicconi Massi + Lorenzo Zoppolato
+                </div>
             </div>
 
             <div class="column">
-                <h4>Extra</h4>
-                <p>Summer After School, residency, Jim Fontana Studio<br>
-                Music to My Eyes, workshop, April Greiman<br>
-                Bottomless Pit, workshop, Noemi Vola + Omar Cheikh<br>
-                A.I. – blessing or curse for Graphic Design?, workshop, Laurenz Brunner<br>
-                image / icon / symbol / script, workshop, Paul McNeil</p>
-                
                 <p>agnese.pozzobon@gmail.com<br>
                 +39 3452375093</p>
             </div>
 
             <div class="column logo-symbol">
-                <img src="img/logo_chiocciola.webp" alt="Logo">
+                <img src="img/logo_chiocciola.webp" alt="">
             </div>
+
         </main>
     </div>
 
