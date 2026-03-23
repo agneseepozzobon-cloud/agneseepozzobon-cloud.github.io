@@ -14,7 +14,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* LIVELLO TESTI (Sotto o Sopra) */
+        /* LIVELLO TESTI - SOTTO LE IMMAGINI */
         .fixed-ui {
             position: fixed;
             top: 50%; left: 0; width: 100%;
@@ -22,15 +22,13 @@
             display: flex;
             justify-content: space-between;
             padding: 0 40px;
-            z-index: 10; /* Alziamo lo z-index per portarlo sopra la galleria */
-            pointer-events: none; /* Fondamentale: i clic passano attraverso il contenitore vuoto */
+            z-index: 1; /* Livello più basso */
         }
         
         .nav-item { 
             font-size: 13px; 
             color: #000000; 
             flex: 1; 
-            pointer-events: auto; /* Riattiva i clic solo sulle scritte */
         }
         
         .nav-item.center { text-align: center; }
@@ -47,12 +45,15 @@
             color: rgb(0, 0, 255) !important; 
         }
 
-        /* LIVELLO GALLERIA */
+        /* LIVELLO GALLERIA - SOPRA I TESTI */
         .horizontal-scroll {
             position: relative;
             width: 100vw; height: 100vh;
             overflow-x: auto; overflow-y: hidden;
-            z-index: 5; /* Sta sotto i testi per non bloccare il link */
+            z-index: 5; /* Livello più alto */
+            /* TRUCCO: Questo permette di cliccare ciò che sta sotto 
+               negli spazi dove non ci sono immagini */
+            pointer-events: none; 
         }
         .horizontal-scroll::-webkit-scrollbar { display: none; }
 
@@ -69,6 +70,9 @@
             display: flex;
             flex-direction: column;
             gap: 10px; 
+            /* RIATTIVA i pointer events solo sulle immagini 
+               così lo scroll con la rotella continua a funzionare */
+            pointer-events: auto; 
         }
 
         .item-wrapper img {
@@ -95,7 +99,6 @@
     <script>
         const gallery = document.getElementById('gallery');
 
-        // Configurazione immagini
         const config = [
             { h: 55, ids: [1] },
             { h: 30, ids: [2] },
@@ -125,8 +128,10 @@
         });
 
         const container = document.getElementById('gallery-container');
-        container.addEventListener("wheel", (evt) => {
-            evt.preventDefault();
+        
+        // Lo scroll orizzontale funzionerà anche se pointer-events è none sul container
+        // perché lo stiamo applicando via JS sull'intero elemento.
+        window.addEventListener("wheel", (evt) => {
             container.scrollLeft += evt.deltaY;
         });
     </script>
