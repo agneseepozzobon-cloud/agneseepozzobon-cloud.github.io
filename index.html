@@ -17,7 +17,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* LIVELLO TESTI FISSI - 13px e Neri */
+        /* TESTI FISSI - 13px e Neri */
         .fixed-ui {
             position: fixed;
             top: 50%; left: 0; width: 100%;
@@ -34,7 +34,7 @@
         a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; }
         a:hover { color: rgb(0, 0, 255) !important; }
 
-        /* LIVELLO GALLERIA - Sopra i testi */
+        /* GALLERIA */
         .horizontal-scroll {
             position: relative;
             width: 100vw; height: 100vh;
@@ -52,7 +52,7 @@
             align-items: flex-start;
         }
 
-        /* WRAPPER PROGETTO */
+        /* WRAPPER PROGETTO - Si adatta alla larghezza dell'immagine */
         .item-wrapper {
             flex-shrink: 0;
             display: flex;
@@ -60,32 +60,34 @@
             gap: 10px; 
             pointer-events: auto;
             position: relative;
+            width: fit-content; /* Fondamentale: il wrapper è largo quanto l'immagine */
         }
 
         .item-wrapper img {
             width: auto;
             display: block;
+            max-width: none; /* Impedisce distorsioni */
             object-fit: contain;
             cursor: pointer;
         }
 
-        /* DIDASCALIA - 12px e Attaccata */
+        /* DIDASCALIA - Wrappa sulla larghezza dell'immagine */
         .caption {
             display: none; 
             font-size: 12px;
             line-height: 1.2;
             background-color: #ffffff;
             padding: 4px 0;
-            width: 100%;
+            width: 100%; /* Prende la larghezza del wrapper (che è quella dell'immagine) */
+            word-wrap: break-word; /* Forza il wrap del testo */
             z-index: 10;
         }
 
-        /* Quando attivo, azzeriamo il gap tra img e caption */
+        /* Quando attivo, azzeriamo il gap per l'effetto cornice */
         .item-wrapper.active { gap: 0; }
-
         .item-wrapper.active .caption { display: block; }
 
-        /* Ripristiniamo il gap di 10px solo per le immagini che seguono la caption (stacked) */
+        /* Margine per eventuali immagini sotto la caption nello stesso stack */
         .item-wrapper.active .caption + img {
             margin-top: 10px;
         }
@@ -107,30 +109,25 @@
     <script>
         const gallery = document.getElementById('gallery');
 
-        /* CONFIGURAZIONE MANUALE:
-           Qui puoi definire blocchi specifici (altezze, stacking e testi personalizzati)
-        */
+        // Configurazione manuale (IDs e Testi)
         const config = [
-            { h: 55, ids: [1], text: "Titolo Progetto, Anno. Descrizione dettagliata del lavoro svolto." },
-            { h: 45, ids: [2, 3], text: "Esempio Stacked: Didascalia sotto la prima immagine." }
+            { h: 55, ids: [1], text: "Qui puoi scrivere una didascalia molto lunga che andrà a capo seguendo perfettamente il bordo dell'immagine sopra senza allargarla." },
+            { h: 45, ids: [2, 3], text: "Esempio Stacked: Didascalia tra due immagini." }
         ];
 
-        // AGGIORNATO A 135 IMMAGINI
         const totalImages = 135;
         let usedIds = new Set();
         config.forEach(c => c.ids.forEach(id => usedIds.add(id)));
 
-        // Generazione automatica per le immagini non configurate manualmente
         for (let i = 1; i <= totalImages; i++) {
             if (usedIds.has(i)) continue;
             config.push({ 
                 h: Math.floor(Math.random() * (55 - 35 + 1)) + 35, 
                 ids: [i], 
-                text: "Project Name, Image " + i + ". [Click to edit this text in the script]" 
+                text: "Project Name, Image " + i + ". Descrizione che si adatta alla larghezza." 
             });
         }
 
-        // Renderizzazione ordinata per ID
         config.sort((a, b) => a.ids[0] - b.ids[0]).forEach(item => {
             const wrapper = document.createElement('div');
             wrapper.className = 'item-wrapper';
@@ -141,14 +138,12 @@
                 img.style.height = item.h + 'vh';
                 img.loading = "lazy";
                 
-                // Toggle della didascalia al click
                 img.addEventListener('click', () => {
                     wrapper.classList.toggle('active');
                 });
 
                 wrapper.appendChild(img);
 
-                // Inserimento didascalia sotto la prima immagine del blocco
                 if (index === 0) {
                     const cap = document.createElement('div');
                     cap.className = 'caption';
@@ -160,7 +155,6 @@
             gallery.appendChild(wrapper);
         });
 
-        // Scroll orizzontale fluido
         const container = document.getElementById('gallery-container');
         window.addEventListener("wheel", (evt) => {
             container.scrollLeft += evt.deltaY;
