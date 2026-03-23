@@ -3,116 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About | Agnese Pozzobon</title>
+    <title>Agnese Pozzobon</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body, html {
-            height: 100%;
-            background-color: #ffffff;
-            font-family: "Times New Roman", Times, serif;
-            color: #000;
-            overflow-y: auto;
-            -webkit-font-smoothing: antialiased;
-        }
-        .about-container { display: flex; flex-direction: column; padding: 0 40px; min-height: 100vh; }
-        
-        .header-about {
-            position: absolute;
-            top: 25%; left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-        }
-
-        /* Stile link con hover blu */
+        /* Aggiunta specifica per l'hover blu */
         a {
             text-decoration: none;
-            color: inherit;
+            color: #000;
             transition: color 0.2s ease;
         }
         a:hover {
             color: rgb(0, 0, 255) !important;
         }
-
-        .back-link { font-size: 14px; color: #888888; }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr 1fr 0.5fr;
-            gap: 40px;
-            margin-top: 50vh; 
-            padding-bottom: 100px;
-        }
-
-        .column { font-size: 14px; line-height: 1.2; }
-        .bio-text { text-indent: 115px; margin: 0; }
-        .content-block { margin-bottom: 20px; }
-        .section-title { display: block; margin: 0; }
-        .logo-symbol { text-align: right; }
-        .logo-symbol img { width: 50px; height: auto; }
-
-        @media (max-width: 900px) {
-            .about-grid { grid-template-columns: 1fr; margin-top: 55vh; }
-            .header-about { top: 15%; }
-            .logo-symbol { text-align: left; }
-        }
     </style>
 </head>
 <body>
-    <div class="about-container">
-        <header class="header-about">
-            <a href="index.html" class="back-link">Recently Collected →</a>
-        </header>
 
-        <main class="about-grid">
-            <div class="column">
-                <p>Agnese Pozzobon</p>
-                <p class="bio-text">(1999) is a visual and graphic designer currently based in Milan. Her work focuses on printed matter, data design and the construction of identities. She is interested in how design can shape information – and how information, in turn, can shape design.</p>
-            </div>
-
-            <div class="column">
-                <div class="content-block">
-                    <span class="section-title">Education</span>
-                    MA, Communication and Design for Publishing, ISIA Urbino, 2022/2025<br>
-                    After Effects course, CFP Bauer Milan, 2022<br>
-                    BA, Graphic and Multimedia Communication, IUSVE Venice, 2018/2021
-                </div>
-                <div class="content-block">
-                    <span class="section-title">Work</span>
-                    radio spugna B2B workshop, ISIA Urbino, 2025<br>
-                    Graphic Designer Internship at Matter Of Studio, Stuttgart, 2024/2025<br>
-                    Graphic Design and Research for TIPS, University of Padova, from 2024<br>
-                    Editorial Design for Pratiche di Posizionamento, Corraini Edizioni, 2024<br>
-                    Assistant curator, Museum of Contemporary Art M9, Venice, 2021<br>
-                    Graphic Designer Internship at Twin Studio, Milan, 2021
-                </div>
-                <div class="content-block">
-                    <span class="section-title">Extra</span>
-                    Summer After School, residency, Jim Fontana Studio<br>
-                    Music to My Eyes, workshop, April Greiman<br>
-                    Bottomless Pit, workshop, Noemi Vola + Omar Cheikh<br>
-                    A.I. – blessing or curse for Graphic Design?, workshop, Laurenz Brunner<br>
-                    image / icon / symbol / script, workshop, Paul McNeil<br>
-                    Valtellina terre alte, workshop, Beniamino Pisati<br>
-                    Storie e immaginari, workshop, Lorenzo Cicconi Massi + Lorenzo Zoppolato<br>
-                    Quando la luce diventa emozione, workshop, CSC Roma, Giuseppe Lanci
-                </div>
-                <div class="content-block">
-                    <span class="section-title">Independent projects</span>
-                    <a href="https://www.radiospugna.com" target="_blank">www.radiospugna.com</a>
-                </div>
-            </div>
-
-            <div class="column">
-                <p>
-                    <a href="mailto:agnese.pozzobon@gmail.com">agnese.pozzobon@gmail.com</a><br>
-                    <a href="tel:+393452375093">+39 345 2375093</a>
-                </p>
-            </div>
-
-            <div class="column logo-symbol">
-                <img src="img/logo_chiocciola.webp" alt="">
-            </div>
-        </main>
+    <div class="fixed-ui">
+        <div class="nav-item left"><a href="about.html">Agnese Pozzobon</a></div>
+        <div class="nav-item center">Recently Collected</div>
+        <div class="nav-item right">Editorial Design, Identities, Visual Design, Publishing</div>
     </div>
+
+    <main class="horizontal-scroll" id="gallery-container">
+        <div class="gallery" id="gallery"></div>
+    </main>
+
+    <script>
+        const gallery = document.getElementById('gallery');
+        for (let i = 1; i <= 127; i++) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'item-wrapper';
+            if (i % 5 === 0) wrapper.classList.add('small');
+            if (i % 7 === 0) wrapper.classList.add('large');
+            if (i % 4 === 0) wrapper.classList.add('stacked');
+            const img = document.createElement('img');
+            img.src = `img/AgnesePozzobon_${i}.webp`;
+            img.loading = "lazy";
+            wrapper.appendChild(img);
+            gallery.appendChild(wrapper);
+        }
+        const container = document.getElementById('gallery-container');
+        container.addEventListener("wheel", (evt) => {
+            evt.preventDefault();
+            container.scrollLeft += evt.deltaY;
+        });
+    </script>
 </body>
 </html>
