@@ -8,19 +8,45 @@
 </head>
 <body>
 
-    <main class="fixed-ui">
-        <div class="nav-item left">
-            <a href="work.html">Agnese Pozzobon</a>
-        </div>
-        
-        <div class="nav-item center">
-            <span>Recently Collected</span>
-        </div>
-        
-        <div class="nav-item right">
-            <span>Editorial Design, Identities, Visual Design, Publishing</span>
-        </div>
+    <div class="fixed-ui">
+        <div class="nav-item left"><a href="about.html">Agnese Pozzobon</a></div>
+        <div class="nav-item center">Recently Collected</div>
+        <div class="nav-item right">Editorial Design, Identities, Visual Design, Publishing</div>
+    </div>
+
+    <main class="horizontal-scroll" id="gallery-container">
+        <div class="gallery" id="gallery">
+            </div>
     </main>
 
+    <script>
+        const gallery = document.getElementById('gallery');
+        
+        // Genera automaticamente i tag per le 127 immagini
+        for (let i = 1; i <= 127; i++) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'item-wrapper';
+            
+            // Logica per variare dimensioni (30% - 55%) e posizioni (stacking)
+            // Usiamo il modulo (%) per creare un ritmo visivo simile al video
+            if (i % 5 === 0) wrapper.classList.add('small');
+            if (i % 7 === 0) wrapper.classList.add('large');
+            if (i % 4 === 0) wrapper.classList.add('stacked'); // Alcune impilate
+
+            const img = document.createElement('img');
+            img.src = `img/AgnesePozzobon_${i}.webp`;
+            img.loading = "lazy"; // Ottimizzazione caricamento
+            
+            wrapper.appendChild(img);
+            gallery.appendChild(wrapper);
+        }
+
+        // Script per lo scroll orizzontale con rotella mouse
+        const container = document.getElementById('gallery-container');
+        container.addEventListener("wheel", (evt) => {
+            evt.preventDefault();
+            container.scrollLeft += evt.deltaY;
+        });
+    </script>
 </body>
 </html>
