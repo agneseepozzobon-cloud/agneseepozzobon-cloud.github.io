@@ -4,8 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About | Agnese Pozzobon</title>
-    <link rel="stylesheet" href="style.css">
     <style>
+        /* RESET E BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body, html {
             height: 100%;
             background-color: #ffffff;
@@ -22,7 +28,7 @@
             min-height: 100vh;
         }
 
-        /* Recently Collected: Centrato verticalmente nella metà superiore (25% dell'altezza totale) */
+        /* HEADER: Recently Collected centrato verticalmente nella metà superiore */
         .header-about {
             position: absolute;
             top: 25%; 
@@ -33,7 +39,7 @@
 
         .back-link {
             font-size: 14px;
-            color: #888888; /* Grigio come da immagine */
+            color: #888888; /* Grigio come da screenshot */
             text-decoration: none;
             white-space: nowrap;
         }
@@ -42,21 +48,21 @@
             color: #000;
         }
 
-        /* Griglia dei contenuti: inizia al 50% dell'altezza per coincidere con la home */
+        /* GRIGLIA: Inizia al 50% dell'altezza per allinearsi alla home */
         .about-grid {
             display: grid;
             grid-template-columns: 1fr 1.5fr 1fr 0.5fr;
             gap: 40px;
             margin-top: 50vh; 
-            padding-bottom: 80px;
+            padding-bottom: 100px;
         }
 
         .column {
             font-size: 14px;
-            line-height: 1.2;
+            line-height: 1.2; /* Interlinea stretta e costante */
         }
 
-        /* Rientro Bio: aumentato di 20px rispetto a prima (totale ~115px) */
+        /* BIO: Rientro prima riga aumentato */
         .bio-text {
             text-indent: 115px; 
             margin: 0;
@@ -68,9 +74,10 @@
 
         .section-title {
             display: block;
-            margin: 0;
+            margin: 0; /* Nessuno spazio tra titolo e testo */
         }
 
+        /* LOGO: Margine destro */
         .logo-symbol {
             text-align: right;
         }
@@ -80,16 +87,17 @@
             height: auto;
         }
 
-        /* Link email e tel neri e senza sottolineatura */
-        .column a {
+        /* LINK: Neri, senza sottolineatura, stessa interlinea */
+        a {
             text-decoration: none;
-            color: #000;
+            color: inherit;
             font-weight: normal;
         }
 
         @media (max-width: 900px) {
             .about-grid { grid-template-columns: 1fr; margin-top: 55vh; }
-            .header-about { top: 20%; }
+            .header-about { top: 15%; }
+            .logo-symbol { text-align: left; }
         }
     </style>
 </head>
@@ -127,15 +135,35 @@
 
                 <div class="content-block">
                     <span class="section-title">Extra</span>
-                    Summer After School, residency, Jim Fontana Studio<br> 
+                    Summer After School, residency, Jim Fontana Studio<br>
                     Music to My Eyes, workshop, April Greiman<br>
                     Bottomless Pit, workshop, Noemi Vola + Omar Cheikh<br>
-                    A.I. – blessing or curse for Graphic Design?, workshop, Laurenz Brunner<br> 
+                    A.I. – blessing or curse for Graphic Design?, workshop, Laurenz Brunner<br>
                     image / icon / symbol / script, workshop, Paul McNeil<br>
                     Valtellina terre alte, workshop, Beniamino Pisati<br>
                     Storie e immaginari, workshop, Lorenzo Cicconi Massi + Lorenzo Zoppolato<br>
-                    Quando la luce diventa emozione, workshop, CSC Roma, Giuseppe Lanci<br> 
-                   
-                  <div class="content-block">
-                    <span class="section-title">Independent Projects</span>
-                    www.radiospugna.com<br>
+                    Quando la luce diventa emozione, workshop, CSC Roma, Giuseppe Lanci
+                </div>
+
+                <div class="content-block">
+                    <span class="section-title">Independent projects</span>
+                    <a href="https://www.radiospugna.com" target="_blank">www.radiospugna.com</a>
+                </div>
+            </div>
+
+            <div class="column">
+                <p>
+                    <a href="mailto:agnese.pozzobon@gmail.com">agnese.pozzobon@gmail.com</a><br>
+                    <a href="tel:+393452375093">+39 345 2375093</a>
+                </p>
+            </div>
+
+            <div class="column logo-symbol">
+                <img src="img/logo_chiocciola.webp" alt="">
+            </div>
+
+        </main>
+    </div>
+
+</body>
+</html>
