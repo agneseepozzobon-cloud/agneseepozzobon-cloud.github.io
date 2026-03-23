@@ -14,7 +14,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* TESTI FISSI - 13px */
+        /* TESTI FISSI - 13px e Neri */
         .fixed-ui {
             position: fixed;
             top: 50%; left: 0; width: 100%;
@@ -23,14 +23,29 @@
             justify-content: space-between;
             padding: 0 40px;
             z-index: 1;
-            pointer-events: none;
+            pointer-events: none; /* Non blocca lo scroll delle immagini */
         }
-        .nav-item { font-size: 13px; color: #000; flex: 1; pointer-events: auto; }
-        .nav-item.center { text-align: center; color: #888888; }
-        .nav-item.right { text-align: right; color: #888888; }
         
-        a { text-decoration: none; color: inherit; transition: color 0.2s; }
-        a:hover { color: rgb(0, 0, 255) !important; }
+        .nav-item { 
+            font-size: 13px; 
+            color: #000000; 
+            flex: 1; 
+            pointer-events: auto; /* Riattiva il click sui link */
+        }
+        
+        .nav-item.center { text-align: center; }
+        .nav-item.right { text-align: right; }
+        
+        /* Link Agnese Pozzobon */
+        a { 
+            text-decoration: none; 
+            color: #000000; 
+            transition: color 0.2s ease; 
+        }
+        
+        a:hover { 
+            color: rgb(0, 0, 255) !important; 
+        }
 
         /* GALLERIA */
         .horizontal-scroll {
@@ -46,7 +61,7 @@
             padding-left: 50vw; 
             padding-right: 100px;
             gap: 10px; 
-            align-items: flex-start;
+            align-items: flex-start; /* Appese in alto */
         }
 
         .item-wrapper {
@@ -66,7 +81,10 @@
 <body>
 
     <div class="fixed-ui">
-        <div class="nav-item left"><a href="about.html">Agnese Pozzobon</a></div>
+        <div class="nav-item left">
+            <a href="about.html">Agnese Pozzobon</a>
+        </div>
+        
         <div class="nav-item center">Recently Collected</div>
         <div class="nav-item right">Editorial Design, Identities, Visual Design, Publishing</div>
     </div>
@@ -79,6 +97,7 @@
         const gallery = document.getElementById('gallery');
 
         /* CONFIGURAZIONE h: altezza vh | ids: array ID immagini */
+        /* Esempio: { h: 50, ids: [1, 2] } crea uno stack di due immagini alte 50vh l'una */
         const config = [
             { h: 55, ids: [1] },
             { h: 30, ids: [2] },
@@ -91,9 +110,11 @@
 
         for (let i = 1; i <= totalImages; i++) {
             if (usedIds.has(i)) continue;
+            // Genera altezze casuali tra 30 e 55vh per le immagini non configurate
             config.push({ h: Math.floor(Math.random() * (55 - 30 + 1)) + 30, ids: [i] });
         }
 
+        // Ordina e renderizza
         config.sort((a, b) => a.ids[0] - b.ids[0]).forEach(item => {
             const wrapper = document.createElement('div');
             wrapper.className = 'item-wrapper';
@@ -107,6 +128,7 @@
             gallery.appendChild(wrapper);
         });
 
+        // Abilita scroll orizzontale con rotella
         const container = document.getElementById('gallery-container');
         container.addEventListener("wheel", (evt) => {
             evt.preventDefault();
