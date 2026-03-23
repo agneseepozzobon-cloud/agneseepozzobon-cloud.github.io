@@ -4,16 +4,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agnese Pozzobon</title>
-    <link rel="stylesheet" href="style.css">
     <style>
-        /* Aggiunta specifica per l'hover blu */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            font-family: "Times New Roman", Times, serif;
+            overflow: hidden; /* Blocca lo scroll verticale */
+        }
+
+        /* LIVELLO INFERIORE: Testi fissi al 50% */
+        .fixed-ui {
+            position: fixed;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .nav-item {
+            font-size: 14px;
+            color: #000;
+            flex: 1;
+            pointer-events: auto;
+        }
+
+        .nav-item.center { text-align: center; color: #888; }
+        .nav-item.right { text-align: right; color: #888; }
+
         a {
             text-decoration: none;
-            color: #000;
+            color: inherit;
             transition: color 0.2s ease;
         }
+
         a:hover {
             color: rgb(0, 0, 255) !important;
+        }
+
+        /* LIVELLO SUPERIORE: Galleria appesa in alto */
+        .horizontal-scroll {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow-x: auto;
+            overflow-y: hidden;
+            z-index: 2;
+        }
+
+        .horizontal-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .gallery {
+            display: flex;
+            padding-left: 50vw; /* Prima immagine a metà schermo */
+            padding-right: 100px;
+            gap: 100px; /* Spazio tra i progetti */
+            align-items: flex-start; /* TUTTO APPESO IN ALTO */
+        }
+
+        .item-wrapper {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            padding-top: 0; /* Assicura 0px dal margine superiore */
+        }
+
+        .item-wrapper img {
+            width: auto;
+            height: auto;
+            max-height: 55vh; /* Dimensione massima per non coprire troppo il testo al centro */
+            object-fit: contain;
+            display: block;
+        }
+
+        /* Variazioni di dimensione basate sulla tua richiesta (30%-55%) */
+        .item-wrapper.small img { max-height: 30vh; }
+        .item-wrapper.large img { max-height: 55vh; }
+
+        /* Supporto per immagini Stacked verticalmente */
+        .item-wrapper.stacked {
+            gap: 20px; /* Spazio tra le immagini impilate */
         }
     </style>
 </head>
@@ -26,23 +109,46 @@
     </div>
 
     <main class="horizontal-scroll" id="gallery-container">
-        <div class="gallery" id="gallery"></div>
+        <div class="gallery" id="gallery">
+            </div>
     </main>
 
     <script>
         const gallery = document.getElementById('gallery');
+        
         for (let i = 1; i <= 127; i++) {
             const wrapper = document.createElement('div');
             wrapper.className = 'item-wrapper';
-            if (i % 5 === 0) wrapper.classList.add('small');
-            if (i % 7 === 0) wrapper.classList.add('large');
-            if (i % 4 === 0) wrapper.classList.add('stacked');
-            const img = document.createElement('img');
-            img.src = `img/AgnesePozzobon_${i}.webp`;
-            img.loading = "lazy";
-            wrapper.appendChild(img);
+            
+            // Ritmo visivo per dimensioni e stacking
+            if (i % 6 === 0) wrapper.classList.add('small');
+            if (i % 4 === 0) wrapper.classList.add('large');
+            
+            // Esempio di stacking: se l'indice è divisibile per 10, mettiamo due immagini
+            if (i % 10 === 0 && i < 127) {
+                wrapper.classList.add('stacked');
+                
+                const img1 = document.createElement('img');
+                img1.src = `img/AgnesePozzobon_${i}.webp`;
+                img1.loading = "lazy";
+                
+                const img2 = document.createElement('img');
+                img2.src = `img/AgnesePozzobon_${i+1}.webp`;
+                img2.loading = "lazy";
+                
+                wrapper.appendChild(img1);
+                wrapper.appendChild(img2);
+                i++; // Salta la prossima perché l'abbiamo già messa qui
+            } else {
+                const img = document.createElement('img');
+                img.src = `img/AgnesePozzobon_${i}.webp`;
+                img.loading = "lazy";
+                wrapper.appendChild(img);
+            }
+            
             gallery.appendChild(wrapper);
         }
+
         const container = document.getElementById('gallery-container');
         container.addEventListener("wheel", (evt) => {
             evt.preventDefault();
