@@ -6,6 +6,7 @@
     <title>Agnese Pozzobon</title>
     <link rel="icon" href="img/favicon_black.webp" media="(prefers-color-scheme: light)">
     <link rel="icon" href="img/favicon_white.webp" media="(prefers-color-scheme: dark)">
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html {
@@ -16,7 +17,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* LIVELLO TESTI - SOTTO LE IMMAGINI */
+        /* LIVELLO TESTI - SOTTO */
         .fixed-ui {
             position: fixed;
             top: 50%; left: 0; width: 100%;
@@ -24,44 +25,30 @@
             display: flex;
             justify-content: space-between;
             padding: 0 40px;
-            z-index: 1; /* Livello più basso */
+            z-index: 1;
         }
         
-        .nav-item { 
-            font-size: 13px; 
-            color: #000000; 
-            flex: 1; 
-        }
-        
+        .nav-item { font-size: 13px; color: #000; flex: 1; }
         .nav-item.center { text-align: center; }
         .nav-item.right { text-align: right; }
         
-        a { 
-            text-decoration: none; 
-            color: #000000; 
-            transition: color 0.2s ease;
-            cursor: pointer;
-        }
-        
-        a:hover { 
-            color: rgb(0, 0, 255) !important; 
-        }
+        a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; }
+        a:hover { color: rgb(0, 0, 255) !important; }
 
-        /* LIVELLO GALLERIA - SOPRA I TESTI */
+        /* LIVELLO GALLERIA - SOPRA */
         .horizontal-scroll {
             position: relative;
             width: 100vw; height: 100vh;
             overflow-x: auto; overflow-y: hidden;
-            z-index: 5; /* Livello più alto */
-            /* TRUCCO: Questo permette di cliccare ciò che sta sotto 
-               negli spazi dove non ci sono immagini */
+            z-index: 5;
             pointer-events: none; 
         }
         .horizontal-scroll::-webkit-scrollbar { display: none; }
 
         .gallery {
             display: flex;
-            padding-left: 50vw; 
+            /* Aumentato a 85vw per far spuntare solo un bordo della prima immagine */
+            padding-left: 85vw; 
             padding-right: 100px;
             gap: 10px; 
             align-items: flex-start;
@@ -72,9 +59,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px; 
-            /* RIATTIVA i pointer events solo sulle immagini 
-               così lo scroll con la rotella continua a funzionare */
-            pointer-events: auto; 
+            pointer-events: auto;
         }
 
         .item-wrapper img {
@@ -87,9 +72,7 @@
 <body>
 
     <div class="fixed-ui">
-        <div class="nav-item left">
-            <a href="about.html">Agnese Pozzobon</a>
-        </div>
+        <div class="nav-item left"><a href="about.html">Agnese Pozzobon</a></div>
         <div class="nav-item center">Recently Collected</div>
         <div class="nav-item right">Editorial Design, Identities, Visual Design, Publishing</div>
     </div>
@@ -101,6 +84,7 @@
     <script>
         const gallery = document.getElementById('gallery');
 
+        // Configurazione manuale altezze e stacking
         const config = [
             { h: 55, ids: [1] },
             { h: 30, ids: [2] },
@@ -130,9 +114,7 @@
         });
 
         const container = document.getElementById('gallery-container');
-        
-        // Lo scroll orizzontale funzionerà anche se pointer-events è none sul container
-        // perché lo stiamo applicando via JS sull'intero elemento.
+        // Lo scroll ora ascolta su tutta la finestra per fluidità
         window.addEventListener("wheel", (evt) => {
             container.scrollLeft += evt.deltaY;
         });
