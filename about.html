@@ -11,62 +11,64 @@
             background-color: #ffffff;
             font-family: "Times New Roman", Times, serif;
             color: #000;
-            overflow-y: auto; /* Permette lo scroll se i testi "Extra" vanno oltre */
+            overflow-y: auto;
+            -webkit-font-smoothing: antialiased;
         }
 
         .about-container {
             display: flex;
             flex-direction: column;
             padding: 0 40px;
+            min-height: 100vh;
         }
 
-        /* Ritorno alla Home - Centrato verticalmente come nella home */
+        /* Recently Collected: Centrato verticalmente nella metà superiore (25% dell'altezza totale) */
         .header-about {
-            position: fixed;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            transform: translateY(-50%);
-            display: flex;
-            justify-content: center;
+            position: absolute;
+            top: 25%; 
+            left: 50%;
+            transform: translate(-50%, -50%);
             z-index: 10;
-            pointer-events: none;
         }
 
         .back-link {
             font-size: 14px;
-            color: #000;
+            color: #888888; /* Grigio come da immagine */
             text-decoration: none;
-            pointer-events: auto;
+            white-space: nowrap;
         }
 
-        /* Griglia dei contenuti - Allineata alla riga centrale della home */
+        .back-link:hover {
+            color: #000;
+        }
+
+        /* Griglia dei contenuti: inizia al 50% dell'altezza per coincidere con la home */
         .about-grid {
             display: grid;
             grid-template-columns: 1fr 1.5fr 1fr 0.5fr;
             gap: 40px;
-            margin-top: 50vh; /* Inizia esattamente a metà pagina */
-            padding-bottom: 100px;
+            margin-top: 50vh; 
+            padding-bottom: 80px;
         }
 
         .column {
             font-size: 14px;
-            line-height: 1.2; /* Interlinea stretta e costante */
+            line-height: 1.2;
         }
 
-        /* Rientro Bio: calcolato sulla lunghezza approssimativa di "Agnese Pozzobon" */
+        /* Rientro Bio: aumentato di 20px rispetto a prima (totale ~115px) */
         .bio-text {
-            text-indent: 95px; 
+            text-indent: 115px; 
             margin: 0;
+        }
+
+        .content-block {
+            margin-bottom: 20px;
         }
 
         .section-title {
             display: block;
-            margin: 0; /* Togliamo spazio dopo i titoli */
-        }
-
-        .content-block {
-            margin-bottom: 20px; /* Spazio tra i blocchi, ma non tra titolo e testo */
+            margin: 0;
         }
 
         .logo-symbol {
@@ -78,15 +80,16 @@
             height: auto;
         }
 
-        /* Reset link e testi */
-        a, p, span {
-            font-weight: normal !important;
-            color: #000 !important;
+        /* Link email e tel neri e senza sottolineatura */
+        .column a {
+            text-decoration: none;
+            color: #000;
+            font-weight: normal;
         }
 
         @media (max-width: 900px) {
             .about-grid { grid-template-columns: 1fr; margin-top: 55vh; }
-            .logo-symbol { text-align: left; }
+            .header-about { top: 20%; }
         }
     </style>
 </head>
@@ -94,7 +97,7 @@
 
     <div class="about-container">
         <header class="header-about">
-            <a href="index.html" class="back-link">Recently Collected</a>
+            <a href="index.html" class="back-link">Recently Collected →</a>
         </header>
 
         <main class="about-grid">
@@ -130,23 +133,4 @@
                     A.I. – blessing or curse for Graphic Design?, workshop, Laurenz Brunner<br>
                     image / icon / symbol / script, workshop, Paul McNeil<br>
                     Valtellina terre alte, workshop, Beniamino Pisati<br>
-                    Storie e immaginari, workshop, Lorenzo Cicconi Massi + Lorenzo Zoppolato
-                </div>
-            </div>
-
-            <div class="column">
-    <p>
-        <a href="mailto:agnese.pozzobon@gmail.com">agnese.pozzobon@gmail.com</a><br>
-        <a href="tel:+393452375093">+39 345 2375093</a>
-    </p>
-</div>
-
-            <div class="column logo-symbol">
-                <img src="img/logo_chiocciola.webp" alt="">
-            </div>
-
-        </main>
-    </div>
-
-</body>
-</html>
+                    Storie e immaginari, workshop, Lorenzo Cicconi Massi + Lorenzo Zopp
