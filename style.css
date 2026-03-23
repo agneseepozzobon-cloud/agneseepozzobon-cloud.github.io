@@ -1,4 +1,3 @@
-/* Reset basico */
 * {
     margin: 0;
     padding: 0;
@@ -9,50 +8,84 @@ body, html {
     width: 100%;
     height: 100%;
     background-color: #ffffff;
-    /* Forza il font Times New Roman */
     font-family: "Times New Roman", Times, serif;
-    overflow: hidden; /* Impedisce lo scroll se vuoi solo questa schermata */
+    overflow: hidden; /* Blocca lo scroll della pagina, usiamo quello del contenitore */
 }
 
+/* TESTO FISSO (Livello 1 - Sotto) */
 .fixed-ui {
     position: fixed;
-    top: 50%; /* Centra verticalmente */
+    top: 50%;
     left: 0;
     width: 100%;
-    transform: translateY(-50%); /* Correzione per centratura perfetta */
+    transform: translateY(-50%);
     display: flex;
-    justify-content: space-between; /* Distribuisce sinistra, centro, destra */
-    padding: 0 40px; /* Margine dai bordi laterali */
-    pointer-events: none; /* Permette di cliccare ciò che sta sotto se aggiungerai altro */
+    justify-content: space-between;
+    padding: 0 40px;
+    z-index: 1; /* Sta sotto */
+    pointer-events: none;
 }
 
 .nav-item {
-    font-size: 14px; /* Dimensione pulita e piccola come da screen */
-    color: #000000;
-    pointer-events: auto; /* Riattiva i click sulle scritte */
-    flex: 1; /* Divide lo spazio in 3 parti uguali */
+    font-size: 14px;
+    color: #000;
+    flex: 1;
+    pointer-events: auto;
+}
+.center { text-align: center; color: #888; }
+.right { text-align: right; color: #888; }
+a { text-decoration: none; color: inherit; }
+
+/* GALLERIA (Livello 2 - Sopra) */
+.horizontal-scroll {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: auto;
+    overflow-y: hidden;
+    z-index: 2; /* Sta sopra il testo */
+    display: flex;
+    align-items: center; /* Centra le immagini verticalmente */
 }
 
-/* Allineamenti specifici */
-.left {
-    text-align: left;
+.horizontal-scroll::-webkit-scrollbar {
+    display: none; /* Nasconde la barra di scorrimento */
 }
 
-.center {
-    text-align: center;
+.gallery {
+    display: flex;
+    padding-left: 50vw; /* Questo fa sì che la prima immagine inizi a metà schermo */
+    padding-right: 100px;
+    gap: 80px; /* Spazio tra i "blocchi" di progetti */
+    align-items: center;
 }
 
-.right {
-    text-align: right;
+.item-wrapper {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-/* Stile del link cliccabile */
-a {
-    text-decoration: none;
-    color: inherit;
-    transition: opacity 0.3s ease;
+/* Dimensioni variabili basate sulla viewport */
+.item-wrapper img {
+    width: auto;
+    height: 45vh; /* Altezza media standard */
+    max-width: 55vw;
+    object-fit: contain;
 }
 
-a:hover {
-    opacity: 0.5; /* Effetto al passaggio del mouse */
+/* Variazioni di scala */
+.item-wrapper.small img { height: 30vh; }
+.item-wrapper.large img { height: 60vh; }
+
+/* Effetto Stacked (immagini vicine o una sopra l'altra se ne aggiungi due nello stesso div) */
+.item-wrapper.stacked {
+    margin-top: -10vh; /* Sposta leggermente per rompere la linea */
+}
+
+/* Rendi le immagini leggermente trasparenti se vuoi che il testo sotto si intraveda 
+   (opzionale, nel video sembrano opache) */
+.item-wrapper img {
+    background-color: transparent;
 }
