@@ -75,7 +75,7 @@
         }
         .item-wrapper.active .caption { display: block; }
 
-        /* --- MOBILE VERSION (AGGIORNATA) --- */
+        /* --- MOBILE VERSION (PRECISA ALLO SCREEN) --- */
         @media (max-width: 768px) {
             body, html { overflow-y: auto; overflow-x: hidden; height: auto; }
 
@@ -87,13 +87,13 @@
                 align-items: flex-start;
                 padding: 15px;
                 gap: 4px;
-                background: white;
+                background: rgba(255,255,255,0.9);
                 z-index: 100;
                 pointer-events: auto;
             }
             .nav-item { 
                 font-size: 14px; 
-                width: calc(100% - 30px); 
+                width: 100%; 
                 text-align: left !important; 
                 transform: none !important; 
             }
@@ -101,7 +101,7 @@
             .horizontal-scroll {
                 height: auto;
                 overflow: visible;
-                padding-top: 140px;
+                padding-top: 100px; /* Spazio per l'header */
                 pointer-events: auto;
                 z-index: 10;
             }
@@ -109,9 +109,9 @@
             .gallery {
                 flex-direction: column;
                 padding: 0;
-                gap: 80px; /* Distanza tra progetti verticali */
+                gap: 50px; /* Spazio verticale tra progetti diversi */
                 height: auto;
-                align-items: center; /* Centra orizzontalmente i wrapper */
+                align-items: center; 
             }
 
             .item-wrapper {
@@ -120,53 +120,40 @@
                 overflow-x: auto;
                 overflow-y: hidden;
                 scroll-snap-type: x mandatory;
-                gap: 15px;
-                padding: 0 15px; /* Margini laterali di sicurezza */
+                gap: 15px; /* Margine piccolo tra immagini */
+                padding: 0 15px 15px 15px;
                 align-items: flex-start;
-                position: relative;
                 scrollbar-width: none;
-                /* Centratura contenuto */
                 display: flex;
-                justify-content: flex-start;
             }
+            .item-wrapper::-webkit-scrollbar { display: none; }
             
-            /* Trick per centrare la prima immagine: aggiungiamo spazio vuoto prima e dopo */
-            .item-wrapper::before, .item-wrapper::after {
-                content: '';
-                flex: 0 0 calc(50vw - (var(--img-width-mobile) / 2) - 15px);
-            }
-
+            /* Centratura orizzontale: l'immagine occupa quasi tutto lo schermo */
             .item-wrapper img {
-                --img-width-mobile: calc(var(--mobile-w) * 2.1);
-                width: var(--img-width-mobile); 
-                max-width: 85vw;
+                width: calc(var(--mobile-w) * 2.5); /* Aumentata grandezza */
+                max-width: 88vw;
                 height: auto;
                 flex-shrink: 0;
                 scroll-snap-align: center;
-                display: block;
+                margin: 0 auto; /* Aiuta la centratura */
             }
 
             .caption {
                 display: none; 
-                position: relative; /* Come desktop: sotto l'immagine */
-                margin-top: 10px;
-                padding: 0;
-                left: 0;
-                width: 100%;
+                width: calc(100% - 30px);
+                margin: 10px 15px 0 15px;
                 font-size: 12px;
-                background: transparent;
-                z-index: 110;
-                word-wrap: break-word;
+                line-height: 1.3;
             }
             
-            /* Mostra la didascalia sotto la pila attiva */
             .item-wrapper.active {
-                flex-wrap: wrap; /* Permette alla didascalia di andare sotto */
+                flex-wrap: wrap;
+                justify-content: center;
             }
+            
             .item-wrapper.active .caption { 
                 display: block; 
-                flex: 0 0 100%; /* Occupa tutta la riga sotto le immagini */
-                margin-bottom: 20px;
+                flex: 0 0 100%;
             }
         }
     </style>
