@@ -75,7 +75,7 @@
         }
         .item-wrapper.active .caption { display: block; }
 
-        /* --- MOBILE VERSION (PRECISA ALLO SCREEN) --- */
+        /* --- MOBILE VERSION (UPDATED MARGINS TO 15PX) --- */
         @media (max-width: 768px) {
             body, html { overflow-y: auto; overflow-x: hidden; height: auto; }
 
@@ -85,9 +85,9 @@
                 transform: none;
                 flex-direction: column;
                 align-items: flex-start;
-                padding: 15px;
+                padding: 15px; /* Margine 15px ovunque */
                 gap: 4px;
-                background: rgba(255,255,255,0.9);
+                background: #fff;
                 z-index: 100;
                 pointer-events: auto;
             }
@@ -101,7 +101,7 @@
             .horizontal-scroll {
                 height: auto;
                 overflow: visible;
-                padding-top: 100px; /* Spazio per l'header */
+                padding-top: 110px; 
                 pointer-events: auto;
                 z-index: 10;
             }
@@ -109,7 +109,7 @@
             .gallery {
                 flex-direction: column;
                 padding: 0;
-                gap: 50px; /* Spazio verticale tra progetti diversi */
+                gap: 15px; /* Gap verticale tra progetti */
                 height: auto;
                 align-items: center; 
             }
@@ -120,40 +120,44 @@
                 overflow-x: auto;
                 overflow-y: hidden;
                 scroll-snap-type: x mandatory;
-                gap: 15px; /* Margine piccolo tra immagini */
-                padding: 0 15px 15px 15px;
+                gap: 15px;
+                padding: 0 15px; /* Margini laterali contenitore */
                 align-items: flex-start;
                 scrollbar-width: none;
                 display: flex;
+                position: relative;
             }
             .item-wrapper::-webkit-scrollbar { display: none; }
             
-            /* Centratura orizzontale: l'immagine occupa quasi tutto lo schermo */
             .item-wrapper img {
-                width: calc(var(--mobile-w) * 2.5); /* Aumentata grandezza */
+                width: calc(var(--mobile-w) * 2.5); 
                 max-width: 88vw;
                 height: auto;
                 flex-shrink: 0;
                 scroll-snap-align: center;
-                margin: 0 auto; /* Aiuta la centratura */
+                display: block;
             }
 
+            /* Didascalia attaccata con margini 15px */
             .caption {
                 display: none; 
-                width: calc(100% - 30px);
-                margin: 10px 15px 0 15px;
+                width: calc(100% - 30px); /* Margine 15px sx e 15px dx */
+                margin: 0 15px;
+                padding: 5px 0 10px 0;
                 font-size: 12px;
-                line-height: 1.3;
+                line-height: 1.2;
+                background: white;
             }
             
             .item-wrapper.active {
                 flex-wrap: wrap;
-                justify-content: center;
+                justify-content: flex-start;
             }
             
             .item-wrapper.active .caption { 
                 display: block; 
                 flex: 0 0 100%;
+                order: 2; 
             }
         }
     </style>
