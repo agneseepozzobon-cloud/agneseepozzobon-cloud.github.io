@@ -8,111 +8,112 @@
     <link rel="icon" href="img/favicon_white.webp" media="(prefers-color-scheme: dark)">
     
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body, html {
-            width: 100%;
-            font-family: "Times New Roman", Times, serif;
-            background-color: #ffffff;
-            -webkit-font-smoothing: antialiased;
-        }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body, html {
+        width: 100%;
+        font-family: "Times New Roman", Times, serif;
+        background-color: #ffffff;
+        -webkit-font-smoothing: antialiased;
+    }
 
-        /* --- MOBILE FIRST (Telefono) --- */
-        body { overflow-y: auto; overflow-x: hidden; }
+    /* --- MOBILE FIRST (Telefono) --- */
+    body { overflow-y: auto; overflow-x: hidden; }
+
+    .fixed-ui {
+        position: fixed;
+        top: 20px; left: 0; width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        padding: 0 20px;
+        z-index: 100;
+        pointer-events: none; /* La UI non blocca i click sotto */
+    }
+    .nav-item { font-size: 13px; color: #000; text-align: center; pointer-events: auto; flex: 1; }
+    a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; }
+    a:hover { color: rgb(0, 0, 255) !important; }
+
+    .horizontal-scroll {
+        width: 100%;
+        padding-top: 140px; 
+        z-index: 5;
+    }
+
+    .gallery {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 50px;
+        width: 100%;
+        padding-bottom: 50px;
+    }
+
+    .item-wrapper {
+        width: 90vw !important;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        pointer-events: auto;
+    }
+
+    .item-wrapper img { width: 100%; height: auto; display: block; cursor: pointer; }
+
+    .caption {
+        display: none; 
+        font-size: 12px;
+        line-height: 1.2;
+        margin-top: -10px;
+        background: white;
+        padding: 5px 0;
+        width: 100%;
+    }
+    .item-wrapper.active .caption { display: block; }
+
+    /* --- DESKTOP (Computer) --- */
+    @media (min-width: 769px) {
+        body, html { height: 100%; overflow: hidden; }
 
         .fixed-ui {
-            position: fixed;
-            top: 20px; left: 0; width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            padding: 0 20px;
-            z-index: 100;
-            pointer-events: none;
+            top: 50%;
+            transform: translateY(-50%);
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 0 40px;
         }
-        .nav-item { font-size: 13px; color: #000; text-align: center; pointer-events: auto; flex: 1; }
-        a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; }
-        a:hover { color: rgb(0, 0, 255) !important; }
+        .nav-item.left { text-align: left; }
+        .nav-item.center { text-align: center; }
+        .nav-item.right { text-align: right; }
 
         .horizontal-scroll {
-            width: 100%;
-            padding-top: 140px; 
-            z-index: 5;
+            height: 100vh;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding-top: 0;
+            /* RIMOSSO pointer-events: none che nascondeva tutto */
+            pointer-events: auto; 
         }
+        .horizontal-scroll::-webkit-scrollbar { display: none; }
 
         .gallery {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 50px;
-            width: 100%;
-            padding-bottom: 50px;
+            flex-direction: row;
+            padding-left: 85vw;
+            padding-right: 200px;
+            height: 100%;
+            align-items: flex-start;
+            gap: 15px;
         }
 
         .item-wrapper {
-            width: 90vw !important;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            pointer-events: auto;
+            width: auto !important;
+            max-height: 100vh;
+            overflow-y: auto;
+            scrollbar-width: none;
         }
-
-        .item-wrapper img { width: 100%; height: auto; display: block; cursor: pointer; }
-
-        .caption {
-            display: none; 
-            font-size: 12px;
-            line-height: 1.2;
-            margin-top: -10px;
-            background: white;
-            padding: 5px 0;
-            width: 100%;
-        }
-        .item-wrapper.active .caption { display: block; }
-
-        /* --- DESKTOP (Computer) --- */
-        @media (min-width: 769px) {
-            body, html { height: 100%; overflow: hidden; }
-
-            .fixed-ui {
-                top: 50%;
-                transform: translateY(-50%);
-                flex-direction: row;
-                justify-content: space-between;
-                padding: 0 40px;
-            }
-            .nav-item.left { text-align: left; }
-            .nav-item.center { text-align: center; }
-            .nav-item.right { text-align: right; }
-
-            .horizontal-scroll {
-                height: 100vh;
-                overflow-x: auto;
-                overflow-y: hidden;
-                padding-top: 0;
-                pointer-events: none;
-            }
-            .horizontal-scroll::-webkit-scrollbar { display: none; }
-
-            .gallery {
-                flex-direction: row;
-                padding-left: 85vw;
-                padding-right: 200px;
-                height: 100%;
-                align-items: flex-start;
-                gap: 15px;
-            }
-
-            .item-wrapper {
-                width: auto !important;
-                max-height: 100vh;
-                overflow-y: auto;
-                scrollbar-width: none;
-            }
-            .item-wrapper::-webkit-scrollbar { display: none; }
-        }
-    </style>
+        .item-wrapper::-webkit-scrollbar { display: none; }
+    }
+</style>
 </head>
 <body>
 
