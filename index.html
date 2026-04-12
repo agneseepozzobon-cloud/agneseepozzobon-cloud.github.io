@@ -75,24 +75,25 @@
         }
         .item-wrapper.active .caption { display: block; }
 
-        /* --- MOBILE VERSION --- */
+        /* --- MOBILE VERSION (REVISED) --- */
         @media (max-width: 768px) {
-            body, html { overflow-y: auto; overflow-x: hidden; height: auto; display: flex; flex-direction: column; }
+            body, html { overflow-y: auto; overflow-x: hidden; height: auto; }
 
-            /* Header UI SOTTO le immagini */
+            /* Header FIXED sotto le immagini che scorrono */
             .fixed-ui {
-                position: relative;
-                top: auto; left: auto;
+                position: fixed;
+                top: 0; left: 0;
                 transform: none;
                 flex-direction: column;
                 padding: 15px;
                 gap: 4px;
-                order: 2; /* Lo sposta dopo la gallery */
+                background: white;
+                z-index: 5; /* Z-index basso per essere coperto */
                 pointer-events: auto;
+                width: 100%;
             }
             .nav-item { 
                 font-size: 14px; 
-                width: 100%; 
                 text-align: left !important; 
                 transform: none !important; 
             }
@@ -100,10 +101,10 @@
             .horizontal-scroll {
                 height: auto;
                 overflow: visible;
-                padding-top: 15px; 
+                padding-top: 100px; /* Spazio iniziale per non coprire subito l'header */
                 pointer-events: auto;
-                z-index: 10;
-                order: 1; /* Gallery prima dell'header */
+                position: relative;
+                z-index: 20; /* Z-index ALTO per coprire l'header scorrendo */
             }
 
             .gallery {
@@ -112,6 +113,7 @@
                 gap: 15px; 
                 height: auto;
                 align-items: center; 
+                background: transparent;
             }
 
             .item-wrapper {
@@ -124,8 +126,8 @@
                 padding: 0 15px;
                 scrollbar-width: none;
                 display: flex;
-                /* Centratura orizzontale della pila */
-                justify-content: center; 
+                position: relative;
+                align-items: flex-start;
             }
             .item-wrapper::-webkit-scrollbar { display: none; }
             
@@ -138,35 +140,31 @@
                 display: block;
             }
 
+            /* Didascalia ATTACCATA all'immagine senza margini */
             .caption {
                 display: none; 
+                position: absolute;
+                top: 100%; /* Posizionata subito sotto l'img */
+                left: 15px;
                 width: calc(100% - 30px);
-                margin: 0 15px;
-                padding: 5px 0 10px 0;
+                padding: 0; /* Margine zero dalle foto */
                 font-size: 12px;
                 line-height: 1.2;
                 background: white;
-                text-align: left;
             }
             
+            /* Mantiene lo scroll orizzontale anche da attivo */
             .item-wrapper.active {
-                flex-wrap: wrap;
-                justify-content: center;
+                padding-bottom: 40px; /* Spazio per la didascalia che è absolute */
             }
             
             .item-wrapper.active .caption { 
                 display: block; 
-                flex: 0 0 100%;
-                order: 2; 
             }
         }
     </style>
 </head>
 <body>
-
-    <main class="horizontal-scroll" id="gallery-container">
-        <div class="gallery" id="gallery"></div>
-    </main>
 
     <div class="fixed-ui">
         <div class="nav-item left">
@@ -174,6 +172,10 @@
         </div>
         <div class="nav-item right">Editorial Design, Identities, Visual Design, Publishing</div>
     </div>
+
+    <main class="horizontal-scroll" id="gallery-container">
+        <div class="gallery" id="gallery"></div>
+    </main>
 
     <script>
         const gallery = document.getElementById('gallery');
@@ -232,37 +234,36 @@
             { w: 25, ids: [94], text: "Rumore space during radio spugna event (2024)" },
             { w: 30, ids: [95, 96], text: "Flyer for KunstlerHaus Stuttgart (2024)" },
             { w: 25, ids: [97, 98, 99], text: "Posters for aradia festival (2023)" },
-            { w: 30, i: [100], text: "Diagram for caught between a rock and a hard place (2025)" },
-            { w: 20, i: [101], text: "Frame from The Fire of Love (2024)" },
-            { w: 25, i: [102, 103], text: "Typography for Gewoelbe (2025)" },
-            { w: 30, i: [104], text: "Stationary for aradia (2024)" },
-            { w: 35, i: [105, 106], text: "radio spugna's t-shirts (2024)" },
-            { w: 25, i: [109], text: "(2024)" },
-            { w: 30, i: [110], text: "Hanged poster (2024)" },
-            { w: 30, i: [111, 112, 113, 114, 115, 116, 117, 118], text: "Editorial design for Capsia (2024)" },
-            { w: 25, i: [119], text: "(2025)" },
-            { w: 35, i: [120], text: "radio spugna table set up (2025)" },
-            { w: 30, i: [121, 122], text: "Photos of Knots Knots Knots book (2024)" },
-            { w: 30, i: [123], text: "Future Steps socks concept (2024)" },
-            { w: 30, i: [124], text: "radio spugna’s first equipment (2024)" },
-            { w: 35, i: [125], text: "Gewoelbe club identity (2025)" },
-            { w: 25, i: [126], text: "Milano Infetta title design (2025)" },
-            { w: 40, i: [127], text: "Animation for Goethe University (2025)" },
-            { w: 25, i: [128], text: "(2024)" },
-            { w: 30, i: [129, 130, 131, 132], text: "What’s the opposite of precarity? (2025)" },
-            { w: 25, i: [133], text: "Graphic design processes (2024)" },
-            { w: 29, i: [134], text: "Back of the t-shirt aradia (2023)" },
-            { w: 30, i: [135], text: "radio spugna poster (2024)" }
+            { w: 30, ids: [100], text: "Diagram for caught between a rock and a hard place (2025)" },
+            { w: 20, ids: [101], text: "Frame from The Fire of Love (2024)" },
+            { w: 25, ids: [102, 103], text: "Typography for Gewoelbe (2025)" },
+            { w: 30, ids: [104], text: "Stationary for aradia (2024)" },
+            { w: 35, ids: [105, 106], text: "radio spugna's t-shirts (2024)" },
+            { w: 25, ids: [109], text: "(2024)" },
+            { w: 30, ids: [110], text: "Hanged poster (2024)" },
+            { w: 30, ids: [111, 112, 113, 114, 115, 116, 117, 118], text: "Editorial design for Capsia (2024)" },
+            { w: 25, ids: [119], text: "(2025)" },
+            { w: 35, ids: [120], text: "radio spugna table set up (2025)" },
+            { w: 30, ids: [121, 122], text: "Photos of Knots Knots Knots book (2024)" },
+            { w: 30, ids: [123], text: "Future Steps socks concept (2024)" },
+            { w: 30, ids: [124], text: "radio spugna’s first equipment (2024)" },
+            { w: 35, ids: [125], text: "Gewoelbe club identity (2025)" },
+            { w: 25, ids: [126], text: "Milano Infetta title design (2025)" },
+            { w: 40, ids: [127], text: "Animation for Goethe University (2025)" },
+            { w: 25, ids: [128], text: "(2024)" },
+            { w: 30, ids: [129, 130, 131, 132], text: "What’s the opposite of precarity? (2025)" },
+            { w: 25, ids: [133], text: "Graphic design processes (2024)" },
+            { w: 29, ids: [134], text: "Back of the t-shirt aradia (2023)" },
+            { w: 30, ids: [135], text: "radio spugna poster (2024)" }
         ];
 
-        config.sort((a, b) => (a.ids ? a.ids[0] : a.i[0]) - (b.ids ? b.ids[0] : b.i[0])).forEach(item => {
+        config.sort((a, b) => a.ids[0] - b.ids[0]).forEach(item => {
             const wrapper = document.createElement('div');
             wrapper.className = 'item-wrapper';
             wrapper.style.width = item.w + 'vw';
             wrapper.style.setProperty('--mobile-w', item.w + 'vw');
 
-            const ids = item.ids || item.i;
-            ids.forEach((id, index) => {
+            item.ids.forEach((id, index) => {
                 const img = document.createElement('img');
                 img.src = `img/AgnesePozzobon_${id}.webp`;
                 img.loading = "lazy";
