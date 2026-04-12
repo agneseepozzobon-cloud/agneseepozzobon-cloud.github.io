@@ -3,238 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agnese Pozzobon</title>
+    <title>About | Agnese Pozzobon</title>
     <link rel="icon" href="img/favicon_black.webp" media="(prefers-color-scheme: light)">
     <link rel="icon" href="img/favicon_white.webp" media="(prefers-color-scheme: dark)">
     
     <style>
+        /* [Il resto del CSS rimane identico a quello di prima] */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html {
-            width: 100%; height: 100%;
+            height: 100%;
             background-color: #ffffff;
             font-family: "Times New Roman", Times, serif;
-            overflow: hidden;
+            color: #000;
+            overflow-y: auto;
             -webkit-font-smoothing: antialiased;
         }
-
-        /* UI FISSA */
-        .fixed-ui {
-            position: fixed;
-            top: 50%; left: 0; width: 100%;
-            transform: translateY(-50%);
-            display: flex;
-            justify-content: space-between;
-            padding: 0 40px;
-            z-index: 100;
-            pointer-events: none;
-        }
-        .nav-item { font-size: 13px; color: #000; flex: 1; pointer-events: auto; }
-        .nav-item.center { text-align: center; }
-        .nav-item.right { text-align: right; }
-        
-        a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; }
+        .about-container { display: flex; flex-direction: column; padding: 0 40px; min-height: 100vh; }
+        .header-about { position: absolute; top: 25%; left: 50%; transform: translate(-50%, -50%); z-index: 10; }
+        a { text-decoration: none; color: inherit; font-size: 13px; transition: color 0.2s ease; font-weight: normal; }
         a:hover { color: rgb(0, 0, 255) !important; }
-
-        /* GALLERIA ORIZZONTALE */
-        .horizontal-scroll {
-            position: relative;
-            width: 100vw; height: 100vh;
-            overflow-x: auto; overflow-y: hidden;
-            z-index: 5;
-            pointer-events: none; 
-        }
-        .horizontal-scroll::-webkit-scrollbar { display: none; }
-
-        .gallery {
-            display: flex;
-            padding-left: 85vw; 
-            padding-right: 200px;
-            gap: 40px; /* Spazio tra le colonne */
-            align-items: center; 
-            height: 100%;
-        }
-
-        /* COLONNA (STACK) */
-        .item-wrapper {
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 15px; 
-            pointer-events: auto;
-            max-height: 85vh; /* Altezza massima per permettere lo scroll verticale */
-            overflow-y: auto;
-            scrollbar-width: none;
-            padding: 20px 0;
-        }
-        .item-wrapper::-webkit-scrollbar { display: none; }
-
-        .item-wrapper img {
-            display: block;
-            width: 100%;
-            height: auto;
-            cursor: pointer;
-            transition: opacity 0.3s ease;
-        }
-
-        /* DIDASCALIA */
-        .caption {
-            display: none; 
-            font-size: 12px;
-            line-height: 1.2;
-            background-color: #ffffff;
-            padding: 5px 0;
-            width: 100%;
-            word-wrap: break-word;
-        }
-
-        .item-wrapper.active { gap: 0; }
-        .item-wrapper.active .caption { display: block; }
-        .item-wrapper.active .caption + img { margin-top: 15px; }
-
+        .back-link { color: #888888; }
+        .about-grid { display: grid; grid-template-columns: 1fr 1.5fr 1fr 0.5fr; gap: 40px; margin-top: 50vh; padding-bottom: 100px; }
+        .column { font-size: 13px; line-height: 1.2; }
+        .bio-text { text-indent: 85px; margin: 0; }
+        .content-block { margin-bottom: 20px; }
+        .section-title { display: block; margin: 0; }
+        .logo-symbol { text-align: right; }
+        .logo-symbol img { width: 50px; height: auto; }
+        @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; margin-top: 55vh; } .header-about { top: 15%; } .logo-symbol { text-align: left; } }
     </style>
 </head>
 <body>
+    <div class="about-container">
+        <header class="header-about">
+            <a href="index.html" class="back-link">Recently Collected →</a>
+        </header>
 
-    <div class="fixed-ui">
-        <div class="nav-item left"><a href="about.html">Agnese Pozzobon</a></div>
-        <div class="nav-item center">Recently Collected</div>
-        <div class="nav-item right">Editorial Design, Identities, Visual Design, Publishing</div>
+        <main class="about-grid">
+            <div class="column">
+                <p>Agnese Pozzobon</p>
+                <p class="bio-text">(1999) is a visual and graphic designer currently based in Milan. Her work focuses on printed matter, data design and the construction of identities. She is interested in how design can shape information – and how information, in turn, can shape design.</p>
+            </div>
+
+            <div class="column">
+                <div class="content-block">
+                    <span class="section-title">Education</span>
+                    MA, Communication and Design for Publishing, ISIA Urbino, 2022/2025<br>
+                    After Effects course, CFP Bauer Milan, 2022<br>
+                    BA, Graphic and Multimedia Communication, IUSVE Venice, 2018/2021
+                </div>
+                <div class="content-block">
+                    <span class="section-title">Work</span>
+                    radio spugna B2B workshop, ISIA Urbino, 2025<br>
+                    Graphic Designer Internship at Matter Of Studio, Stuttgart, 2024/2025<br>
+                    Graphic Design and Research for TIPS, University of Padova, from 2024<br>
+                    Editorial Design for Pratiche di Posizionamento, Corraini Edizioni, 2024<br>
+                    Assistant curator, Museum of Contemporary Art M9, Venice, 2021<br>
+                    Graphic Designer Internship at Twin Studio, Milan, 2021
+                </div>
+                <div class="content-block">
+                    <span class="section-title">Extra</span>
+                    Summer After School, residency, Jim Fontana Studio<br>
+                    Music to My Eyes, workshop, April Greiman<br>
+                    Bottomless Pit, workshop, Noemi Vola + Omar Cheikh<br>
+                    A.I. – blessing or curse for Graphic Design?, workshop, Laurenz Brunner<br>
+                    image / icon / symbol / script, workshop, Paul McNeil<br>
+                    Valtellina terre alte, workshop, Beniamino Pisati<br>
+                    Storie e immaginari, workshop, Lorenzo Cicconi Massi + Lorenzo Zoppolato<br>
+                    Quando la luce diventa emozione, workshop, CSC Roma, Giuseppe Lanci
+                </div>
+                <div class="content-block">
+                    <span class="section-title">Independent projects</span>
+                    <a href="https://www.radiospugna.com" target="_blank">www.radiospugna.com</a>
+                </div>
+            </div>
+
+            <div class="column">
+                <p>
+                    <a href="mailto:agnese.pozzobon@gmail.com">agnese.pozzobon@gmail.com</a><br>
+                    <a href="tel:+393452375093">+39 345 2375093</a>
+                </p>
+            </div>
+
+            <div class="column logo-symbol">
+                <img src="img/logo_chiocciola.webp" alt="">
+            </div>
+        </main>
     </div>
-
-    <main class="horizontal-scroll" id="gallery-container">
-        <div class="gallery" id="gallery"></div>
-    </main>
-
-    <script>
-        const gallery = document.getElementById('gallery');
-
-        // Configurazione con larghezza (w) e tutti i tuoi testi
-        const config = [
-            { w: 35, ids: [1], text: "Visual research for the book Knots Knots Knots (2024) (with Ludovico Amenta, Matteo Beda)" },
-            { w: 25, ids: [2], text: "Type explorations with clay for aradia’s identity, an imaginary folk festival (2023) (with Roberta Antinolfi, Corinne Carlin, Martina Valente)" },
-            { w: 30, ids: [3, 4, 5], text: "Monographical research on AG Fronzoni (2024) (with Noa Merlini, Martina Valente)" },
-            { w: 15, ids: [6], text: "Shapes exploration (2025)" },
-            { w: 40, ids: [7], text: "radio spugna self-made foldable table, where the broadcasting happens (2024)" },
-            { w: 30, ids: [8], text: "Poster designed for a Goethe University lecture (2025) (with Matter Of)" },
-            { w: 35, ids: [9], text: "radio spugna takes over Rumore space in Urbino (2024)" },
-            { w: 20, ids: [10], text: "Contact print explorations (2024) (with Ludovico Amenta, Matteo Beda)" },
-            { w: 30, ids: [11, 12], text: "Posters designed for the schedule of a radio spugna event in Urbino (2024)" },
-            { w: 35, ids: [13], text: "Jim Fontana Summer After School Residency (2025) (with Martina Valente)" },
-            { w: 30, ids: [14], text: "Screen printing radio spugna t-shirts (2024)" },
-            { w: 25, ids: [15, 16, 17, 18, 19, 20, 21, 22], text: "radio spugna book–manual containing instructions to build a foldable table and low-tech web radio setup (2024)" },
-            { w: 20, ids: [23], text: "Unused design for the Gewoelbe club (2025) (with Matter Of)" },
-            { w: 30, ids: [24], text: "Hanged poster of Hyperknit, a project around knitting as a feminist practice (2023)" },
-            { w: 15, ids: [25], text: "Unused design for the Gewoelbe club (2025) (with Matter Of)" },
-            { w: 20, ids: [26], text: "Back of the zine developed during Noemi Vola and Omar Cheikh workshop (2024)" },
-            { w: 40, ids: [27], text: "Infographic map for the book AG Fronzoni Il progetto tra il bianco e il nero (2024)" },
-            { w: 25, ids: [28], text: "radio spugna presentation for ISIA Urbino workshop, 2025" },
-            { w: 35, ids: [29], text: "radio spugna table set up for the recording of Sottointesi [Live] (2024)" },
-            { w: 15, ids: [30], text: "Digital redrawing of Sheila De Bretteville's eyebolt (2024)" },
-            { w: 35, ids: [31], text: "radio spugna’s t-shirts in collaboration with Noemi Vola (2024)" },
-            { w: 35, ids: [32], text: "Set up process for radio spugna table, from the book-manual (2024)" },
-            { w: 20, ids: [33], text: "Set of icons designed for TIPS (Technoscientific Issues in the Public Sphere) (2024)" },
-            { w: 30, ids: [34], text: "Set up for a radio spugna episode live (2024)" },
-            { w: 35, ids: [35], text: "Diagrammatic visualization of radio spugna’s principles (2023)" },
-            { w: 28, ids: [36, 37, 38, 39, 40, 41, 42, 43, 44], text: "Spreads from AG Fronzoni Il progetto tra bianco e nero (2024)" },
-            { w: 18, ids: [45], text: "Future Steps socks concept (2024) (with Matter Of)" },
-            { w: 25, ids: [46], text: "AG Fronzoni Il progetto tra il bianco e il nero book cover (2024)" },
-            { w: 30, ids: [47], text: "Frame from Fire of Love for Volcanoes Volcanoes Volcanoes publication (2024)" },
-            { w: 35, ids: [48, 49, 50, 51, 52, 53, 54, 55], text: "Editorial design for Pratiche di posizionamento, published by Corraini Edizioni (2024)" },
-            { w: 35, ids: [56], text: "Yana and Thom Oab listening session for radio spugna (2024)" },
-            { w: 15, ids: [57], text: "Unused design for the Gewoelbe club identity (2025) (with Matter Of)" },
-            { w: 25, ids: [58], text: "(2023)" },
-            { w: 25, ids: [59], text: "(2024)" },
-            { w: 30, ids: [60, 61, 62], text: "radio spugna book–manual (2024)" },
-            { w: 25, ids: [63], text: "radio spugna poster (2024)" },
-            { w: 25, ids: [64, 65], text: "Unused design for the Motion Portals (2025)" },
-            { w: 30, ids: [66], text: "Poster design for Simon Herkner’s exhibition (2024)" },
-            { w: 25, ids: [67], text: "Visual research for Knots Knots Knots (2024)" },
-            { w: 30, ids: [68], text: "Flyer for radio spugna workshop at ISIA Urbino, 2025" },
-            { w: 30, ids: [69, 70, 71, 72, 73, 74, 75], text: "Volcanoes Volcanoes Volcanoes - Time chart (2024)" },
-            { w: 25, ids: [77], text: "Typography system for Gewoelbe club identity (2025)" },
-            { w: 40, ids: [78], text: "Noa setting up radio spugna foldable table (2024)" },
-            { w: 15, ids: [79], text: "(2025)" },
-            { w: 35, ids: [80, 81], text: "Pratiche di Posizionamento exhibition at Villa Romana, Florence (2024)" },
-            { w: 25, ids: [82], text: "Slavs and Tatars exhibition communication (2025)" },
-            { w: 35, ids: [83], text: "partita emot.iva t-shirt in collaboration with Noemi Vola (2024)" },
-            { w: 25, ids: [84], text: "Unused proposals for TIPS identity (2025)" },
-            { w: 22, ids: [85, 86, 87, 88, 89, 90, 91, 92], text: "Specimen for Metamorfosi variable typeface (2023)" },
-            { w: 20, ids: [93], text: "WIP Summer After School residency (2025)" },
-            { w: 25, ids: [94], text: "Rumore space in Urbino (2024)" },
-            { w: 30, ids: [95, 96], text: "Flyer for KunstlerHaus Stuttgart Open House (2024)" },
-            { w: 25, ids: [97, 98, 99], text: "Posters designed for aradia festival (2023)" },
-            { w: 40, ids: [100], text: "Diagram for residency caught between a rock and a hard place (2025)" },
-            { w: 20, ids: [101], text: "Frame from Fire of Love (2024)" },
-            { w: 25, ids: [102, 103], text: "Typography for Gewoelbe club identity (2025)" },
-            { w: 30, ids: [104], text: "Stationary for aradia’s identity (2024)" },
-            { w: 35, ids: [105, 106], text: "radio spugna t-shirts (2024) (photos by Noemi Vola)" },
-            { w: 25, ids: [109], text: "(2024)" },
-            { w: 30, ids: [110], text: "Poster for Simon Herkner’s exhibition (2024)" },
-            { w: 30, ids: [111, 112, 113, 114, 115, 116, 117, 118], text: "Editorial design for Capsia, by Giulia Peraro (2024)" },
-            { w: 25, ids: [119], text: "(2025)" },
-            { w: 35, ids: [120], text: "radio spugna table set up (2025)" },
-            { w: 30, ids: [121, 122], text: "Knots Knots Knots book (2024)" },
-            { w: 30, ids: [123], text: "Future Steps socks concept (2024)" },
-            { w: 30, ids: [124], text: "radio spugna’s first equipment (2024)" },
-            { w: 35, ids: [125], text: "Gewoelbe club identity in Cologne (2025)" },
-            { w: 25, ids: [126], text: "Milano Infetta title design (2025)" },
-            { w: 40, ids: [127], text: "Animation for a Goethe University lecture (2025)" },
-            { w: 25, ids: [128], text: "(2024)" },
-            { w: 30, ids: [129, 130, 131, 132], text: "What’s the opposite of precarity? (2025)" },
-            { w: 25, ids: [133], text: "Patrick Lacey class (2024)" },
-            { w: 35, ids: [134], text: "Aradia festival t-shirt (2023)" },
-            { w: 40, ids: [135], text: "radio spugna call to action poster (2024)" }
-        ];
-
-        const totalImages = 135;
-        let usedIds = new Set();
-        config.forEach(c => c.ids.forEach(id => usedIds.add(id)));
-
-        // Genera config per ID mancanti (se presenti)
-        for (let i = 1; i <= totalImages; i++) {
-            if (usedIds.has(i)) continue;
-            config.push({ w: 25, ids: [i], text: "Agnese Pozzobon, Project " + i });
-        }
-
-        // Render
-        config.sort((a, b) => a.ids[0] - b.ids[0]).forEach(item => {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'item-wrapper';
-            wrapper.style.width = item.w + 'vw';
-
-            item.ids.forEach((id, index) => {
-                const img = document.createElement('img');
-                img.src = `img/AgnesePozzobon_${id}.webp`;
-                img.loading = "lazy";
-                
-                img.addEventListener('click', () => {
-                    wrapper.classList.toggle('active');
-                });
-
-                wrapper.appendChild(img);
-
-                if (index === 0) {
-                    const cap = document.createElement('div');
-                    cap.className = 'caption';
-                    cap.innerText = item.text;
-                    wrapper.appendChild(cap);
-                }
-            });
-
-            gallery.appendChild(wrapper);
-        });
-
-        // Scroll Logic
-        const container = document.getElementById('gallery-container');
-        window.addEventListener("wheel", (evt) => {
-            const activeStack = evt.target.closest('.item-wrapper');
-            // Se siamo sopra una colonna che può scrollare, lasciamo lo scroll verticale nativo
-            if (activeStack && activeStack.scrollHeight > activeStack.clientHeight) {
-                return; 
-            }
-            // Altrimenti scroll orizzontale
-            container.scrollLeft += evt.deltaY;
-        }, { passive: true });
-    </script>
 </body>
 </html>
