@@ -17,7 +17,7 @@
         -webkit-font-smoothing: antialiased;
     }
 
-    /* --- MOBILE FIRST (Telefono) --- */
+    /* --- MOBILE FIRST --- */
     body { overflow-y: auto; overflow-x: hidden; }
 
     .fixed-ui {
@@ -29,7 +29,7 @@
         gap: 8px;
         padding: 0 20px;
         z-index: 100;
-        pointer-events: none; /* La UI non blocca i click sotto */
+        pointer-events: none;
     }
     .nav-item { font-size: 13px; color: #000; text-align: center; pointer-events: auto; flex: 1; }
     a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; }
@@ -71,7 +71,7 @@
     }
     .item-wrapper.active .caption { display: block; }
 
-    /* --- DESKTOP (Computer) --- */
+    /* --- DESKTOP (CORRETTO) --- */
     @media (min-width: 769px) {
         body, html { height: 100%; overflow: hidden; }
 
@@ -83,21 +83,28 @@
             padding: 0 40px;
         }
         .nav-item.left { text-align: left; }
-        .nav-item.center { text-align: center; }
+        .nav-item.center { 
+            text-align: center; 
+            transform: translateX(-25%); /* Spostamento richiesto */
+        }
         .nav-item.right { text-align: right; }
 
         .horizontal-scroll {
+            position: absolute; /* Cambiato da relative */
+            top: 0; left: 0;
+            width: 100vw;
             height: 100vh;
             overflow-x: auto;
             overflow-y: hidden;
             padding-top: 0;
-            /* RIMOSSO pointer-events: none che nascondeva tutto */
-            pointer-events: auto; 
+            pointer-events: auto; /* IMPORTANTE: deve essere auto */
+            z-index: 1;
         }
         .horizontal-scroll::-webkit-scrollbar { display: none; }
 
         .gallery {
-            flex-direction: row;
+            display: flex;
+            flex-direction: row; /* Torna orizzontale */
             padding-left: 85vw;
             padding-right: 200px;
             height: 100%;
@@ -106,12 +113,13 @@
         }
 
         .item-wrapper {
-            width: auto !important;
+            width: auto !important; /* Torna a usare i w del config */
+            height: 100%;
             max-height: 100vh;
             overflow-y: auto;
             scrollbar-width: none;
+            flex-shrink: 0;
         }
-        .item-wrapper::-webkit-scrollbar { display: none; }
     }
 </style>
 </head>
