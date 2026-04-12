@@ -15,7 +15,7 @@
             overflow: hidden;
         }
 
-        /* --- DESKTOP UI --- */
+        /* --- DESKTOP UI (INVARIATA) --- */
         .fixed-ui {
             position: fixed;
             top: 50%; left: 0; width: 100%;
@@ -23,7 +23,7 @@
             display: flex;
             justify-content: space-between;
             padding: 0 40px;
-            z-index: 1; /* Sotto le immagini */
+            z-index: 1;
             pointer-events: none;
         }
         .nav-item { font-size: 13px; color: #000; flex: 1; }
@@ -33,12 +33,11 @@
         a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; position: relative; z-index: 100; pointer-events: auto; }
         a:hover { color: rgb(0, 0, 255) !important; }
 
-        /* GALLERIA DESKTOP */
         .horizontal-scroll {
             position: relative;
             width: 100vw; height: 100vh;
             overflow-x: auto; overflow-y: hidden;
-            z-index: 5; /* Sopra la UI */
+            z-index: 5;
             pointer-events: none; 
         }
         .horizontal-scroll::-webkit-scrollbar { display: none; }
@@ -76,7 +75,7 @@
         }
         .item-wrapper.active .caption { display: block; }
 
-        /* --- MOBILE VERSION --- */
+        /* --- MOBILE VERSION (AGGIORNATA) --- */
         @media (max-width: 768px) {
             body, html { overflow-y: auto; overflow-x: hidden; height: auto; }
 
@@ -86,18 +85,23 @@
                 transform: none;
                 flex-direction: column;
                 align-items: flex-start;
-                padding: 20px;
+                padding: 12px; /* Margine 12px su tutti i lati */
                 gap: 2px;
                 background: white;
                 z-index: 100;
                 pointer-events: auto;
             }
-            .nav-item { font-size: 16px; width: 100%; text-align: left !important; transform: none !important; }
+            .nav-item { 
+                font-size: 16px; 
+                width: calc(100% - 24px); /* Occupa spazio lasciando margini */
+                text-align: left !important; 
+                transform: none !important; 
+            }
             
             .horizontal-scroll {
                 height: auto;
                 overflow: visible;
-                padding-top: 120px;
+                padding-top: 130px;
                 pointer-events: auto;
                 z-index: 10;
             }
@@ -107,7 +111,7 @@
                 padding: 0;
                 gap: 60px;
                 height: auto;
-                align-items: center;
+                align-items: flex-start; /* Allineamento a sinistra */
             }
 
             .item-wrapper {
@@ -118,24 +122,31 @@
                 overflow-y: hidden;
                 scroll-snap-type: x mandatory;
                 gap: 15px;
-                padding: 0 20px 20px 20px;
+                padding: 0 12px 20px 12px; /* 12px da sinistra e destra */
                 align-items: flex-start;
+                position: relative;
             }
             
             .item-wrapper img {
-                /* Mantiene la proporzione basata sul valore 'w' del config */
-                width: calc(var(--mobile-w) * 1.5); 
+                width: calc(var(--mobile-w) * 1.8); /* Leggermente più grandi per mobile */
                 max-width: 85vw;
                 height: auto;
                 flex-shrink: 0;
-                scroll-snap-align: center;
+                scroll-snap-align: start;
             }
 
+            /* Didascalia mobile: nascosta di default, appare al click */
             .caption {
-                position: relative;
-                display: block; /* Sempre visibile su mobile se preferisci, o gestito da click */
-                margin-top: 10px;
-                font-size: 11px;
+                display: none; 
+                position: absolute;
+                left: 12px;
+                bottom: -5px;
+                width: calc(100% - 24px); /* Occupa spazio tra i margini di 12px */
+                font-size: 12px;
+                background: white;
+            }
+            .item-wrapper.active .caption { 
+                display: block; 
             }
         }
     </style>
