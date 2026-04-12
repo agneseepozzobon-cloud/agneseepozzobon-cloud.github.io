@@ -7,127 +7,134 @@
     <link rel="icon" href="img/favicon_black.webp" media="(prefers-color-scheme: light)">
     <link rel="icon" href="img/favicon_white.webp" media="(prefers-color-scheme: dark)">
     
-  <style>
+<style>
+    /* --- IL TUO CODICE ORIGINALE (DESKTOP) --- */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    
     body, html {
-        width: 100%;
-        font-family: "Times New Roman", Times, serif;
+        width: 100%; height: 100%;
         background-color: #ffffff;
+        font-family: "Times New Roman", Times, serif;
+        overflow: hidden;
         -webkit-font-smoothing: antialiased;
     }
 
-    /* --- MOBILE FIRST (Telefono) --- */
-    body { overflow-y: auto; overflow-x: hidden; }
-
     .fixed-ui {
         position: fixed;
-        top: 20px; left: 0; width: 100%;
+        top: 50%; left: 0; width: 100%;
+        transform: translateY(-50%);
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        padding: 0 20px;
-        z-index: 100;
-        pointer-events: none;
+        justify-content: space-between;
+        padding: 0 40px;
+        z-index: 10; /* Aumentato per stare sopra */
     }
-    .nav-item { font-size: 13px; color: #000; text-align: center; pointer-events: auto; flex: 1; }
-    a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; }
+    .nav-item { font-size: 13px; color: #000; flex: 1; }
+    .nav-item.center { 
+        text-align: center; 
+        transform: translateX(-25%); /* SPOSTAMENTO RICHIESTO */
+    }
+    .nav-item.right { text-align: right; }
+    
+    a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; position: relative; z-index: 100; }
     a:hover { color: rgb(0, 0, 255) !important; }
 
     .horizontal-scroll {
-        width: 100%;
-        padding-top: 140px; 
+        position: relative;
+        width: 100vw; height: 100vh;
+        overflow-x: auto; overflow-y: hidden;
         z-index: 5;
+        pointer-events: none; 
     }
+    .horizontal-scroll::-webkit-scrollbar { display: none; }
 
     .gallery {
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 40px;
-        width: 100%;
-        padding-bottom: 50px;
+        padding-left: 85vw; 
+        padding-right: 200px;
+        gap: 15px; 
+        align-items: flex-start;
+        height: 100%;
     }
 
-    /* Su Mobile sono larghe */
     .item-wrapper {
-        width: 90vw; 
+        flex-shrink: 0;
         display: flex;
         flex-direction: column;
         gap: 10px;
         pointer-events: auto;
+        max-height: 100vh;
+        overflow-y: auto;
+        scrollbar-width: none;
     }
-
-    .item-wrapper img { width: 100%; height: auto; display: block; cursor: pointer; }
+    .item-wrapper::-webkit-scrollbar { display: none; }
+    .item-wrapper img { display: block; width: 100%; height: auto; cursor: pointer; }
 
     .caption {
         display: none; 
         font-size: 12px;
         line-height: 1.2;
-        margin-top: -10px;
-        background: white;
-        padding: 5px 0;
+        background-color: #ffffff;
+        padding: 4px 0;
         width: 100%;
+        word-wrap: break-word;
+        margin-top: -10px; 
     }
     .item-wrapper.active .caption { display: block; }
 
-    /* --- DESKTOP (Computer) --- */
-    @media (min-width: 769px) {
-        body, html { height: 100%; overflow: hidden; }
-
+    /* --- AGGIUNTA VERSIONE MOBILE --- */
+    @media (max-width: 768px) {
+        body, html { overflow-y: auto; overflow-x: hidden; height: auto; }
+        
         .fixed-ui {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            flex-direction: row;
-            justify-content: space-between;
-            padding: 0 40px;
-            z-index: 100;
-        }
-        .nav-item.left { text-align: left; }
-        .nav-item.center { 
-            text-align: center; 
-            transform: translateX(-25%); 
-        }
-        .nav-item.right { text-align: right; }
-
-        .horizontal-scroll {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw;
-            height: 100vh;
-            overflow-x: auto;
-            overflow-y: hidden;
-            z-index: 1;
-        }
-
-        .gallery {
-            flex-direction: row;
-            padding-left: 85vw;
-            padding-right: 200px;
-            height: 100vh;
-            align-items: flex-start;
+            top: 20px; transform: none;
+            flex-direction: column;
             gap: 10px;
+            padding: 0 20px;
         }
-
-        .item-wrapper {
-            /* IMPORTANTE: resettiamo il width per far comandare il JS */
-            width: auto !important; 
-            min-width: 100px; /* Evita che spariscano */
-            flex-shrink: 0;
-            max-height: 100vh;
-            overflow-y: auto;
-            scrollbar-width: none;
+        .nav-item.center { transform: none; } /* Reset spostamento su mobile */
+        
+        .horizontal-scroll {
+            height: auto; overflow: visible;
+            padding-top: 150px; /* Spazio per la UI in alto */
         }
         
-        /* Qui diciamo che l'immagine deve stare dentro la larghezza decisa dal wrapper */
-        .item-wrapper img {
-            width: 100%; 
-            height: auto;
+        .gallery {
+            flex-direction: column;
+            align-items: center;
+            padding-left: 0; padding-right: 0;
+            gap: 50px;
+        }
+        
+        .item-wrapper {
+            width: 90vw !important; /* Larghezza mobile centrata */
+            max-height: none;
+            overflow: visible;
         }
     }
 </style>
+
+<script>
+    // ... mantieni tutta la parte del rendering config ...
+
+    // MODIFICA SOLO QUESTA PARTE FINALE PER LO SCROLL
+    const container = document.getElementById('gallery-container');
+    window.addEventListener("wheel", (evt) => {
+        // Applica lo scroll orizzontale solo se siamo su Desktop
+        if (window.innerWidth > 768) {
+            const activeStack = evt.target.closest('.item-wrapper');
+            if (activeStack && activeStack.scrollHeight > activeStack.clientHeight) {
+                const atBottom = activeStack.scrollTop + activeStack.clientHeight >= activeStack.scrollHeight - 1;
+                const atTop = activeStack.scrollTop <= 0;
+                if ((evt.deltaY > 0 && atBottom) || (evt.deltaY < 0 && atTop)) {
+                    container.scrollLeft += evt.deltaY;
+                } else {
+                    return; 
+                }
+            } else {
+                container.scrollLeft += evt.deltaY;
+            }
+        }
+    }, { passive: false });
+</script>
 </head>
 <body>
 
