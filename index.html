@@ -75,20 +75,19 @@
         }
         .item-wrapper.active .caption { display: block; }
 
-        /* --- MOBILE VERSION (UPDATED MARGINS TO 15PX) --- */
+        /* --- MOBILE VERSION --- */
         @media (max-width: 768px) {
-            body, html { overflow-y: auto; overflow-x: hidden; height: auto; }
+            body, html { overflow-y: auto; overflow-x: hidden; height: auto; display: flex; flex-direction: column; }
 
+            /* Header UI SOTTO le immagini */
             .fixed-ui {
-                position: fixed;
-                top: 0; left: 0;
+                position: relative;
+                top: auto; left: auto;
                 transform: none;
                 flex-direction: column;
-                align-items: flex-start;
-                padding: 15px; /* Margine 15px ovunque */
+                padding: 15px;
                 gap: 4px;
-                background: #fff;
-                z-index: 100;
+                order: 2; /* Lo sposta dopo la gallery */
                 pointer-events: auto;
             }
             .nav-item { 
@@ -101,15 +100,16 @@
             .horizontal-scroll {
                 height: auto;
                 overflow: visible;
-                padding-top: 110px; 
+                padding-top: 15px; 
                 pointer-events: auto;
                 z-index: 10;
+                order: 1; /* Gallery prima dell'header */
             }
 
             .gallery {
                 flex-direction: column;
                 padding: 0;
-                gap: 15px; /* Gap verticale tra progetti */
+                gap: 15px; 
                 height: auto;
                 align-items: center; 
             }
@@ -121,11 +121,11 @@
                 overflow-y: hidden;
                 scroll-snap-type: x mandatory;
                 gap: 15px;
-                padding: 0 15px; /* Margini laterali contenitore */
-                align-items: flex-start;
+                padding: 0 15px;
                 scrollbar-width: none;
                 display: flex;
-                position: relative;
+                /* Centratura orizzontale della pila */
+                justify-content: center; 
             }
             .item-wrapper::-webkit-scrollbar { display: none; }
             
@@ -138,20 +138,20 @@
                 display: block;
             }
 
-            /* Didascalia attaccata con margini 15px */
             .caption {
                 display: none; 
-                width: calc(100% - 30px); /* Margine 15px sx e 15px dx */
+                width: calc(100% - 30px);
                 margin: 0 15px;
                 padding: 5px 0 10px 0;
                 font-size: 12px;
                 line-height: 1.2;
                 background: white;
+                text-align: left;
             }
             
             .item-wrapper.active {
                 flex-wrap: wrap;
-                justify-content: flex-start;
+                justify-content: center;
             }
             
             .item-wrapper.active .caption { 
@@ -164,16 +164,16 @@
 </head>
 <body>
 
+    <main class="horizontal-scroll" id="gallery-container">
+        <div class="gallery" id="gallery"></div>
+    </main>
+
     <div class="fixed-ui">
         <div class="nav-item left">
             <a href="about.html">Agnese Pozzobon</a> &nbsp;&nbsp;&nbsp; Recently Collected
         </div>
         <div class="nav-item right">Editorial Design, Identities, Visual Design, Publishing</div>
     </div>
-
-    <main class="horizontal-scroll" id="gallery-container">
-        <div class="gallery" id="gallery"></div>
-    </main>
 
     <script>
         const gallery = document.getElementById('gallery');
@@ -232,36 +232,37 @@
             { w: 25, ids: [94], text: "Rumore space during radio spugna event (2024)" },
             { w: 30, ids: [95, 96], text: "Flyer for KunstlerHaus Stuttgart (2024)" },
             { w: 25, ids: [97, 98, 99], text: "Posters for aradia festival (2023)" },
-            { w: 30, ids: [100], text: "Diagram for caught between a rock and a hard place (2025)" },
-            { w: 20, ids: [101], text: "Frame from The Fire of Love (2024)" },
-            { w: 25, ids: [102, 103], text: "Typography for Gewoelbe (2025)" },
-            { w: 30, ids: [104], text: "Stationary for aradia (2024)" },
-            { w: 35, ids: [105, 106], text: "radio spugna's t-shirts (2024)" },
-            { w: 25, ids: [109], text: "(2024)" },
-            { w: 30, ids: [110], text: "Hanged poster (2024)" },
-            { w: 30, ids: [111, 112, 113, 114, 115, 116, 117, 118], text: "Editorial design for Capsia (2024)" },
-            { w: 25, ids: [119], text: "(2025)" },
-            { w: 35, ids: [120], text: "radio spugna table set up (2025)" },
-            { w: 30, ids: [121, 122], text: "Photos of Knots Knots Knots book (2024)" },
-            { w: 30, ids: [123], text: "Future Steps socks concept (2024)" },
-            { w: 30, ids: [124], text: "radio spugna’s first equipment (2024)" },
-            { w: 35, ids: [125], text: "Gewoelbe club identity (2025)" },
-            { w: 25, ids: [126], text: "Milano Infetta title design (2025)" },
-            { w: 40, ids: [127], text: "Animation for Goethe University (2025)" },
-            { w: 25, ids: [128], text: "(2024)" },
-            { w: 30, ids: [129, 130, 131, 132], text: "What’s the opposite of precarity? (2025)" },
-            { w: 25, ids: [133], text: "Graphic design processes (2024)" },
-            { w: 29, ids: [134], text: "Back of the t-shirt aradia (2023)" },
-            { w: 30, ids: [135], text: "radio spugna poster (2024)" }
+            { w: 30, i: [100], text: "Diagram for caught between a rock and a hard place (2025)" },
+            { w: 20, i: [101], text: "Frame from The Fire of Love (2024)" },
+            { w: 25, i: [102, 103], text: "Typography for Gewoelbe (2025)" },
+            { w: 30, i: [104], text: "Stationary for aradia (2024)" },
+            { w: 35, i: [105, 106], text: "radio spugna's t-shirts (2024)" },
+            { w: 25, i: [109], text: "(2024)" },
+            { w: 30, i: [110], text: "Hanged poster (2024)" },
+            { w: 30, i: [111, 112, 113, 114, 115, 116, 117, 118], text: "Editorial design for Capsia (2024)" },
+            { w: 25, i: [119], text: "(2025)" },
+            { w: 35, i: [120], text: "radio spugna table set up (2025)" },
+            { w: 30, i: [121, 122], text: "Photos of Knots Knots Knots book (2024)" },
+            { w: 30, i: [123], text: "Future Steps socks concept (2024)" },
+            { w: 30, i: [124], text: "radio spugna’s first equipment (2024)" },
+            { w: 35, i: [125], text: "Gewoelbe club identity (2025)" },
+            { w: 25, i: [126], text: "Milano Infetta title design (2025)" },
+            { w: 40, i: [127], text: "Animation for Goethe University (2025)" },
+            { w: 25, i: [128], text: "(2024)" },
+            { w: 30, i: [129, 130, 131, 132], text: "What’s the opposite of precarity? (2025)" },
+            { w: 25, i: [133], text: "Graphic design processes (2024)" },
+            { w: 29, i: [134], text: "Back of the t-shirt aradia (2023)" },
+            { w: 30, i: [135], text: "radio spugna poster (2024)" }
         ];
 
-        config.sort((a, b) => a.ids[0] - b.ids[0]).forEach(item => {
+        config.sort((a, b) => (a.ids ? a.ids[0] : a.i[0]) - (b.ids ? b.ids[0] : b.i[0])).forEach(item => {
             const wrapper = document.createElement('div');
             wrapper.className = 'item-wrapper';
             wrapper.style.width = item.w + 'vw';
             wrapper.style.setProperty('--mobile-w', item.w + 'vw');
 
-            item.ids.forEach((id, index) => {
+            const ids = item.ids || item.i;
+            ids.forEach((id, index) => {
                 const img = document.createElement('img');
                 img.src = `img/AgnesePozzobon_${id}.webp`;
                 img.loading = "lazy";
