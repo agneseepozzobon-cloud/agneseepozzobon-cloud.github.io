@@ -7,7 +7,7 @@
     <link rel="icon" href="img/favicon_black.webp" media="(prefers-color-scheme: light)">
     <link rel="icon" href="img/favicon_white.webp" media="(prefers-color-scheme: dark)">
     
-   <style>
+  <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body, html {
@@ -45,16 +45,17 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 40px; /* Distanza tra progetti su mobile */
+        gap: 40px;
         width: 100%;
         padding-bottom: 50px;
     }
 
+    /* Su Mobile sono larghe */
     .item-wrapper {
-        width: 90vw !important;
+        width: 90vw; 
         display: flex;
         flex-direction: column;
-        gap: 10px; /* Distanza tra immagini nella pila */
+        gap: 10px;
         pointer-events: auto;
     }
 
@@ -98,35 +99,33 @@
             height: 100vh;
             overflow-x: auto;
             overflow-y: hidden;
-            padding-top: 0;
-            pointer-events: auto;
             z-index: 1;
         }
-        .horizontal-scroll::-webkit-scrollbar { display: none; }
 
         .gallery {
-            display: flex;
             flex-direction: row;
-            padding-left: 85vw; /* Partenza ritardata */
+            padding-left: 85vw;
             padding-right: 200px;
             height: 100vh;
-            align-items: flex-start; /* Allinea tutto allo 0 superiore */
-            gap: 10px; /* Distanza orizzontale tra le pile */
+            align-items: flex-start;
+            gap: 10px;
         }
 
         .item-wrapper {
-            /* Riprende le dimensioni w del config JS */
+            /* IMPORTANTE: resettiamo il width per far comandare il JS */
             width: auto !important; 
+            min-width: 100px; /* Evita che spariscano */
             flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 10px; /* Distanza verticale tra immagini nella pila */
             max-height: 100vh;
             overflow-y: auto;
             scrollbar-width: none;
-            padding-top: 0; /* Forza il margine superiore a 0 */
         }
-        .item-wrapper::-webkit-scrollbar { display: none; }
+        
+        /* Qui diciamo che l'immagine deve stare dentro la larghezza decisa dal wrapper */
+        .item-wrapper img {
+            width: 100%; 
+            height: auto;
+        }
     }
 </style>
 </head>
