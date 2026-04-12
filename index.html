@@ -4,18 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agnese Pozzobon</title>
+    <link rel="icon" href="img/favicon_black.webp" media="(prefers-color-scheme: light)">
+    <link rel="icon" href="img/favicon_white.webp" media="(prefers-color-scheme: dark)">
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        /* --- STILI DESKTOP (Il tuo codice originale intatto) --- */
         body, html {
             width: 100%; height: 100%;
             background-color: #ffffff;
             font-family: "Times New Roman", Times, serif;
-            overflow: hidden;
             -webkit-font-smoothing: antialiased;
+            overflow: hidden;
         }
 
+        /* --- UI FISSA (Livello Inferiore) --- */
         .fixed-ui {
             position: fixed;
             top: 50%; left: 0; width: 100%;
@@ -23,28 +26,26 @@
             display: flex;
             justify-content: space-between;
             padding: 0 40px;
-            z-index: 10;
-        }
-
-        .nav-item { font-size: 13px; color: #000; flex: 1; pointer-events: none; }
-        
-        /* Spostamento testo centrale richiesto */
-        .nav-item.center { 
-            text-align: center; 
-            transform: translateX(-25%); 
+            z-index: 1; /* Sotto le immagini */
             pointer-events: none;
         }
-        
+
+        .nav-item { font-size: 13px; color: #000; flex: 1; }
+        .nav-item.center { 
+            text-align: center; 
+            transform: translateX(-25%); /* Spostamento richiesto */
+        }
         .nav-item.right { text-align: right; }
         
         a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; position: relative; z-index: 100; pointer-events: auto; }
         a:hover { color: rgb(0, 0, 255) !important; }
 
+        /* --- GALLERIA (Livello Superiore) --- */
         .horizontal-scroll {
             position: relative;
             width: 100vw; height: 100vh;
             overflow-x: auto; overflow-y: hidden;
-            z-index: 5;
+            z-index: 5; /* Sopra la UI fissa */
             pointer-events: none; 
         }
         .horizontal-scroll::-webkit-scrollbar { display: none; }
@@ -58,6 +59,7 @@
             height: 100%;
         }
 
+        /* --- COLONNA / PILA --- */
         .item-wrapper {
             flex-shrink: 0;
             display: flex;
@@ -77,6 +79,7 @@
             cursor: pointer;
         }
 
+        /* --- DIDASCALIA --- */
         .caption {
             display: none; 
             font-size: 12px;
@@ -89,25 +92,27 @@
         }
         .item-wrapper.active .caption { display: block; }
 
-        /* --- MOBILE OVERRIDE (Si attiva solo sotto i 768px) --- */
+        /* --- MOBILE OVERRIDE --- */
         @media (max-width: 768px) {
             body, html { overflow-y: auto; overflow-x: hidden; height: auto; }
             
             .fixed-ui {
-                top: 20px; transform: none;
+                position: fixed;
+                top: 20px; left: 0; transform: none;
                 flex-direction: column;
                 align-items: center;
                 gap: 8px;
                 padding: 0 20px;
+                z-index: 1; /* Sempre sotto */
             }
-            
             .nav-item.center { transform: none; text-align: center; }
 
             .horizontal-scroll {
                 height: auto;
                 overflow: visible;
-                padding-top: 140px;
-                pointer-events: auto; /* Necessario per lo scroll touch */
+                padding-top: 150px;
+                pointer-events: auto;
+                z-index: 10; /* Sopra tutto */
             }
 
             .gallery {
@@ -141,7 +146,6 @@
     <script>
         const gallery = document.getElementById('gallery');
 
-        // Configurazione immagini (w = larghezza in vw)
         const config = [
             { w: 35, ids: [1], text: "Visual research for the book Knots Knots Knots (2024) (with Ludovico Amenta, Matteo Beda)" },
             { w: 25, ids: [2], text: "Type explorations with clay for aradia’s identity, an imaginary folk festival (2023) (with Roberta Antinolfi, Corinne Carlin, Martina Valente)" },
@@ -219,7 +223,6 @@
             { w: 40, ids: [135], text: "radio spugna call to action poster (2024)" }
         ];
 
-        // Rendering
         config.sort((a, b) => a.ids[0] - b.ids[0]).forEach(item => {
             const wrapper = document.createElement('div');
             wrapper.className = 'item-wrapper';
@@ -229,11 +232,7 @@
                 const img = document.createElement('img');
                 img.src = `img/AgnesePozzobon_${id}.webp`;
                 img.loading = "lazy";
-                
-                img.addEventListener('click', () => {
-                    wrapper.classList.toggle('active');
-                });
-
+                img.addEventListener('click', () => wrapper.classList.toggle('active'));
                 wrapper.appendChild(img);
 
                 if (index === 0) {
@@ -243,11 +242,9 @@
                     wrapper.appendChild(cap);
                 }
             });
-
             gallery.appendChild(wrapper);
         });
 
-        // Gestione Scroll
         const container = document.getElementById('gallery-container');
         window.addEventListener("wheel", (evt) => {
             if (window.innerWidth > 768) {
