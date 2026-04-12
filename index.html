@@ -91,19 +91,108 @@
             display: block; 
         }
 
-    </style>
-</head>
-<body>
+    <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body, html {
+        width: 100%;
+        font-family: "Times New Roman", Times, serif;
+        background-color: #ffffff;
+        -webkit-font-smoothing: antialiased;
+    }
 
-    <div class="fixed-ui">
-        <div class="nav-item left"><a href="about.html">Agnese Pozzobon</a></div>
-        <div class="nav-item center">Recently Collected</div>
-        <div class="nav-item right">Editorial Design, Identities, Visual Design, Publishing</div>
-    </div>
+    /* --- MOBILE FIRST (Regole per il telefono) --- */
+    
+    body { overflow-y: auto; overflow-x: hidden; }
 
-    <main class="horizontal-scroll" id="gallery-container">
-        <div class="gallery" id="gallery"></div>
-    </main>
+    .fixed-ui {
+        position: fixed;
+        top: 20px; left: 0; width: 100%;
+        display: flex;
+        flex-direction: column; /* Testi uno sopra l'altro */
+        align-items: center;
+        gap: 8px;
+        padding: 0 20px;
+        z-index: 100;
+        pointer-events: none;
+    }
+    .nav-item { font-size: 13px; color: #000; text-align: center; pointer-events: auto; }
+    
+    a { text-decoration: none; color: #000; }
+
+    .horizontal-scroll {
+        width: 100%;
+        padding-top: 140px; /* Spazio per non coprire le immagini con i testi in alto */
+    }
+
+    .gallery {
+        display: flex;
+        flex-direction: column; /* Immagini in verticale */
+        align-items: center;
+        gap: 50px; /* Spazio tra i vari progetti */
+        width: 100%;
+        padding-bottom: 50px;
+    }
+
+    .item-wrapper {
+        width: 90vw !important; /* Quasi tutta la larghezza dello schermo */
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .item-wrapper img { width: 100%; height: auto; display: block; }
+
+    .caption {
+        display: none; 
+        font-size: 12px;
+        margin-top: -10px;
+        background: white;
+        padding: 5px 0;
+    }
+    .item-wrapper.active .caption { display: block; }
+
+    /* --- DESKTOP (Regole per il computer) --- */
+    /* Queste regole si attivano solo se lo schermo è più largo di 768px */
+    @media (min-width: 769px) {
+        body, html { height: 100%; overflow: hidden; }
+
+        .fixed-ui {
+            top: 50%;
+            transform: translateY(-50%);
+            flex-direction: row; /* Torna in linea orizzontale */
+            justify-content: space-between;
+            padding: 0 40px;
+        }
+        .nav-item.left { text-align: left; }
+        .nav-item.center { text-align: center; }
+        .nav-item.right { text-align: right; }
+
+        .horizontal-scroll {
+            height: 100vh;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding-top: 0;
+        }
+
+        .gallery {
+            flex-direction: row; /* Torna a scorrere in orizzontale */
+            padding-left: 85vw;
+            padding-right: 200px;
+            height: 100%;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .item-wrapper {
+            width: auto !important; /* Riprende i 'w' definiti nel JS */
+            max-height: 100vh;
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+        .item-wrapper::-webkit-scrollbar { display: none; }
+    }
+</style>
 
     <script>
         const gallery = document.getElementById('gallery');
@@ -219,24 +308,28 @@
             gallery.appendChild(wrapper);
         });
 
-        // Logica Scroll Orizzontale / Verticale
-        const container = document.getElementById('gallery-container');
-        window.addEventListener("wheel", (evt) => {
-            const activeStack = evt.target.closest('.item-wrapper');
-            
-            if (activeStack && activeStack.scrollHeight > activeStack.clientHeight) {
-                const atBottom = activeStack.scrollTop + activeStack.clientHeight >= activeStack.scrollHeight - 1;
-                const atTop = activeStack.scrollTop <= 0;
+       const container = document.getElementById('gallery-container');
 
-                if ((evt.deltaY > 0 && atBottom) || (evt.deltaY < 0 && atTop)) {
-                    container.scrollLeft += evt.deltaY;
-                } else {
-                    return; 
-                }
-            } else {
+window.addEventListener("wheel", (evt) => {
+    // Applica lo scroll "magico" solo se siamo su Desktop
+    if (window.innerWidth > 768) {
+        const activeStack = evt.target.closest('.item-wrapper');
+        
+        if (activeStack && activeStack.scrollHeight > activeStack.clientHeight) {
+            const atBottom = activeStack.scrollTop + activeStack.clientHeight >= activeStack.scrollHeight - 1;
+            const atTop = activeStack.scrollTop <= 0;
+
+            if ((evt.deltaY > 0 && atBottom) || (evt.deltaY < 0 && atTop)) {
                 container.scrollLeft += evt.deltaY;
+            } else {
+                return; 
             }
-        }, { passive: false });
+        } else {
+            container.scrollLeft += evt.deltaY;
+        }
+    }
+    // Se siamo su Mobile (sotto i 768px), il browser scorre normalmente in verticale
+}, { passive: false });
     </script>
 </body>
 </html>
