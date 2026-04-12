@@ -4,137 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agnese Pozzobon</title>
-    <link rel="icon" href="img/favicon_black.webp" media="(prefers-color-scheme: light)">
-    <link rel="icon" href="img/favicon_white.webp" media="(prefers-color-scheme: dark)">
-    
-<style>
-    /* --- IL TUO CODICE ORIGINALE (DESKTOP) --- */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body, html {
-        width: 100%; height: 100%;
-        background-color: #ffffff;
-        font-family: "Times New Roman", Times, serif;
-        overflow: hidden;
-        -webkit-font-smoothing: antialiased;
-    }
-
-    .fixed-ui {
-        position: fixed;
-        top: 50%; left: 0; width: 100%;
-        transform: translateY(-50%);
-        display: flex;
-        justify-content: space-between;
-        padding: 0 40px;
-        z-index: 10; /* Aumentato per stare sopra */
-    }
-    .nav-item { font-size: 13px; color: #000; flex: 1; }
-    .nav-item.center { 
-        text-align: center; 
-        transform: translateX(-25%); /* SPOSTAMENTO RICHIESTO */
-    }
-    .nav-item.right { text-align: right; }
-    
-    a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; position: relative; z-index: 100; }
-    a:hover { color: rgb(0, 0, 255) !important; }
-
-    .horizontal-scroll {
-        position: relative;
-        width: 100vw; height: 100vh;
-        overflow-x: auto; overflow-y: hidden;
-        z-index: 5;
-        pointer-events: none; 
-    }
-    .horizontal-scroll::-webkit-scrollbar { display: none; }
-
-    .gallery {
-        display: flex;
-        padding-left: 85vw; 
-        padding-right: 200px;
-        gap: 15px; 
-        align-items: flex-start;
-        height: 100%;
-    }
-
-    .item-wrapper {
-        flex-shrink: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        pointer-events: auto;
-        max-height: 100vh;
-        overflow-y: auto;
-        scrollbar-width: none;
-    }
-    .item-wrapper::-webkit-scrollbar { display: none; }
-    .item-wrapper img { display: block; width: 100%; height: auto; cursor: pointer; }
-
-    .caption {
-        display: none; 
-        font-size: 12px;
-        line-height: 1.2;
-        background-color: #ffffff;
-        padding: 4px 0;
-        width: 100%;
-        word-wrap: break-word;
-        margin-top: -10px; 
-    }
-    .item-wrapper.active .caption { display: block; }
-
-    /* --- AGGIUNTA VERSIONE MOBILE --- */
-    @media (max-width: 768px) {
-        body, html { overflow-y: auto; overflow-x: hidden; height: auto; }
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
+        /* --- STILI DESKTOP (Il tuo codice originale intatto) --- */
+        body, html {
+            width: 100%; height: 100%;
+            background-color: #ffffff;
+            font-family: "Times New Roman", Times, serif;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
         .fixed-ui {
-            top: 20px; transform: none;
+            position: fixed;
+            top: 50%; left: 0; width: 100%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 10;
+        }
+
+        .nav-item { font-size: 13px; color: #000; flex: 1; pointer-events: none; }
+        
+        /* Spostamento testo centrale richiesto */
+        .nav-item.center { 
+            text-align: center; 
+            transform: translateX(-25%); 
+            pointer-events: none;
+        }
+        
+        .nav-item.right { text-align: right; }
+        
+        a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; position: relative; z-index: 100; pointer-events: auto; }
+        a:hover { color: rgb(0, 0, 255) !important; }
+
+        .horizontal-scroll {
+            position: relative;
+            width: 100vw; height: 100vh;
+            overflow-x: auto; overflow-y: hidden;
+            z-index: 5;
+            pointer-events: none; 
+        }
+        .horizontal-scroll::-webkit-scrollbar { display: none; }
+
+        .gallery {
+            display: flex;
+            padding-left: 85vw; 
+            padding-right: 200px;
+            gap: 15px; 
+            align-items: flex-start;
+            height: 100%;
+        }
+
+        .item-wrapper {
+            flex-shrink: 0;
+            display: flex;
             flex-direction: column;
             gap: 10px;
-            padding: 0 20px;
+            pointer-events: auto;
+            max-height: 100vh;
+            overflow-y: auto;
+            scrollbar-width: none;
         }
-        .nav-item.center { transform: none; } /* Reset spostamento su mobile */
-        
-        .horizontal-scroll {
-            height: auto; overflow: visible;
-            padding-top: 150px; /* Spazio per la UI in alto */
-        }
-        
-        .gallery {
-            flex-direction: column;
-            align-items: center;
-            padding-left: 0; padding-right: 0;
-            gap: 50px;
-        }
-        
-        .item-wrapper {
-            width: 90vw !important; /* Larghezza mobile centrata */
-            max-height: none;
-            overflow: visible;
-        }
-    }
-</style>
+        .item-wrapper::-webkit-scrollbar { display: none; }
 
-<script>
-    // ... mantieni tutta la parte del rendering config ...
+        .item-wrapper img {
+            display: block;
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+        }
 
-    // MODIFICA SOLO QUESTA PARTE FINALE PER LO SCROLL
-    const container = document.getElementById('gallery-container');
-    window.addEventListener("wheel", (evt) => {
-        // Applica lo scroll orizzontale solo se siamo su Desktop
-        if (window.innerWidth > 768) {
-            const activeStack = evt.target.closest('.item-wrapper');
-            if (activeStack && activeStack.scrollHeight > activeStack.clientHeight) {
-                const atBottom = activeStack.scrollTop + activeStack.clientHeight >= activeStack.scrollHeight - 1;
-                const atTop = activeStack.scrollTop <= 0;
-                if ((evt.deltaY > 0 && atBottom) || (evt.deltaY < 0 && atTop)) {
-                    container.scrollLeft += evt.deltaY;
-                } else {
-                    return; 
-                }
-            } else {
-                container.scrollLeft += evt.deltaY;
+        .caption {
+            display: none; 
+            font-size: 12px;
+            line-height: 1.2;
+            background-color: #ffffff;
+            padding: 4px 0;
+            width: 100%;
+            word-wrap: break-word;
+            margin-top: -10px; 
+        }
+        .item-wrapper.active .caption { display: block; }
+
+        /* --- MOBILE OVERRIDE (Si attiva solo sotto i 768px) --- */
+        @media (max-width: 768px) {
+            body, html { overflow-y: auto; overflow-x: hidden; height: auto; }
+            
+            .fixed-ui {
+                top: 20px; transform: none;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+                padding: 0 20px;
+            }
+            
+            .nav-item.center { transform: none; text-align: center; }
+
+            .horizontal-scroll {
+                height: auto;
+                overflow: visible;
+                padding-top: 140px;
+                pointer-events: auto; /* Necessario per lo scroll touch */
+            }
+
+            .gallery {
+                flex-direction: column;
+                padding-left: 0; padding-right: 0;
+                align-items: center;
+                gap: 50px;
+                height: auto;
+            }
+
+            .item-wrapper {
+                width: 90vw !important;
+                max-height: none;
+                overflow: visible;
             }
         }
-    }, { passive: false });
-</script>
+    </style>
 </head>
 <body>
 
@@ -151,6 +141,7 @@
     <script>
         const gallery = document.getElementById('gallery');
 
+        // Configurazione immagini (w = larghezza in vw)
         const config = [
             { w: 35, ids: [1], text: "Visual research for the book Knots Knots Knots (2024) (with Ludovico Amenta, Matteo Beda)" },
             { w: 25, ids: [2], text: "Type explorations with clay for aradia’s identity, an imaginary folk festival (2023) (with Roberta Antinolfi, Corinne Carlin, Martina Valente)" },
@@ -163,9 +154,9 @@
             { w: 30, ids: [11, 12], text: "Posters designed for the schedule of a radio spugna event in Urbino (2024)" },
             { w: 35, ids: [13], text: "Jim Fontana Summer After School Residency (2025) (with Martina Valente)" },
             { w: 30, ids: [14], text: "Screen printing radio spugna t-shirts (2024)" },
-            { w: 25, ids: [15, 16, 17, 18, 19, 20, 21, 22], text: "radio spugna book–manual... (2024)" },
+            { w: 25, ids: [15, 16, 17, 18, 19, 20, 21, 22], text: "radio spugna book–manual containing instructions to build a foldable table and low-tech web radio setup (2024)" },
             { w: 20, ids: [23], text: "Unused design for the Gewoelbe club (2025) (with Matter Of)" },
-            { w: 30, ids: [24], text: "Hanged poster of Hyperknit (2023)" },
+            { w: 30, ids: [24], text: "Hanged poster of Hyperknit, a project around knitting as a feminist practice (2023)" },
             { w: 15, ids: [25], text: "Unused design for the Gewoelbe club (2025)" },
             { w: 20, ids: [26], text: "Back of the zine developed during Noemi Vola and Omar Cheikh workshop (2024)" },
             { w: 40, ids: [27], text: "Infographic map for the book AG Fronzoni Il progetto tra il bianco e il nero (2024)" },
@@ -180,8 +171,8 @@
             { w: 28, ids: [36, 37, 38, 39, 40, 41, 42, 43, 44], text: "Spreads from AG Fronzoni Il progetto tra bianco e nero (2024)" },
             { w: 20, ids: [45], text: "Future Steps socks concept (2024) (with Matter Of)" },
             { w: 25, ids: [46], text: "AG Fronzoni Il progetto tra il bianco e il nero book cover (2024)" },
-            { w: 15, ids: [47], text: "Frame from the documentary The Fire of Love (2024)" },
-            { w: 35, ids: [48, 49, 50, 51, 52, 53, 54, 55], text: "Editorial design for Pratiche di posizionamento (2024)" },
+            { w: 15, ids: [47], text: "Frame from the documentary The Fire of Love for Volcanoes Volcanoes Volcanoes publication (2024)" },
+            { w: 35, ids: [48, 49, 50, 51, 52, 53, 54, 55], text: "Editorial design for Pratiche di posizionamento, published by Corraini Edizioni (2024)" },
             { w: 35, ids: [56], text: "Yana and Thom Oab listening session for radio spugna (2024)" },
             { w: 15, ids: [57], text: "Unused design for the Gewoelbe club identity (2025)" },
             { w: 25, ids: [58], text: "(2023)" },
@@ -196,38 +187,39 @@
             { w: 25, ids: [77], text: "Typography system for Gewoelbe club identity (2025)" },
             { w: 40, ids: [78], text: "Noa setting up radio spugna foldable table (2024)" },
             { w: 15, ids: [79], text: "(2025)" },
-            { w: 35, ids: [80, 81], text: "Pratiche di Posizionamento exhibition (2024)" },
-            { w: 25, ids: [82], text: "Slavs and Tatars Baden–Baden (2025)" },
-            { w: 35, ids: [83], text: "partita emot.iva t-shirt (2024)" },
-            { w: 25, ids: [84], text: "TIPS project’s identity (2025)" },
-            { w: 22, ids: [85, 86, 87, 88, 89, 90, 91, 92], text: "Metamorfosi variable typeface (2023)" },
-            { w: 20, ids: [93], text: "Jim Fontana Studio (2025)" },
-            { w: 25, ids: [94], text: "Rumore space Urbino (2024)" },
-            { w: 30, ids: [95, 96], text: "KunstlerHaus Stuttgart (2024)" },
-            { w: 25, ids: [97, 98, 99], text: "Posters for aradia (2023)" },
-            { w: 40, ids: [100], text: "Diagram (2025)" },
-            { w: 15, ids: [101], text: "Frame (2024)" },
-            { w: 25, ids: [102, 103], text: "Gewoelbe club identity (2025)" },
-            { w: 30, ids: [104], text: "aradia’s identity (2024)" },
-            { w: 35, ids: [105, 106], text: "radio spugna's t-shirts (2024)" },
+            { w: 35, ids: [80, 81], text: "Images from the Pratiche di Posizionamento exhibition at Villa Romana in Florence (2024)" },
+            { w: 25, ids: [82], text: "Slavs and Tatars exhbition communication in Baden–Baden (2025)" },
+            { w: 35, ids: [83], text: "partita emot.iva t-shirt designed in collaboration with Noemi Vola (2024)" },
+            { w: 25, ids: [84], text: "Unused proposals for TIPS project’s identity (2025)" },
+            { w: 22, ids: [85, 86, 87, 88, 89, 90, 91, 92], text: "Specimen for Metamorfosi, a variable typeface (2023)" },
+            { w: 20, ids: [93], text: "WIP Summer After School residency by Jim Fontana Studio (2025)" },
+            { w: 25, ids: [94], text: "Rumore space in Urbino during a radio spugna event (2024)" },
+            { w: 30, ids: [95, 96], text: "Flyer for the KunstlerHaus Stuttgart Open House Event (2024)" },
+            { w: 25, ids: [97, 98, 99], text: "Posters designed for aradia, an imaginary folk festival (2023)" },
+            { w: 40, ids: [100], text: "Diagram designed for the conceptualization of caught between a rock and a hard place (2025)" },
+            { w: 15, ids: [101], text: "Frame from the documentary The Fire of Love (2024)" },
+            { w: 25, ids: [102, 103], text: "Typography system developed for the Gewoelbe club identity (2025)" },
+            { w: 30, ids: [104], text: "Stationary for aradia’s identity (2024)" },
+            { w: 35, ids: [105, 106], text: "radio spugna's t-shirts designed in collaboration with Noemi Vola (2024)" },
             { w: 25, ids: [109], text: "(2024)" },
-            { w: 30, ids: [110], text: "Simon Herkner’s exhibition (2024)" },
-            { w: 30, ids: [111, 112, 113, 114, 115, 116, 117, 118], text: "Capsia book by Giulia Peraro (2024)" },
+            { w: 30, ids: [110], text: "Hanged poster of Simon Herkner’s exhibition (2024)" },
+            { w: 30, ids: [111, 112, 113, 114, 115, 116, 117, 118], text: "Editorial design for Capsia, a photographic book by Giulia Peraro (2024)" },
             { w: 25, ids: [119], text: "(2025)" },
-            { w: 35, ids: [120], text: "radio spugna table (2025)" },
-            { w: 30, ids: [121, 122], text: "Knots Knots Knots book (2024)" },
-            { w: 30, ids: [123], text: "Future Steps socks (2024)" },
+            { w: 35, ids: [120], text: "radio spugna table set up (2025)" },
+            { w: 30, ids: [121, 122], text: "Photos of Knots Knots Knots book (2024)" },
+            { w: 30, ids: [123], text: "Future Steps socks concept (2024)" },
             { w: 30, ids: [124], text: "radio spugna’s first equipment (2024)" },
-            { w: 35, ids: [125], text: "Gewoelbe club Cologne (2025)" },
-            { w: 25, ids: [126], text: "Milano Infetta (2025)" },
-            { w: 40, ids: [127], text: "Goethe University lecture (2025)" },
+            { w: 35, ids: [125], text: "Design development for the Gewoelbe club identity in Cologne (2025)" },
+            { w: 25, ids: [126], text: "Studies for the title design of Milano Infetta (2025)" },
+            { w: 40, ids: [127], text: "Animation for a Goethe University lecture (2025)" },
             { w: 25, ids: [128], text: "(2024)" },
-            { w: 30, ids: [129, 130, 131, 132], text: "Opposite of precarity? (2025)" },
-            { w: 25, ids: [133], text: "(2024)" },
-            { w: 35, ids: [134], text: "aradia t-shirt (2023)" },
-            { w: 40, ids: [135], text: "radio spugna poster (2024)" }
+            { w: 30, ids: [129, 130, 131, 132], text: "What’s the opposite of precarity? (2025)" },
+            { w: 25, ids: [133], text: "While discussing graphic design processes (2024)" },
+            { w: 35, ids: [134], text: "Back of the t-shirt aradia (2023)" },
+            { w: 40, ids: [135], text: "radio spugna call to action poster (2024)" }
         ];
 
+        // Rendering
         config.sort((a, b) => a.ids[0] - b.ids[0]).forEach(item => {
             const wrapper = document.createElement('div');
             wrapper.className = 'item-wrapper';
@@ -235,10 +227,13 @@
 
             item.ids.forEach((id, index) => {
                 const img = document.createElement('img');
-                // IMPORTANTE: Nota i backtick ` e il simbolo ${id}
-                img.src = `img/AgnesePozzobon_${id}.webp`; 
+                img.src = `img/AgnesePozzobon_${id}.webp`;
                 img.loading = "lazy";
-                img.onclick = () => wrapper.classList.toggle('active');
+                
+                img.addEventListener('click', () => {
+                    wrapper.classList.toggle('active');
+                });
+
                 wrapper.appendChild(img);
 
                 if (index === 0) {
@@ -248,9 +243,11 @@
                     wrapper.appendChild(cap);
                 }
             });
+
             gallery.appendChild(wrapper);
         });
 
+        // Gestione Scroll
         const container = document.getElementById('gallery-container');
         window.addEventListener("wheel", (evt) => {
             if (window.innerWidth > 768) {
