@@ -7,7 +7,7 @@
     <link rel="icon" href="img/favicon_black.webp" media="(prefers-color-scheme: light)">
     <link rel="icon" href="img/favicon_white.webp" media="(prefers-color-scheme: dark)">
     
-    <style>
+   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body, html {
@@ -17,7 +17,7 @@
         -webkit-font-smoothing: antialiased;
     }
 
-    /* --- MOBILE FIRST --- */
+    /* --- MOBILE FIRST (Telefono) --- */
     body { overflow-y: auto; overflow-x: hidden; }
 
     .fixed-ui {
@@ -45,7 +45,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 50px;
+        gap: 40px; /* Distanza tra progetti su mobile */
         width: 100%;
         padding-bottom: 50px;
     }
@@ -54,7 +54,7 @@
         width: 90vw !important;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 10px; /* Distanza tra immagini nella pila */
         pointer-events: auto;
     }
 
@@ -71,55 +71,62 @@
     }
     .item-wrapper.active .caption { display: block; }
 
-    /* --- DESKTOP (CORRETTO) --- */
+    /* --- DESKTOP (Computer) --- */
     @media (min-width: 769px) {
         body, html { height: 100%; overflow: hidden; }
 
         .fixed-ui {
+            position: fixed;
             top: 50%;
             transform: translateY(-50%);
             flex-direction: row;
             justify-content: space-between;
             padding: 0 40px;
+            z-index: 100;
         }
         .nav-item.left { text-align: left; }
         .nav-item.center { 
             text-align: center; 
-            transform: translateX(-25%); /* Spostamento richiesto */
+            transform: translateX(-25%); 
         }
         .nav-item.right { text-align: right; }
 
         .horizontal-scroll {
-            position: absolute; /* Cambiato da relative */
+            position: fixed;
             top: 0; left: 0;
             width: 100vw;
             height: 100vh;
             overflow-x: auto;
             overflow-y: hidden;
             padding-top: 0;
-            pointer-events: auto; /* IMPORTANTE: deve essere auto */
+            pointer-events: auto;
             z-index: 1;
         }
         .horizontal-scroll::-webkit-scrollbar { display: none; }
 
         .gallery {
             display: flex;
-            flex-direction: row; /* Torna orizzontale */
-            padding-left: 85vw;
+            flex-direction: row;
+            padding-left: 85vw; /* Partenza ritardata */
             padding-right: 200px;
-            height: 100%;
-            align-items: flex-start;
-            gap: 15px;
+            height: 100vh;
+            align-items: flex-start; /* Allinea tutto allo 0 superiore */
+            gap: 10px; /* Distanza orizzontale tra le pile */
         }
 
         .item-wrapper {
-            width: auto !important; /* Torna a usare i w del config */
-            height: 100%;
+            /* Riprende le dimensioni w del config JS */
+            width: auto !important; 
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Distanza verticale tra immagini nella pila */
             max-height: 100vh;
             overflow-y: auto;
             scrollbar-width: none;
-            flex-shrink: 0;
+            padding-top: 0; /* Forza il margine superiore a 0 */
         }
+        .item-wrapper::-webkit-scrollbar { display: none; }
     }
 </style>
 </head>
