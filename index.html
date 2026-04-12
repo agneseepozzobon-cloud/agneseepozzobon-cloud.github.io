@@ -17,6 +17,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* UI FISSA - Sotto le immagini ma i link devono funzionare */
         .fixed-ui {
             position: fixed;
             top: 50%; left: 0; width: 100%;
@@ -24,20 +25,21 @@
             display: flex;
             justify-content: space-between;
             padding: 0 40px;
-            z-index: 1;
+            z-index: 1; /* Livello inferiore */
         }
         .nav-item { font-size: 13px; color: #000; flex: 1; }
         .nav-item.center { text-align: center; }
         .nav-item.right { text-align: right; }
         
-        a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; }
+        a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; position: relative; z-index: 100; }
         a:hover { color: rgb(0, 0, 255) !important; }
 
+        /* GALLERIA */
         .horizontal-scroll {
             position: relative;
             width: 100vw; height: 100vh;
             overflow-x: auto; overflow-y: hidden;
-            z-index: 5;
+            z-index: 5; /* Sopra i testi */
             pointer-events: none; 
         }
         .horizontal-scroll::-webkit-scrollbar { display: none; }
@@ -45,38 +47,41 @@
         .gallery {
             display: flex;
             padding-left: 85vw; 
-            padding-right: 100px;
-            gap: 10px; 
-            align-items: flex-start;
+            padding-right: 200px;
+            gap: 15px; 
+            align-items: flex-start; /* Allineate in alto */
+            height: 100%;
         }
 
+        /* COLONNA */
         .item-wrapper {
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
             gap: 10px; 
             pointer-events: auto;
-            position: relative;
-            width: fit-content;
+            max-height: 100vh; /* Occupa tutta l'altezza per scrollare */
+            overflow-y: auto;
+            scrollbar-width: none;
         }
+        .item-wrapper::-webkit-scrollbar { display: none; }
 
         .item-wrapper img {
-            width: auto;
             display: block;
-            max-width: none;
-            object-fit: contain;
+            width: 100%;
+            height: auto;
             cursor: pointer;
         }
 
+        /* DIDASCALIA */
         .caption {
             display: none; 
             font-size: 12px;
             line-height: 1.2;
             background-color: #ffffff;
             padding: 4px 0;
-            width: 100%; 
+            width: 100%;
             word-wrap: break-word;
-            z-index: 10;
         }
 
         .item-wrapper.active { gap: 0; }
@@ -100,105 +105,96 @@
     <script>
         const gallery = document.getElementById('gallery');
 
-        // Configurazione manuale - NOTA LE VIRGOLE ALLA FINE DI OGNI RIGA {...},
+        // Configurazione con tutte le tue didascalie
         const config = [
-            { h: 55, ids: [1], text: "Visual research for the book Knots Knots Knots (2024) (with Ludovico Amenta, Matteo Beda)" },
-            { h: 45, ids: [2], text: "Type explorations with clay for aradia’s identity, an imaginary folk festival (2023) (with Roberta Antinolfi, Corinne Carlin, Martina Valente)" },
-            { h: 40, ids: [3, 4, 5], text: "Monographical research on AG Fronzoni (2024) (with Noa Merlini, Martina Valente)" },
-            { h: 20, ids: [6], text: "Shapes exploration (2025)" },
-            { h: 50, ids: [7], text: "radio spugna self-made foldable talbe, where the broadcasting happens (2024)" },
-            { h: 75, ids: [8], text: "Poster designed for a Goethe University lecture (2025) (with Matter Of)" },
-            { h: 40, ids: [9], text: "radio spugna takes over Rumore space in Urbino (2024)" },
-            { h: 25, ids: [10], text: "Contact print explorations (2024) (with Ludovico Amenta, Matteo Beda)" },
-            { h: 45, ids: [11, 12], text: "Posters designed for the schedule of a radio spugna event in Urbino (2024)" },
-            { h: 30, ids: [13], text: "Jim Fontana Summer After School Residency (2025) (with Martina Valente)" },
-            { h: 50, ids: [14], text: "Screen printing radio spugna t-shirts (2024)" },
-            { h: 40, ids: [15, 16, 17, 18, 19, 20, 21, 22], text: "radio spugna book–manual that besides the project chronology contains instructions to build a foldable table like ours and explains how to set-up a low- tech web radio (2024) (with Roberta Antinolfi, Nicolaï Vrenna Martini, Noa Merlini, Martina Valente)" },
-            { h: 25, ids: [23], text: "Unused design for the Gewoelbe club (2025) (with Matter Of)" },
-            { h: 35, ids: [24], text: "Hanged poster of Hyperknit, a project around knitting as a feminist practice (2023)" },
-            { h: 15, ids: [25], text: "Unused design for the Gewoelbe club (2025) (with Matter Of)" },
-            { h: 25, ids: [26], text: "Back of the zine developed during Noemi Vola and Omar Cheikh workshop (2024)" },
-            { h: 55, ids: [27], text: "Infographic map for the book AG Fronzoni Il progetto tra il bianco e il nero, on one side the main steps of Fronzoni’s life, on the other all the events cited in the book Grafica Italiana dal 1945 ad oggi by C. Vinti (2024) (with Noa Merlini, Martina Valente)" },
-            { h: 30, ids: [28], text: "radio spugna presentation for the 4 days long workshop held at ISIA Urbino for the BA in Graphic Design and Visual Communication, 2025" },
-            { h: 45, ids: [29], text: "radio spugna table set up for the recording of Sottointesi [Live] (2024)" },
-            { h: 20, ids: [30], text: "Digital redrawing of Sheila De Bretteville's eyebolt (2024)" },
-            { h: 50, ids: [31], text: "Some of radio spugna’s t-shirts designed in collaboration with Noemi Vola and screen printed on second-hand clothes. Noemi’s illustrations of crying animals are combined with ironic short sentences that talk about vulnerability and precariousness (2024)" },
-            { h: 60, ids: [32], text: "Set up process for radio spugna table, from the book-manual (2024)" },
-            { h: 45, ids: [33], text: "Set of icons designed for TIPS, short for Technoscientific Issues in the Public Sphere (2024)" },
-            { h: 30, ids: [34], text: "Set up for a radio spugna episode live (2024)" },
-            { h: 40, ids: [35], text: "Diagrammatic visualization of radio spugna’s principles, reimagined as an electric radio circuit (2023)." },
-            { h: 60, ids: [36, 37, 38, 39, 40, 41, 42, 43, 44], text: "Spreads from AG Fronzoni Il progetto tra bianco e nero, a monographic research about the italian graphic designer AG Fronzoni. (2024) (with Noa Merlini, Martina Valente)" },
-            { h: 25, ids: [45], text: "Future Steps socks concept (2024) (with Matter Of)" },
-            { h: 35, ids: [46], text: "AG Fronzoni Il progetto tra il bianco e il nero book cover (2024) (with Noa Merlini, Martina Valente)" },
-            { h: 10, ids: [47], text: "Frame from the documentary The Fire of Love for Volcanoes Volcanoes Volcanoes publication (2024) (with Alice Teodorani)" },
-            { h: 40, ids: [48, 49, 50, 51, 52, 53, 54, 55], text: "Editorial design for Pratiche di posizionamento, a collective photographic exploration of Italian colonial heritage, published by Corraini Edizioni (2024) (with Roberta Antinolfi, Lukas Osele)" },
-            { h: 50, ids: [56], text: "Yana and Thom Oab listening session for radio spugna (2024)" },
-            { h: 20, ids: [57], text: "Unused design for the Gewoelbe club identity (2025) (with Matter Of)" },
-            { h: 60, ids: [58], text: "(2023)" },
-            { h: 35, ids: [59], text: "(2024)" },
-            { h: 50, ids: [60, 61, 62], text: "radio spugna book–manual (2024) (with Roberta Antinolfi, Nicolaï Martini Vrenna, Noa Merlini, Martina Valente)" },
-            { h: 40, ids: [63], text: "radio spugna poster (2024)" },
-            { h: 35, ids: [64, 65], text: "Unused design for the Motion Portals (2025) (with Matter Of)" },
-            { h: 50, ids: [66], text: "Poster design for Simon Herkner’s exhibition (2024) (with Matter Of)" },
-            { h: 30, ids: [67], text: "Visual research for the book Knots Knots Knots (2024) (with Ludovico Amenta, Matteo Beda)" },
-            { h: 45, ids: [68], text: "Flyer for the 4 days long workshop held by radio spugna for ISIA Urbino BA, 2025" },
-            { h: 40, ids: [69, 70, 71, 72, 73, 74, 75], text: "Volcanoes Volcanoes Volcanoes (2024) (with Alice Teodorani)" },
-            { h: 55, ids: [77], text: "Typography system developed for the Gewoelbe club identity (2025) (with Matter Of)" },
-            { h: 75, ids: [78], text: "Noa setting up radio spugna foldable table (2024)" },
-            { h: 20, ids: [79], text: "(2025)" },
-            { h: 50, ids: [80, 81], text: "Images from the Pratiche di Posizionamento exhibition at Villa Romana in Florence (2024) (Photos by Lorenzo Urgesi)" },
-            { h: 35, ids: [82], text: "Slavs and Tatars exhbition communication in Baden–Baden (2025) (with Matter Of)" },
-            { h: 70, ids: [83], text: "partita emot.iva t-shirt designed in collaboration with Noemi Vola (2024) (photo by Martina Valente)" },
-            { h: 40, ids: [84], text: "Unused proposals for TIPS project’s identity (2025)" },
-            { h: 35, ids: [85, 86, 87, 88, 89, 90, 91, 92], text: "Specimen for Metamorfosi typeface (2023) (with Nicolaï Martini Vrenna, Martina Valente)" },
-            { h: 25, ids: [93], text: "WIP Summer After School residency by Jim Fontana Studio (2025) (with Martina Valente)" },
-            { h: 20, ids: [94], text: "Rumore space in Urbino during a radio spugna event (2024)" },
-            { h: 40, ids: [95, 96], text: "Flyer for the KunstlerHaus Stuttgart Open House Event (2024) (with Matter Of)" },
-            { h: 30, ids: [97, 98, 99], text: "Posters designed for aradia festival (2023) (with Roberta Antinolfi, Corinne Carlin, Martina Valente)" },
-            { h: 75, ids: [100], text: "Diagram for residency caught between a rock and a hard place (2025) (with Martina Valente)" },
-            { h: 20, ids: [101], text: "Frame from The Fire of Love (2024) (with Alice Teodorani)" },
-            { h: 50, ids: [102, 103], text: "Typography system developed for the Gewoelbe club identity (2025) (with Matter Of)" },
-            { h: 50, ids: [104], text: "Stationary for aradia’s identity (2024) (with Roberta Antinolfi, Corinne Carlin, Martina Valente)" },
-            { h: 65, ids: [105, 106], text: "radio spugna t-shirts (2024) (photos by Noemi Vola)" },
-            { h: 35, ids: [109], text: "(2024)" },
-            { h: 55, ids: [110], text: "Poster for Simon Herkner’s exhibition (2024) (with Matter Of)" },
-            { h: 40, ids: [111, 112, 113, 114, 115, 116, 117, 118], text: "Editorial design for Capsia, a photographic book by Giulia Peraro (2024) (with Roberta Antinolfi)" },
-            { h: 35, ids: [119], text: "(2025)" },
-            { h: 50, ids: [120], text: "radio spugna table set up (2025)" },
-            { h: 50, ids: [121, 122], text: "Knots Knots Knots book (2024) (photos by Ludovico Amenta)" },
-            { h: 60, ids: [123], text: "Future Steps socks concept (2024) (with Matter Of)" },
-            { h: 45, ids: [124], text: "radio spugna’s first equipment (2024)" },
-            { h: 50, ids: [125], text: "Gewoelbe club identity in Cologne (2025) (with Matter Of)" },
-            { h: 30, ids: [126], text: "Milano Infetta title design (2025) (with Noa Merlini, Martina Valente)" },
-            { h: 65, ids: [127], text: "Animation for a Goethe University lecture (2025) (with Matter Of)" },
-            { h: 25, ids: [128], text: "(2024)" },
-            { h: 50, ids: [129, 130, 131, 132], text: "What’s the opposite of precarity? (2025) (with Martina Valente)" },
-            { h: 30, ids: [133], text: "Patrick Lacey class (2024)" },
-            { h: 60, ids: [134], text: "Aradia festival t-shirt (2023)" },
-            { h: 65, ids: [135], text: "radio spugna call to action poster (2024)" }
+            { w: 35, ids: [1], text: "Visual research for the book Knots Knots Knots (2024) (with Ludovico Amenta, Matteo Beda)" },
+            { w: 25, ids: [2], text: "Type explorations with clay for aradia’s identity, an imaginary folk festival (2023) (with Roberta Antinolfi, Corinne Carlin, Martina Valente)" },
+            { w: 28, ids: [3, 4, 5], text: "Monographical research on AG Fronzoni (2024) (with Noa Merlini, Martina Valente)" },
+            { w: 15, ids: [6], text: "Shapes exploration (2025)" },
+            { w: 35, ids: [7], text: "radio spugna self-made foldable talbe, where the broadcasting happens (2024)" },
+            { w: 30, ids: [8], text: "Poster designed for a Goethe University lecture (2025) (with Matter Of)" },
+            { w: 35, ids: [9], text: "radio spugna takes over Rumore space in Urbino (2024)" },
+            { w: 20, ids: [10], text: "Contact print explorations (2024) (with Ludovico Amenta, Matteo Beda)" },
+            { w: 30, ids: [11, 12], text: "Posters designed for the schedule of a radio spugna event in Urbino (2024)" },
+            { w: 35, ids: [13], text: "Jim Fontana Summer After School Residency (2025) (with Martina Valente)" },
+            { w: 30, ids: [14], text: "Screen printing radio spugna t-shirts (2024)" },
+            { w: 25, ids: [15, 16, 17, 18, 19, 20, 21, 22], text: "radio spugna book–manual... (2024)" },
+            { w: 20, ids: [23], text: "Unused design for the Gewoelbe club (2025) (with Matter Of)" },
+            { w: 30, ids: [24], text: "Hanged poster of Hyperknit (2023)" },
+            { w: 15, ids: [25], text: "Unused design for the Gewoelbe club (2025)" },
+            { w: 20, ids: [26], text: "Back of the zine developed during Noemi Vola and Omar Cheikh workshop (2024)" },
+            { w: 40, ids: [27], text: "Infographic map for the book AG Fronzoni Il progetto tra il bianco e il nero (2024)" },
+            { w: 25, ids: [28], text: "radio spugna presentation for ISIA Urbino workshop, 2025" },
+            { w: 35, ids: [29], text: "radio spugna table set up for the recording of Sottointesi [Live] (2024)" },
+            { w: 15, ids: [30], text: "Digital redrawing of Sheila De Bretteville's eyebolt (2024)" },
+            { w: 35, ids: [31], text: "Some of radio spugna’s t-shirts designed in collaboration with Noemi Vola (2024)" },
+            { w: 35, ids: [32], text: "Set up process for radio spugna table, from the book-manual (2024)" },
+            { w: 20, ids: [33], text: "Set of icons designed for TIPS (2024)" },
+            { w: 30, ids: [34], text: "Set up for a radio spugna episode live (2024)" },
+            { w: 35, ids: [35], text: "Diagrammatic visualization of radio spugna’s principles (2023)." },
+            { w: 28, ids: [36, 37, 38, 39, 40, 41, 42, 43, 44], text: "Spreads from AG Fronzoni Il progetto tra bianco e nero (2024)" },
+            { w: 20, ids: [45], text: "Future Steps socks concept (2024) (with Matter Of)" },
+            { w: 25, ids: [46], text: "AG Fronzoni Il progetto tra il bianco e il nero book cover (2024)" },
+            { w: 15, ids: [47], text: "Frame from the documentary The Fire of Love for Volcanoes Volcanoes Volcanoes publication (2024)" },
+            { w: 35, ids: [48, 49, 50, 51, 52, 53, 54, 55], text: "Editorial design for Pratiche di posizionamento, published by Corraini Edizioni (2024)" },
+            { w: 35, ids: [56], text: "Yana and Thom Oab listening session for radio spugna (2024)" },
+            { w: 15, ids: [57], text: "Unused design for the Gewoelbe club identity (2025)" },
+            { w: 25, ids: [58], text: "(2023)" },
+            { w: 25, ids: [59], text: "(2024)" },
+            { w: 30, ids: [60, 61, 62], text: "radio spugna book–manual (2024)" },
+            { w: 25, ids: [63], text: "radio spugna poster (2024)" },
+            { w: 25, ids: [64, 65], text: "Unused design for the Motion Portals (2025)" },
+            { w: 30, ids: [66], text: "Poster design for Simon Herkner’s exhibition (2024)" },
+            { w: 25, ids: [67], text: "Visual research for the book Knots Knots Knots (2024)" },
+            { w: 30, ids: [68], text: "Flyer for radio spugna workshop at ISIA Urbino, 2025" },
+            { w: 30, ids: [69, 70, 71, 72, 73, 74, 75], text: "Volcanoes Volcanoes Volcanoes (2024)" },
+            { w: 25, ids: [77], text: "Typography system for Gewoelbe club identity (2025)" },
+            { w: 40, ids: [78], text: "Noa setting up radio spugna foldable table (2024)" },
+            { w: 15, ids: [79], text: "(2025)" },
+            { w: 35, ids: [80, 81], text: "Images from the Pratiche di Posizionamento exhibition at Villa Romana in Florence (2024)" },
+            { w: 25, ids: [82], text: "Slavs and Tatars exhbition communication in Baden–Baden (2025)" },
+            { w: 35, ids: [83], text: "partita emot.iva t-shirt designed in collaboration with Noemi Vola (2024)" },
+            { w: 25, ids: [84], text: "Unused proposals for TIPS project’s identity (2025)" },
+            { w: 22, ids: [85, 86, 87, 88, 89, 90, 91, 92], text: "Specimen for Metamorfosi, a variable typeface (2023)" },
+            { w: 20, ids: [93], text: "WIP Summer After School residency by Jim Fontana Studio (2025)" },
+            { w: 25, ids: [94], text: "Rumore space in Urbino during a radio spugna event (2024)" },
+            { w: 30, ids: [95, 96], text: "Flyer for the KunstlerHaus Stuttgart Open House Event (2024)" },
+            { w: 25, ids: [97, 98, 99], text: "Posters designed for aradia, an imaginary folk festival (2023)" },
+            { w: 40, ids: [100], text: "Diagram designed for the conceptualization of caught between a rock and a hard place (2025)" },
+            { w: 15, ids: [101], text: "Frame from the documentary The Fire of Love (2024)" },
+            { w: 25, ids: [102, 103], text: "Typography system developed for the Gewoelbe club identity (2025)" },
+            { w: 30, ids: [104], text: "Stationary for aradia’s identity (2024)" },
+            { w: 35, ids: [105, 106], text: "radio spugna's t-shirts designed in collaboration with Noemi Vola (2024)" },
+            { w: 25, ids: [109], text: "(2024)" },
+            { w: 30, ids: [110], text: "Hanged poster of Simon Herkner’s exhibition (2024)" },
+            { w: 30, ids: [111, 112, 113, 114, 115, 116, 117, 118], text: "Editorial design for Capsia, a photographic book by Giulia Peraro (2024)" },
+            { w: 25, ids: [119], text: "(2025)" },
+            { w: 35, ids: [120], text: "radio spugna table set up (2025)" },
+            { w: 30, ids: [121, 122], text: "Photos of Knots Knots Knots book (2024)" },
+            { w: 30, ids: [123], text: "Future Steps socks concept (2024)" },
+            { w: 30, ids: [124], text: "radio spugna’s first equipment (2024)" },
+            { w: 35, ids: [125], text: "Design development for the Gewoelbe club identity in Cologne (2025)" },
+            { w: 25, ids: [126], text: "Studies for the title design of Milano Infetta (2025)" },
+            { w: 40, ids: [127], text: "Animation for a Goethe University lecture (2025)" },
+            { w: 25, ids: [128], text: "(2024)" },
+            { w: 30, ids: [129, 130, 131, 132], text: "What’s the opposite of precarity? (2025)" },
+            { w: 25, ids: [133], text: "While discussing graphic design processes (2024)" },
+            { w: 35, ids: [134], text: "Back of the t-shirt aradia (2023)" },
+            { w: 40, ids: [135], text: "radio spugna call to action poster (2024)" }
         ];
 
         const totalImages = 135;
         let usedIds = new Set();
         config.forEach(c => c.ids.forEach(id => usedIds.add(id)));
 
-        for (let i = 1; i <= totalImages; i++) {
-            if (usedIds.has(i)) continue;
-            config.push({ 
-                h: Math.floor(Math.random() * (55 - 35 + 1)) + 35, 
-                ids: [i], 
-                text: "Project Name, Image " + i + "." 
-            });
-        }
-
         config.sort((a, b) => a.ids[0] - b.ids[0]).forEach(item => {
             const wrapper = document.createElement('div');
             wrapper.className = 'item-wrapper';
+            wrapper.style.width = item.w + 'vw';
 
             item.ids.forEach((id, index) => {
                 const img = document.createElement('img');
                 img.src = `img/AgnesePozzobon_${id}.webp`;
-                img.style.height = item.h + 'vh';
                 img.loading = "lazy";
                 
                 img.addEventListener('click', () => {
@@ -219,9 +215,28 @@
         });
 
         const container = document.getElementById('gallery-container');
+        
         window.addEventListener("wheel", (evt) => {
-            container.scrollLeft += evt.deltaY;
-        });
+            const activeStack = evt.target.closest('.item-wrapper');
+            
+            // Se sono sopra una colonna E quella colonna ha contenuto che esce verticalmente
+            if (activeStack && activeStack.scrollHeight > activeStack.clientHeight) {
+                // Controllo se sono arrivato a fine scroll verticale della colonna
+                const atBottom = activeStack.scrollTop + activeStack.clientHeight >= activeStack.scrollHeight - 1;
+                const atTop = activeStack.scrollTop <= 0;
+
+                // Se sto scorrendo giù ma sono a fine colonna, o su ma sono in cima, passa allo scroll orizzontale
+                if ((evt.deltaY > 0 && atBottom) || (evt.deltaY < 0 && atTop)) {
+                    container.scrollLeft += evt.deltaY;
+                } else {
+                    // Altrimenti lascia lo scroll verticale nativo della colonna
+                    return; 
+                }
+            } else {
+                // Se non c'è colonna o non è scrollabile, vai in orizzontale
+                container.scrollLeft += evt.deltaY;
+            }
+        }, { passive: false });
     </script>
 </body>
 </html>
