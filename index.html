@@ -55,13 +55,17 @@
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            /* Rimosso gap per attaccare didascalia a foto su desktop */
+            gap: 0; 
             pointer-events: auto;
             max-height: 100vh;
             overflow-y: auto;
             scrollbar-width: none;
         }
         .item-wrapper::-webkit-scrollbar { display: none; }
+        
+        /* Aggiungiamo un margine tra le immagini stacked, ma NON tra immagine e didascalia */
+        .item-wrapper img + img { margin-top: 10px; }
         .item-wrapper img { display: block; width: 100%; height: auto; cursor: pointer; }
 
         .caption {
@@ -71,12 +75,11 @@
             background-color: #ffffff;
             padding: 4px 0;
             width: 100%;
-            margin-top: 0; 
-            margin-bottom: 5px;
+            margin: 0; /* Spazio azzerato */
         }
         .item-wrapper.active .caption { display: block; }
 
-        /* --- MOBILE VERSION --- */
+        /* --- MOBILE VERSION (Invariata come richiesto) --- */
         @media (max-width: 768px) {
             body, html { overflow-y: auto; overflow-x: hidden; height: auto; }
             .fixed-ui {
@@ -86,70 +89,15 @@
             }
             .nav-item { font-size: 14px; text-align: left !important; }
             .recently-collected { margin-left: 10px; }
-
-            .horizontal-scroll { 
-                height: auto; 
-                overflow: visible; 
-                padding-top: 100px; 
-                pointer-events: auto; 
-                position: relative; 
-                z-index: 10; 
-            }
-
-            .gallery { 
-                flex-direction: column; 
-                padding: 0; 
-                gap: 30px; /* Spazio tra i vari blocchi di lavori */
-                height: auto; 
-                align-items: center; 
-            }
-
-            .item-wrapper { 
-                width: 100vw !important; 
-                align-items: center; 
-                gap: 0; 
-                display: flex; 
-                flex-direction: column; 
-            }
-
-            /* Container per lo scroll orizzontale dei gruppi */
-            .images-container { 
-                display: flex; 
-                flex-direction: row; 
-                overflow-x: auto; 
-                scroll-snap-type: x mandatory; 
-                gap: 15px; 
-                width: 100%; 
-                padding: 0 15px; /* Margine laterale */
-                scrollbar-width: none; 
-                justify-content: flex-start; 
-                align-items: flex-start;
-            }
+            .horizontal-scroll { height: auto; overflow: visible; padding-top: 100px; pointer-events: auto; position: relative; z-index: 10; }
+            .gallery { flex-direction: column; padding: 0; gap: 30px; height: auto; align-items: center; }
+            .item-wrapper { width: 100vw !important; align-items: center; gap: 0; display: flex; flex-direction: column; }
+            .item-wrapper img + img { margin-top: 0; } /* Reset per mobile */
+            .images-container { display: flex; flex-direction: row; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; width: 100%; padding: 0 15px; scrollbar-width: none; justify-content: flex-start; align-items: flex-start; }
             .images-container::-webkit-scrollbar { display: none; }
-            
-            /* Centratura se c'è una sola immagine */
-            .images-container:not(:has(img:nth-child(2))) {
-                justify-content: center;
-            }
-
-            .item-wrapper img { 
-                width: 88vw; /* Quasi tutta la larghezza dello schermo */
-                height: auto; 
-                flex-shrink: 0; 
-                scroll-snap-align: center; 
-                display: block; 
-            }
-
-            .caption { 
-                display: none; 
-                width: 100%; 
-                padding: 10px 15px 15px 15px; /* Padding coerente */
-                font-size: 12px; 
-                line-height: 1.2; 
-                background: white; 
-                text-align: left; 
-                margin-top: 0; 
-            }
+            .images-container:not(:has(img:nth-child(2))) { justify-content: center; }
+            .item-wrapper img { width: 88vw; height: auto; flex-shrink: 0; scroll-snap-align: center; display: block; }
+            .caption { display: none; width: 100%; padding: 10px 15px 15px 15px; font-size: 12px; line-height: 1.2; background: white; text-align: left; margin-top: 0; }
             .item-wrapper.active .caption { display: block; }
         }
     </style>
@@ -279,6 +227,7 @@
                     imgContainer.appendChild(img);
                 } else {
                     wrapper.appendChild(img);
+                    // Desktop: didascalia attaccata alla prima immagine
                     if (index === 0) wrapper.appendChild(cap);
                 }
             });
