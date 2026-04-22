@@ -28,6 +28,12 @@
         }
         .nav-item { font-size: 13px; color: #000; flex: 1; }
         .nav-item.right { text-align: right; }
+
+        /* Spostamento Recently Collected (solo Desktop) */
+        .recently-collected {
+            margin-left: 40px;
+        }
+
         a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; position: relative; z-index: 100; pointer-events: auto; }
         a:hover { color: rgb(0, 0, 255) !important; }
 
@@ -82,14 +88,15 @@
                 top: 0; left: 0;
                 transform: none;
                 flex-direction: column;
-                padding: 15px; /* Margine 15px */
+                padding: 15px;
                 gap: 4px;
                 background: white;
-                z-index: 5; /* Sotto la gallery */
+                z-index: 5;
                 pointer-events: auto;
                 width: 100%;
             }
             .nav-item { font-size: 14px; text-align: left !important; }
+            .recently-collected { margin-left: 10px; } /* Meno spazio su mobile */
             
             .horizontal-scroll {
                 height: auto;
@@ -97,7 +104,7 @@
                 padding-top: 100px; 
                 pointer-events: auto;
                 position: relative;
-                z-index: 10; /* Sopra l'header scorrendo */
+                z-index: 10;
             }
 
             .gallery {
@@ -127,7 +134,6 @@
                 scrollbar-width: none;
                 justify-content: flex-start;
             }
-            /* Centra se c'è una sola immagine */
             .images-container:not(:has(img:nth-child(2))) {
                 justify-content: center;
             }
@@ -145,12 +151,12 @@
             .caption {
                 display: none;
                 width: 100%;
-                padding: 5px 15px 15px 15px; /* Margini laterali 15px */
+                padding: 5px 15px 15px 15px;
                 font-size: 12px;
                 line-height: 1.2;
                 background: white;
                 text-align: left;
-                margin-top: 0; /* Incollata alla foto */
+                margin-top: 0;
             }
             
             .item-wrapper.active .caption { display: block; }
@@ -161,7 +167,8 @@
 
     <div class="fixed-ui">
         <div class="nav-item left">
-            <a href="about.html">Agnese Pozzobon</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Recently Collected
+            <a href="about.html">Agnese Pozzobon</a>
+            <span class="recently-collected">Recently Collected</span>
         </div>
         <div class="nav-item right">Editorial Design, Identities, Visual Design, Publishing</div>
     </div>
@@ -262,7 +269,14 @@
 
             item.ids.forEach((id) => {
                 const img = document.createElement('img');
-                img.src = `img/AgnesePozzobon_${id}.webp`;
+                
+                // LOGICA PER GIF AUTOMATICHE (ID 32, 102, 103)
+                if (id === 32 || id === 102 || id === 103) {
+                    img.src = `img/AgnesePozzobon_${id}.gif`;
+                } else {
+                    img.src = `img/AgnesePozzobon_${id}.webp`;
+                }
+
                 img.loading = "lazy";
                 img.onerror = () => img.style.display = 'none';
                 img.addEventListener('click', () => wrapper.classList.toggle('active'));
