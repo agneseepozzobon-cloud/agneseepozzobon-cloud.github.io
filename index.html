@@ -28,11 +28,7 @@
         }
         .nav-item { font-size: 13px; color: #000; flex: 1; }
         .nav-item.right { text-align: right; }
-
-        /* Spostamento Recently Collected (solo Desktop) */
-        .recently-collected {
-            margin-left: 200px;
-        }
+        .recently-collected { margin-left: 200px; }
 
         a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; position: relative; z-index: 100; pointer-events: auto; }
         a:hover { color: rgb(0, 0, 255) !important; }
@@ -75,90 +71,30 @@
             background-color: #ffffff;
             padding: 4px 0;
             width: 100%;
-            margin-top: -10px; 
+            /* Margine zero come richiesto */
+            margin-top: 0; 
+            margin-bottom: 5px;
         }
         .item-wrapper.active .caption { display: block; }
 
         /* --- MOBILE VERSION --- */
         @media (max-width: 768px) {
             body, html { overflow-y: auto; overflow-x: hidden; height: auto; }
-
             .fixed-ui {
-                position: fixed;
-                top: 0; left: 0;
-                transform: none;
-                flex-direction: column;
-                padding: 15px;
-                gap: 4px;
-                background: white;
-                z-index: 5;
-                pointer-events: auto;
-                width: 100%;
+                position: fixed; top: 0; left: 0; transform: none;
+                flex-direction: column; padding: 15px; gap: 4px;
+                background: white; z-index: 5; pointer-events: auto; width: 100%;
             }
             .nav-item { font-size: 14px; text-align: left !important; }
-            .recently-collected { margin-left: 10px; } /* Meno spazio su mobile */
-            
-            .horizontal-scroll {
-                height: auto;
-                overflow: visible;
-                padding-top: 100px; 
-                pointer-events: auto;
-                position: relative;
-                z-index: 10;
-            }
-
-            .gallery {
-                flex-direction: column;
-                padding: 0;
-                gap: 15px;
-                height: auto;
-                align-items: center; 
-            }
-
-            .item-wrapper {
-                width: 100vw !important;
-                align-items: center;
-                gap: 0; 
-                display: flex;
-                flex-direction: column;
-            }
-
-            .images-container {
-                display: flex;
-                flex-direction: row;
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
-                gap: 15px;
-                width: 100%;
-                padding: 0 15px;
-                scrollbar-width: none;
-                justify-content: flex-start;
-            }
-            .images-container:not(:has(img:nth-child(2))) {
-                justify-content: center;
-            }
+            .recently-collected { margin-left: 10px; }
+            .horizontal-scroll { height: auto; overflow: visible; padding-top: 100px; pointer-events: auto; position: relative; z-index: 10; }
+            .gallery { flex-direction: column; padding: 0; gap: 15px; height: auto; align-items: center; }
+            .item-wrapper { width: 100vw !important; align-items: center; gap: 0; display: flex; flex-direction: column; }
+            .images-container { display: flex; flex-direction: row; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; width: 100%; padding: 0 15px; scrollbar-width: none; justify-content: flex-start; }
+            .images-container:not(:has(img:nth-child(2))) { justify-content: center; }
             .images-container::-webkit-scrollbar { display: none; }
-
-            .item-wrapper img {
-                width: calc(var(--mobile-w) * 2.5); 
-                max-width: 88vw;
-                height: auto;
-                flex-shrink: 0;
-                scroll-snap-align: center;
-                display: block;
-            }
-
-            .caption {
-                display: none;
-                width: 100%;
-                padding: 5px 15px 15px 15px;
-                font-size: 12px;
-                line-height: 1.2;
-                background: white;
-                text-align: left;
-                margin-top: 0;
-            }
-            
+            .item-wrapper img { width: calc(var(--mobile-w) * 2.5); max-width: 88vw; height: auto; flex-shrink: 0; scroll-snap-align: center; display: block; }
+            .caption { display: none; width: 100%; padding: 5px 15px 15px 15px; font-size: 12px; line-height: 1.2; background: white; text-align: left; margin-top: 0; }
             .item-wrapper.active .caption { display: block; }
         }
     </style>
@@ -223,6 +159,7 @@
             { w: 25, ids: [67], text: "Visual research for Knots Knots Knots (2024)" },
             { w: 30, ids: [68], text: "Flyer for radio spugna workshop (2025)" },
             { w: 30, ids: [69, 70, 71, 72, 73, 74, 75], text: "Volcanoes Volcanoes Volcanoes (2024)" },
+            { w: 25, ids: [77], text: "Typography system for Gewoelbe (2025)" },
             { w: 18, ids: [78], text: "Noa setting up radio spugna table (2024)" },
             { w: 20, ids: [79], text: "(2025)" },
             { w: 35, ids: [80, 81], text: "Exhibition at Villa Romana (2024)" },
@@ -263,13 +200,16 @@
             wrapper.style.setProperty('--mobile-w', item.w + 'vw');
             if (!isMobile) wrapper.style.width = item.w + 'vw';
 
+            const cap = document.createElement('div');
+            cap.className = 'caption';
+            cap.innerText = item.text || "";
+
             const imgContainer = document.createElement('div');
             imgContainer.className = isMobile ? 'images-container' : 'desktop-group';
 
-            item.ids.forEach((id) => {
+            item.ids.forEach((id, index) => {
                 const img = document.createElement('img');
                 
-                // LOGICA PER GIF AUTOMATICHE (ID 32, 102, 103)
                 if (id === 32 || id === 102 || id === 103) {
                     img.src = `img/AgnesePozzobon_${id}.gif`;
                 } else {
@@ -284,15 +224,17 @@
                     imgContainer.appendChild(img);
                 } else {
                     wrapper.appendChild(img);
+                    // NOVITÀ: Inseriamo la didascalia subito dopo la PRIMA immagine (index 0)
+                    if (index === 0) {
+                        wrapper.appendChild(cap);
+                    }
                 }
             });
 
-            if (isMobile) wrapper.appendChild(imgContainer);
-
-            const cap = document.createElement('div');
-            cap.className = 'caption';
-            cap.innerText = item.text || "";
-            wrapper.appendChild(cap);
+            if (isMobile) {
+                wrapper.appendChild(imgContainer);
+                wrapper.appendChild(cap); // Su mobile la didascalia rimane sotto il gruppo
+            }
             
             gallery.appendChild(wrapper);
         });
