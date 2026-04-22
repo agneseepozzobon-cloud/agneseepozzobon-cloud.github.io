@@ -69,9 +69,8 @@
             font-size: 12px;
             line-height: 1.2;
             background-color: #ffffff;
-            padding: 0px 0;
+            padding: 4px 0;
             width: 100%;
-            /* Margine zero come richiesto */
             margin-top: 0; 
             margin-bottom: 5px;
         }
@@ -83,18 +82,74 @@
             .fixed-ui {
                 position: fixed; top: 0; left: 0; transform: none;
                 flex-direction: column; padding: 15px; gap: 4px;
-                background: white; z-index: 5; pointer-events: auto; width: 100%;
+                background: white; z-index: 20; pointer-events: auto; width: 100%;
             }
             .nav-item { font-size: 14px; text-align: left !important; }
             .recently-collected { margin-left: 10px; }
-            .horizontal-scroll { height: auto; overflow: visible; padding-top: 100px; pointer-events: auto; position: relative; z-index: 10; }
-            .gallery { flex-direction: column; padding: 0; gap: 15px; height: auto; align-items: center; }
-            .item-wrapper { width: 100vw !important; align-items: center; gap: 0; display: flex; flex-direction: column; }
-            .images-container { display: flex; flex-direction: row; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; width: 100%; padding: 0 15px; scrollbar-width: none; justify-content: flex-start; }
-            .images-container:not(:has(img:nth-child(2))) { justify-content: center; }
+
+            .horizontal-scroll { 
+                height: auto; 
+                overflow: visible; 
+                padding-top: 100px; 
+                pointer-events: auto; 
+                position: relative; 
+                z-index: 10; 
+            }
+
+            .gallery { 
+                flex-direction: column; 
+                padding: 0; 
+                gap: 30px; /* Spazio tra i vari blocchi di lavori */
+                height: auto; 
+                align-items: center; 
+            }
+
+            .item-wrapper { 
+                width: 100vw !important; 
+                align-items: center; 
+                gap: 0; 
+                display: flex; 
+                flex-direction: column; 
+            }
+
+            /* Container per lo scroll orizzontale dei gruppi */
+            .images-container { 
+                display: flex; 
+                flex-direction: row; 
+                overflow-x: auto; 
+                scroll-snap-type: x mandatory; 
+                gap: 15px; 
+                width: 100%; 
+                padding: 0 15px; /* Margine laterale */
+                scrollbar-width: none; 
+                justify-content: flex-start; 
+                align-items: flex-start;
+            }
             .images-container::-webkit-scrollbar { display: none; }
-            .item-wrapper img { width: calc(var(--mobile-w) * 2.5); max-width: 88vw; height: auto; flex-shrink: 0; scroll-snap-align: center; display: block; }
-            .caption { display: none; width: 100%; padding: 5px 15px 15px 15px; font-size: 12px; line-height: 1.2; background: white; text-align: left; margin-top: 0; }
+            
+            /* Centratura se c'è una sola immagine */
+            .images-container:not(:has(img:nth-child(2))) {
+                justify-content: center;
+            }
+
+            .item-wrapper img { 
+                width: 88vw; /* Quasi tutta la larghezza dello schermo */
+                height: auto; 
+                flex-shrink: 0; 
+                scroll-snap-align: center; 
+                display: block; 
+            }
+
+            .caption { 
+                display: none; 
+                width: 100%; 
+                padding: 10px 15px 15px 15px; /* Padding coerente */
+                font-size: 12px; 
+                line-height: 1.2; 
+                background: white; 
+                text-align: left; 
+                margin-top: 0; 
+            }
             .item-wrapper.active .caption { display: block; }
         }
     </style>
@@ -224,16 +279,13 @@
                     imgContainer.appendChild(img);
                 } else {
                     wrapper.appendChild(img);
-                    // NOVITÀ: Inseriamo la didascalia subito dopo la PRIMA immagine (index 0)
-                    if (index === 0) {
-                        wrapper.appendChild(cap);
-                    }
+                    if (index === 0) wrapper.appendChild(cap);
                 }
             });
 
             if (isMobile) {
                 wrapper.appendChild(imgContainer);
-                wrapper.appendChild(cap); // Su mobile la didascalia rimane sotto il gruppo
+                wrapper.appendChild(cap);
             }
             
             gallery.appendChild(wrapper);
