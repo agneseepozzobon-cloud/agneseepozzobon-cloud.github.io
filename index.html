@@ -15,7 +15,7 @@
             overflow: hidden;
         }
 
-        /* --- UI DESKTOP --- */
+        /* --- UI DESKTOP (NON TOCCARE) --- */
         .fixed-ui {
             position: fixed;
             top: 50%; left: 0; width: 100%;
@@ -28,7 +28,7 @@
         }
         .nav-item { font-size: 13px; color: #000; flex: 1; }
         .nav-item.right { text-align: right; }
-        .recently-collected { margin-left: 200px; }
+        .recently-collected { margin-left: 40px; }
 
         a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; position: relative; z-index: 100; pointer-events: auto; }
         a:hover { color: rgb(0, 0, 255) !important; }
@@ -62,15 +62,8 @@
             scrollbar-width: none;
         }
         .item-wrapper::-webkit-scrollbar { display: none; }
-        
         .item-wrapper img { display: block; width: 100%; height: auto; cursor: pointer; }
-
-        /* FIX DESKTOP MARGINS */
-        /* 1. Margine tra immagini consecutive (quando la didascalia è nascosta) */
         .item-wrapper img + img { margin-top: 10px; }
-
-        /* 2. Margine tra didascalia e immagine successiva (quando la didascalia è visibile) */
-        /* Questo assicura che il gap tra Immagine 1 e Immagine 2 sia sempre 10px */
         .item-wrapper .caption + img { margin-top: 10px; }
 
         .caption {
@@ -84,26 +77,85 @@
         }
         .item-wrapper.active .caption { display: block; }
 
-        /* --- MOBILE VERSION (Invariata) --- */
+        /* --- UI MOBILE (SISTEMATA) --- */
         @media (max-width: 768px) {
             body, html { overflow-y: auto; overflow-x: hidden; height: auto; }
+            
             .fixed-ui {
                 position: fixed; top: 0; left: 0; transform: none;
                 flex-direction: column; padding: 15px; gap: 4px;
-                background: white; z-index: 20; pointer-events: auto; width: 100%;
+                background: white; 
+                z-index: 1; /* Header sotto le immagini */
+                pointer-events: auto; width: 100%;
             }
             .nav-item { font-size: 14px; text-align: left !important; }
             .recently-collected { margin-left: 10px; }
-            .horizontal-scroll { height: auto; overflow: visible; padding-top: 100px; pointer-events: auto; position: relative; z-index: 10; }
-            .gallery { flex-direction: column; padding: 0; gap: 30px; height: auto; align-items: center; }
-            .item-wrapper { width: 100vw !important; align-items: center; gap: 0; display: flex; flex-direction: column; }
-            /* Reset margini desktop su mobile */
-            .item-wrapper img + img, .item-wrapper .caption + img { margin-top: 0; } 
-            .images-container { display: flex; flex-direction: row; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; width: 100%; padding: 0 15px; scrollbar-width: none; justify-content: flex-start; align-items: flex-start; }
+
+            .horizontal-scroll { 
+                height: auto; 
+                overflow: visible; 
+                padding-top: 100px; 
+                pointer-events: auto; 
+                position: relative; 
+                z-index: 10; /* Immagini sopra l'header */
+            }
+
+            .gallery { 
+                flex-direction: column; 
+                padding: 0; 
+                gap: 50px; 
+                height: auto; 
+                align-items: center; 
+            }
+
+            .item-wrapper { 
+                width: 100vw !important; 
+                align-items: center; /* Centra il blocco nello schermo */
+                gap: 0; 
+                display: flex; 
+                flex-direction: column; 
+            }
+
+            .images-container { 
+                display: flex; 
+                flex-direction: row; 
+                overflow-x: auto; 
+                scroll-snap-type: x mandatory; 
+                gap: 15px; 
+                width: 100%; 
+                padding: 0 6vw;
+                scrollbar-width: none; 
+                justify-content: flex-start; 
+                align-items: flex-start;
+            }
             .images-container::-webkit-scrollbar { display: none; }
-            .images-container:not(:has(img:nth-child(2))) { justify-content: center; }
-            .item-wrapper img { width: 88vw; height: auto; flex-shrink: 0; scroll-snap-align: center; display: block; }
-            .caption { display: none; width: 100%; padding: 10px 15px 15px 15px; font-size: 12px; line-height: 1.2; background: white; text-align: left; margin-top: 0; }
+            
+            .images-container:not(:has(img:nth-child(2))) {
+                justify-content: center;
+                padding: 0;
+            }
+
+            .item-wrapper img { 
+                /* Mobile segue la larghezza variabile definita nel config */
+                width: var(--img-w-mobile); 
+                max-width: 90vw; /* Limite per non uscire troppo */
+                height: auto; 
+                flex-shrink: 0; 
+                scroll-snap-align: center; 
+                display: block; 
+                margin-top: 0 !important; 
+            }
+
+            .caption { 
+                display: none; 
+                width: 100%; 
+                padding: 12px 10vw 30px 10vw; 
+                font-size: 14px; /* Uguale all'header mobile */
+                line-height: 1.3; 
+                background: white; 
+                text-align: left; 
+                margin-top: 0; 
+            }
             .item-wrapper.active .caption { display: block; }
         }
     </style>
@@ -126,6 +178,7 @@
         const gallery = document.getElementById('gallery');
         const isMobile = window.innerWidth <= 768;
 
+        // Configurazione rimane identica
         const config = [
             { w: 25, ids: [1], text: "Visual research for the book Knots Knots Knots (2024) (with Ludovico Amenta, Matteo Beda)" },
             { w: 18, ids: [2], text: "Type explorations with clay for aradia’s identity (2023)" },
@@ -206,7 +259,10 @@
         config.forEach(item => {
             const wrapper = document.createElement('div');
             wrapper.className = 'item-wrapper';
-            wrapper.style.setProperty('--mobile-w', item.w + 'vw');
+            
+            // Passiamo la proporzione anche a mobile come variabile CSS
+            wrapper.style.setProperty('--img-w-mobile', (item.w * 2.5) + 'vw'); 
+
             if (!isMobile) wrapper.style.width = item.w + 'vw';
 
             const cap = document.createElement('div');
@@ -218,16 +274,16 @@
 
             item.ids.forEach((id, index) => {
                 const img = document.createElement('img');
-                
-                if (id === 32 || id === 102 || id === 103) {
-                    img.src = `img/AgnesePozzobon_${id}.gif`;
-                } else {
-                    img.src = `img/AgnesePozzobon_${id}.webp`;
-                }
+                img.src = (id === 32 || id === 102 || id === 103) 
+                    ? `img/AgnesePozzobon_${id}.gif` 
+                    : `img/AgnesePozzobon_${id}.webp`;
 
                 img.loading = "lazy";
                 img.onerror = () => img.style.display = 'none';
-                img.addEventListener('click', () => wrapper.classList.toggle('active'));
+                img.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    wrapper.classList.toggle('active');
+                });
                 
                 if (isMobile) {
                     imgContainer.appendChild(img);
@@ -245,6 +301,7 @@
             gallery.appendChild(wrapper);
         });
 
+        // Scroll Desktop
         const container = document.getElementById('gallery-container');
         window.addEventListener("wheel", (evt) => {
             if (!isMobile) {
