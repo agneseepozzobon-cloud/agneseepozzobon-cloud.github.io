@@ -15,7 +15,7 @@
             overflow: hidden;
         }
 
-        /* --- UI DESKTOP (NON TOCCARE) --- */
+        /* --- UI DESKTOP --- */
         .fixed-ui {
             position: fixed;
             top: 50%; left: 0; width: 100%;
@@ -23,21 +23,30 @@
             display: flex;
             justify-content: space-between;
             padding: 0 40px;
-            z-index: 100; /* Alzato per sicurezza */
+            z-index: 1; /* Sotto le immagini */
             pointer-events: none;
         }
         .nav-item { font-size: 13px; color: #000; flex: 1; }
         .nav-item.right { text-align: right; }
         .recently-collected { margin-left: 40px; }
 
-        a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; position: relative; z-index: 101; pointer-events: auto; }
+        /* Link sempre cliccabile anche se visivamente "sotto" */
+        a { 
+            text-decoration: none; 
+            color: #000; 
+            transition: color 0.2s ease; 
+            cursor: pointer; 
+            position: relative; 
+            z-index: 100; /* Alto per intercettare il click */
+            pointer-events: auto; 
+        }
         a:hover { color: rgb(0, 0, 255) !important; }
 
         .horizontal-scroll {
             position: relative;
             width: 100vw; height: 100vh;
             overflow-x: auto; overflow-y: hidden;
-            z-index: 5;
+            z-index: 10; /* Sopra l'header desktop */
             pointer-events: none; 
         }
         .horizontal-scroll::-webkit-scrollbar { display: none; }
@@ -84,14 +93,16 @@
             .fixed-ui {
                 position: fixed; top: 0; left: 0; transform: none;
                 flex-direction: column; padding: 15px; gap: 4px;
-                background: rgba(255, 255, 255, 0.9); /* Leggermente trasparente per vedere le foto sotto */
-                z-index: 100; /* Sempre sopra le immagini */
-                pointer-events: none; /* Permette lo scroll attraverso l'header */
+                background: none; /* Rimosso fondino bianco */
+                z-index: 1; /* Sotto le immagini */
+                pointer-events: none;
                 width: 100%;
             }
-            /* Abilitiamo il click solo sugli elementi che devono essere interattivi */
-            .fixed-ui a, .fixed-ui .nav-item {
+
+            /* Permette al link di essere cliccato anche se sta dietro le immagini */
+            .fixed-ui a {
                 pointer-events: auto;
+                z-index: 1000;
             }
 
             .nav-item { font-size: 14px; text-align: left !important; }
@@ -103,7 +114,7 @@
                 padding-top: 100px; 
                 pointer-events: auto; 
                 position: relative; 
-                z-index: 10; /* Le immagini scorrono fisicamente sopra l'header se necessario, ma il link ora è z-index 100 */
+                z-index: 10; /* Sopra i testi dell'header */
             }
 
             .gallery { 
