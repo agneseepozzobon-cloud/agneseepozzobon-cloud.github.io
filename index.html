@@ -23,14 +23,14 @@
             display: flex;
             justify-content: space-between;
             padding: 0 40px;
-            z-index: 1;
+            z-index: 100; /* Alzato per sicurezza */
             pointer-events: none;
         }
         .nav-item { font-size: 13px; color: #000; flex: 1; }
         .nav-item.right { text-align: right; }
         .recently-collected { margin-left: 40px; }
 
-        a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; position: relative; z-index: 100; pointer-events: auto; }
+        a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; position: relative; z-index: 101; pointer-events: auto; }
         a:hover { color: rgb(0, 0, 255) !important; }
 
         .horizontal-scroll {
@@ -84,10 +84,16 @@
             .fixed-ui {
                 position: fixed; top: 0; left: 0; transform: none;
                 flex-direction: column; padding: 15px; gap: 4px;
-                background: white; 
-                z-index: 1; 
-                pointer-events: auto; width: 100%;
+                background: rgba(255, 255, 255, 0.9); /* Leggermente trasparente per vedere le foto sotto */
+                z-index: 100; /* Sempre sopra le immagini */
+                pointer-events: none; /* Permette lo scroll attraverso l'header */
+                width: 100%;
             }
+            /* Abilitiamo il click solo sugli elementi che devono essere interattivi */
+            .fixed-ui a, .fixed-ui .nav-item {
+                pointer-events: auto;
+            }
+
             .nav-item { font-size: 14px; text-align: left !important; }
             .recently-collected { margin-left: 10px; }
 
@@ -97,7 +103,7 @@
                 padding-top: 100px; 
                 pointer-events: auto; 
                 position: relative; 
-                z-index: 10; 
+                z-index: 10; /* Le immagini scorrono fisicamente sopra l'header se necessario, ma il link ora è z-index 100 */
             }
 
             .gallery { 
