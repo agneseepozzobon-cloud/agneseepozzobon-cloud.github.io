@@ -28,7 +28,7 @@
         }
         .nav-item { font-size: 13px; color: #000; flex: 1; }
         .nav-item.right { text-align: right; }
-        .recently-collected { margin-left: 200px; }
+        .recently-collected { margin-left: 40px; }
 
         a { text-decoration: none; color: #000; transition: color 0.2s ease; cursor: pointer; position: relative; z-index: 100; pointer-events: auto; }
         a:hover { color: rgb(0, 0, 255) !important; }
@@ -55,7 +55,6 @@
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
-            /* Rimosso gap per attaccare didascalia a foto su desktop */
             gap: 0; 
             pointer-events: auto;
             max-height: 100vh;
@@ -64,9 +63,15 @@
         }
         .item-wrapper::-webkit-scrollbar { display: none; }
         
-        /* Aggiungiamo un margine tra le immagini stacked, ma NON tra immagine e didascalia */
-        .item-wrapper img + img { margin-top: 10px; }
         .item-wrapper img { display: block; width: 100%; height: auto; cursor: pointer; }
+
+        /* FIX DESKTOP MARGINS */
+        /* 1. Margine tra immagini consecutive (quando la didascalia è nascosta) */
+        .item-wrapper img + img { margin-top: 10px; }
+
+        /* 2. Margine tra didascalia e immagine successiva (quando la didascalia è visibile) */
+        /* Questo assicura che il gap tra Immagine 1 e Immagine 2 sia sempre 10px */
+        .item-wrapper .caption + img { margin-top: 10px; }
 
         .caption {
             display: none; 
@@ -75,11 +80,11 @@
             background-color: #ffffff;
             padding: 4px 0;
             width: 100%;
-            margin: 0; /* Spazio azzerato */
+            margin: 0; 
         }
         .item-wrapper.active .caption { display: block; }
 
-        /* --- MOBILE VERSION (Invariata come richiesto) --- */
+        /* --- MOBILE VERSION (Invariata) --- */
         @media (max-width: 768px) {
             body, html { overflow-y: auto; overflow-x: hidden; height: auto; }
             .fixed-ui {
@@ -92,7 +97,8 @@
             .horizontal-scroll { height: auto; overflow: visible; padding-top: 100px; pointer-events: auto; position: relative; z-index: 10; }
             .gallery { flex-direction: column; padding: 0; gap: 30px; height: auto; align-items: center; }
             .item-wrapper { width: 100vw !important; align-items: center; gap: 0; display: flex; flex-direction: column; }
-            .item-wrapper img + img { margin-top: 0; } /* Reset per mobile */
+            /* Reset margini desktop su mobile */
+            .item-wrapper img + img, .item-wrapper .caption + img { margin-top: 0; } 
             .images-container { display: flex; flex-direction: row; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; width: 100%; padding: 0 15px; scrollbar-width: none; justify-content: flex-start; align-items: flex-start; }
             .images-container::-webkit-scrollbar { display: none; }
             .images-container:not(:has(img:nth-child(2))) { justify-content: center; }
@@ -227,7 +233,6 @@
                     imgContainer.appendChild(img);
                 } else {
                     wrapper.appendChild(img);
-                    // Desktop: didascalia attaccata alla prima immagine
                     if (index === 0) wrapper.appendChild(cap);
                 }
             });
