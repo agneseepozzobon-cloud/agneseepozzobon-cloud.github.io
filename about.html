@@ -36,58 +36,70 @@
 
         /* --- MOBILE VERSION --- */
         @media (max-width: 900px) {
-            .about-container { padding: 0 15px 15px 15px; } /* Padding laterale 15px */
+            .about-container { 
+                padding: 0 15px 15px 15px; /* Margini laterali 15px */
+            }
             
             .header-about { 
-                position: sticky; /* Rimane fisso finché il contenuto sotto non lo tocca */
+                position: sticky; 
                 top: 0; 
-                left: 0; 
                 width: 100%; 
                 transform: none; 
                 text-align: center;
                 background: white;
                 padding: 15px 0 10px 0; /* Margine superiore 15px */
                 z-index: 100;
+                left: 0;
             }
 
             .about-grid { 
                 display: flex; 
                 flex-direction: column; 
-                margin-top: 20px; /* Spazio ridotto tra header e primo testo */
-                gap: 40px; /* Gap tra i blocchi principali (es. tra bio e work) */
+                margin-top: 10px; 
+                gap: 30px; 
                 padding-bottom: 50px;
             }
 
-            /* Indent su (1999) */
-            .bio-text { text-indent: 80px; margin-top: 0; }
+            .column { 
+                font-size: 14px; /* Dimensione uguale alla home mobile */
+                line-height: 1.3;
+            }
+
+            .bio-text { 
+                text-indent: 80px; /* Indent richiesto su (1999) */
+                margin-top: 0; 
+            }
             
             .contacts-desktop { display: none; }
             .contacts-mobile { 
                 display: block; 
-                margin-top: 30px; 
+                margin-top: 20px; 
             }
             .contacts-mobile a { 
                 color: rgb(0, 0, 255); 
                 font-size: 14px; 
                 display: block;
-                margin-bottom: 5px;
+                margin-bottom: 4px;
             }
 
-            .column { font-size: 14px; }
-
-            /* Gestione titoli sezioni (es. Work) */
             .section-title { 
-                margin-bottom: 10px; 
-                text-align: center; /* Centrato come da bozza */
-                text-indent: 0px; /* Qui puoi gestire l'indent dei titoli */
+                margin-bottom: 8px; 
+                text-align: center; 
             }
             
             .content-block { 
-                margin-bottom: 30px; /* Gap tra i sottoblocchi (Work, Education...) */
-                text-align: left; 
+                margin-bottom: 25px; 
+                font-size: 14px;
+            }
+
+            .content-block a {
+                font-size: 14px;
             }
             
-            .logo-symbol { text-align: left; margin-top: 20px; }
+            .logo-symbol { text-align: left; margin-top: 15px; }
+            .logo-symbol img { width: 45px; }
+            
+            .back-link { font-size: 14px; }
         }
     </style>
 </head>
