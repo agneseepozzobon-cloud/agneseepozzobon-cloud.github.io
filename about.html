@@ -8,7 +8,6 @@
     <link rel="icon" href="img/favicon_white.webp" media="(prefers-color-scheme: dark)">
     
     <style>
-        /* [Il resto del CSS rimane identico a quello di prima] */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html {
             height: 100%;
@@ -19,18 +18,72 @@
             -webkit-font-smoothing: antialiased;
         }
         .about-container { display: flex; flex-direction: column; padding: 0 40px; min-height: 100vh; }
+        
+        /* Header Desktop */
         .header-about { position: absolute; top: 25%; left: 50%; transform: translate(-50%, -50%); z-index: 10; }
+        
         a { text-decoration: none; color: inherit; font-size: 13px; transition: color 0.2s ease; font-weight: normal; }
         a:hover { color: rgb(0, 0, 255) !important; }
+        
         .back-link { color: #888888; }
+        
         .about-grid { display: grid; grid-template-columns: 1fr 1.5fr 1fr 0.5fr; gap: 40px; margin-top: 50vh; padding-bottom: 100px; }
         .column { font-size: 13px; line-height: 1.2; }
         .bio-text { text-indent: 100px; margin: 0; }
         .content-block { margin-bottom: 20px; }
         .section-title { display: block; margin: 0; }
+        
+        /* Contatti Desktop */
+        .contacts-desktop { display: block; }
+        .contacts-mobile { display: none; }
+
         .logo-symbol { text-align: right; }
         .logo-symbol img { width: 50px; height: auto; }
-        @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; margin-top: 55vh; } .header-about { top: 15%; } .logo-symbol { text-align: left; } }
+
+        /* --- MOBILE VERSION --- */
+        @media (max-width: 900px) {
+            .about-container { padding: 15px; }
+            
+            .header-about { 
+                position: fixed; 
+                top: 15px; 
+                left: 0; 
+                width: 100%; 
+                transform: none; 
+                text-align: center;
+                background: white;
+                padding-bottom: 10px;
+            }
+
+            .about-grid { 
+                display: flex; 
+                flex-direction: column; 
+                margin-top: 60px; /* Spazio per l'header fisso */
+                gap: 30px; 
+                padding-bottom: 50px;
+            }
+
+            .bio-text { text-indent: 0; margin-top: 10px; }
+            
+            /* Sposto contatti dopo bio */
+            .contacts-desktop { display: none; }
+            .contacts-mobile { 
+                display: block; 
+                margin-top: 15px; 
+            }
+            .contacts-mobile a { 
+                color: rgb(0, 0, 255); 
+                font-size: 14px; 
+                display: block;
+                margin-bottom: 4px;
+            }
+
+            .column { font-size: 14px; }
+            .section-title { margin-bottom: 5px; text-align: center; }
+            
+            .content-block { text-align: left; }
+            .logo-symbol { text-align: left; margin-top: 20px; }
+        }
     </style>
 </head>
 <body>
@@ -42,45 +95,50 @@
         <main class="about-grid">
             <div class="column">
                 <p>Agnese Pozzobon</p>
-                <p class="bio-text">(1999) is a visual and graphic designer. Her work focuses on printed matter, data design and the construction of identities. She is interested in how design can shape information – and how information, in turn, can shape design.</p>
+                <p class="bio-text">(1999) is a visual and graphic designer currently based in Milan. Her work focuses on printed matter, data design and the construction of identities. She is interested in how design can shape information – and how information, in turn, can shape design.</p>
+                
+                <div class="contacts-mobile">
+                    <a href="mailto:agnese.pozzobon@gmail.com">agnese.pozzobon@gmail.com</a>
+                    <a href="tel:+393452375093">+39 3452375093</a>
+                </div>
             </div>
 
             <div class="column">
-                <div class="content-block">
-                    <span class="section-title">Work</span>
-                    Graphic Designer at Genera, Milano, from 2026<br>
-                    Communication and Identity for Maquette, a cultural project by Sotterranea, 2025/2026<br>
-                    radio spugna B2B workshop, ISIA Urbino, 2025<br>
-                    Graphic Designer Internship at Matter Of Studio, Stuttgart, 2024/2025<br>
-                    Graphic Design and Research for TIPS, University of Padova, from 2024<br>
-                    Editorial Design for Pratiche di Posizionamento, Corraini Edizioni, 2024<br>
-                    Assistant curator, Museum of Contemporary Art M9, Venice, 2021<br>
-                    Graphic Designer Internship at Twin Studio, Milan, 2021
-                </div>
                 <div class="content-block">
                     <span class="section-title">Education</span>
                     MA, Communication and Design for Publishing, ISIA Urbino, 2022/2025<br>
                     After Effects course, CFP Bauer Milan, 2022<br>
                     BA, Graphic and Multimedia Communication, IUSVE Venice, 2018/2021
                 </div>
+
+                <div class="content-block">
+                    <span class="section-title">Work</span>
+                    Graphic Designer Internship at Matter Of Studio, Stuttgart, 2024/2025<br>
+                    Graphic Design and Research for TIPS, University of Padova, from 2024<br>
+                    Editorial Design for Pratiche di Posizionamento, Corraini Edizioni, 2024<br>
+                    Assistant curator, Museum of Contemporary Art M9, Venice, 2021<br>
+                    Graphic Designer Internship at Twin Studio, Milan, 2021
+                </div>
+
                 <div class="content-block">
                     <span class="section-title">Extra</span>
                     Summer After School, residency, Jim Fontana Studio<br>
                     Music to My Eyes, workshop, April Greiman<br>
-                    Bottomless Pit, workshop, Noemi Vola + Omar Cheikh<br>
+                    Bottomless Pit, workshop, Noemi Vola and Omar Cheikh<br>
                     A.I. – blessing or curse for Graphic Design?, workshop, Laurenz Brunner<br>
                     image / icon / symbol / script, workshop, Paul McNeil<br>
                     Valtellina terre alte, workshop, Beniamino Pisati<br>
                     Storie e immaginari, workshop, Lorenzo Cicconi Massi + Lorenzo Zoppolato<br>
                     Quando la luce diventa emozione, workshop, CSC Roma, Giuseppe Lanci
                 </div>
+
                 <div class="content-block">
                     <span class="section-title">Independent projects</span>
-                    <a href="https://www.radiospugna.com" target="_blank">www.radiospugna.com</a>
+                    <a href="https://www.radiospugna.com" target="_blank" style="color:blue;">www.radiospugna.com</a>
                 </div>
             </div>
 
-            <div class="column">
+            <div class="column contacts-desktop">
                 <p>
                     <a href="mailto:agnese.pozzobon@gmail.com">agnese.pozzobon@gmail.com</a><br>
                     <a href="tel:+393452375093">+39 345 2375093</a>
