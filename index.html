@@ -30,7 +30,6 @@
         .nav-item.right { text-align: right; }
         .recently-collected { margin-left: 40px; }
 
-        /* Link sempre cliccabile anche se visivamente "sotto" */
         a { 
             text-decoration: none; 
             color: #000; 
@@ -91,18 +90,20 @@
             body, html { overflow-y: auto; overflow-x: hidden; height: auto; }
             
             .fixed-ui {
-                position: fixed; top: 0; left: 0; transform: none;
+                position: absolute; /* Absolute per stare all'inizio dello scroll */
+                top: 0; left: 0; transform: none;
                 flex-direction: column; padding: 15px; gap: 4px;
-                background: none; /* Rimosso fondino bianco */
-                z-index: 1; /* Sotto le immagini */
+                background: none; 
+                z-index: 1; /* Sotto le immagini che scorrono */
                 pointer-events: none;
                 width: 100%;
             }
 
-            /* Permette al link di essere cliccato anche se sta dietro le immagini */
+            /* Portiamo il link sopra il livello delle immagini per renderlo cliccabile */
             .fixed-ui a {
                 pointer-events: auto;
-                z-index: 1000;
+                position: relative;
+                z-index: 200; 
             }
 
             .nav-item { font-size: 14px; text-align: left !important; }
@@ -114,7 +115,7 @@
                 padding-top: 100px; 
                 pointer-events: auto; 
                 position: relative; 
-                z-index: 10; /* Sopra i testi dell'header */
+                z-index: 10; /* Sopra i testi fissi */
             }
 
             .gallery { 
