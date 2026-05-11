@@ -144,7 +144,6 @@
     scrollbar-width: none; 
     justify-content: flex-start; 
     align-items: flex-start;
-    height: auto; /* Permette al contenitore di adattarsi all'altezza dell'immagine */
 }
             .images-container::-webkit-scrollbar { display: none; }
             
@@ -154,11 +153,9 @@
             }
 
             .item-wrapper img { 
-    /* Fondamentale: forziamo l'altezza invece della larghezza */
-    height: calc(var(--img-w-mobile) * 0.7) !important; 
-    width: auto !important; 
-    
+    width: var(--img-w-mobile); 
     max-width: calc(100vw - 30px); 
+    height: auto; 
     flex-shrink: 0; 
     scroll-snap-align: center; 
     display: block; 
