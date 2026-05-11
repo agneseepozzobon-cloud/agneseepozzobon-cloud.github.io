@@ -134,17 +134,18 @@
             }
 
             .images-container { 
-                display: flex; 
-                flex-direction: row; 
-                overflow-x: auto; 
-                scroll-snap-type: x mandatory; 
-                gap: 10px; 
-                width: 100%; 
-                padding: 0 15px; 
-                scrollbar-width: none; 
-                justify-content: flex-start; 
-                align-items: flex-start;
-            }
+    display: flex; 
+    flex-direction: row; 
+    overflow-x: auto; 
+    scroll-snap-type: x mandatory; 
+    gap: 10px; 
+    width: 100%; 
+    padding: 0 15px; 
+    scrollbar-width: none; 
+    justify-content: flex-start; 
+    align-items: flex-start;
+    height: auto; /* Permette al contenitore di adattarsi all'altezza dell'immagine */
+}
             .images-container::-webkit-scrollbar { display: none; }
             
             .images-container:not(:has(img:nth-child(2))) {
@@ -153,14 +154,16 @@
             }
 
             .item-wrapper img { 
-                width: var(--img-w-mobile); 
-                max-width: calc(100vw - 30px); 
-                height: auto; 
-                flex-shrink: 0; 
-                scroll-snap-align: center; 
-                display: block; 
-                margin-top: 0 !important; 
-            }
+    /* Fondamentale: forziamo l'altezza invece della larghezza */
+    height: calc(var(--img-w-mobile) * 0.7) !important; 
+    width: auto !important; 
+    
+    max-width: calc(100vw - 30px); 
+    flex-shrink: 0; 
+    scroll-snap-align: center; 
+    display: block; 
+    margin-top: 0 !important; 
+}
 
             .caption { 
                 display: none; 
