@@ -88,7 +88,21 @@
         /* --- UI MOBILE --- */
         @media (max-width: 768px) {
             body, html { overflow-y: auto; overflow-x: hidden; height: auto; }
-            
+
+            {
+                /* da qui >>> Espandiamo il link "Agnese Pozzobon" a tutto l'header */
+            .nav-item.left a[href="about.html"]::after {
+                    content: "";
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100px; /* Copre lo spazio occupato dai testi */
+                    z-index: 2000;
+                    background: transparent;
+                }
+            }
+        
             .fixed-ui {
                 position: fixed; /* Cambiato da absolute a fixed per rimanere visibile */
                 top: 0; left: 0; transform: none;
