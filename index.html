@@ -90,42 +90,20 @@
             body, html { overflow-y: auto; overflow-x: hidden; height: auto; }
             
             .fixed-ui {
-        position: fixed;
-        top: 0; left: 0; transform: none;
-        flex-direction: column; padding: 15px; gap: 4px;
-        background: none; 
-        z-index: 5; /* <--- Abbassato: ora le immagini (z-index 10) ci passano sopra */
-        pointer-events: none;
-        width: 100%;
-    }
+                position: fixed; /* Cambiato da absolute a fixed per rimanere visibile */
+                top: 0; left: 0; transform: none;
+                flex-direction: column; padding: 15px; gap: 4px;
+                background: none; 
+                z-index: 1000; /* Alzato per essere sopra lo scroll delle immagini */
+                pointer-events: none;
+                width: 100%;
+            }
 
             .fixed-ui a {
                 pointer-events: auto;
                 position: relative;
                 z-index: 1001; 
             }
-
-            /* Il nuovo rettangolo invisibile sopra a tutto */
-    .mobile-click-area {
-        display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 80px; /* Regola l'altezza in base all'ingombro dei tuoi testi */
-        z-index: 2000; /* Il valore più alto per stare sopra le immagini */
-        background: transparent;
-        cursor: pointer;
-    }
-    
-    /* Nascondiamo l'area click su desktop */
-    .mobile-click-area { display: none; }
-}
-
-/* Fuori dalla media query, per sicurezza */
-@media (min-width: 769px) {
-    .mobile-click-area { display: none; }
-}
 
             .nav-item { font-size: 14px; text-align: left !important; }
             .recently-collected { margin-left: 45px; }
@@ -199,7 +177,6 @@
     </style>
 </head>
 <body>
-    <a href="about.html" class="mobile-click-area"></a>
 
     <div class="fixed-ui">
         <div class="nav-item left">
