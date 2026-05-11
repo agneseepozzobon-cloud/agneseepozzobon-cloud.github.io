@@ -89,43 +89,30 @@
         @media (max-width: 768px) {
             body, html { overflow-y: auto; overflow-x: hidden; height: auto; }
 
-            /* --- Questo rende tutto l'header cliccabile --- */
-            .nav-item.left {
-                position: relative;
-            }
-        
-            .nav-item.left a[href="about.html"] {
-                position: absolute;
-                top: -15px; /* Compensa il padding del parent */
-                left: -15px;
-                width: 100vw;
-                height: 100px; /* Copre tutte le righe di testo */
-                z-index: 10;
-                /* Rende il link un'area vuota sopra i testi */
-                color: transparent; 
-                background: transparent;
-            }
-            
-            /* Questo assicura che il testo "Agnese Pozzobon" originale 
-               sotto l'area cliccabile rimanga visibile e nero */
-            .nav-item.left a[href="about.html"]::before {
-                content: "Agnese Pozzobon";
-                position: absolute;
-                top: 15px;
-                left: 15px;
-                color: #000;
-                pointer-events: none;
+            {
+                /* da qui >>> Espandiamo il link "Agnese Pozzobon" a tutto l'header */
+            .nav-item.left a[href="about.html"]::after {
+                    content: "";
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100px; /* Copre lo spazio occupato dai testi */
+                    z-index: 2000;
+                    background: transparent;
+                }
             }
         
             .fixed-ui {
-            position: fixed;
-            top: 0; left: 0; transform: none;
-            flex-direction: column; padding: 15px; gap: 4px;
-            background: none; 
-            z-index: 1000; 
-            pointer-events: auto; /* <--- DEVE ESSERE AUTO */
-            width: 100%;
-        }
+                position: fixed; /* Cambiato da absolute a fixed per rimanere visibile */
+                top: 0; left: 0; transform: none;
+                flex-direction: column; padding: 15px; gap: 4px;
+                background: none; 
+                z-index: 1000; /* Alzato per essere sopra lo scroll delle immagini */
+                pointer-events: none;
+                width: 100%;
+            }
+
             .fixed-ui a {
                 pointer-events: auto;
                 position: relative;
